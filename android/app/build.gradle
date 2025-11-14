@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'dev.flutter.flutter-gradle-plugin'
+}
+
+android {
+    namespace 'com.example.plant_disease_detection_app'
+    compileSdkVersion 36       // Updated to highest SDK required by plugins
+
+    defaultConfig {
+        applicationId "com.example.plant_disease_detection_app"
+        minSdkVersion flutter.minSdkVersion    // required for permission_handler v10+
+        targetSdkVersion 36    // Updated to match compileSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+        coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    buildTypes {
+        release {
+            // Signing with debug keys for now
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    implementation platform('com.google.firebase:firebase-bom:32.7.4')
+    implementation 'com.google.firebase:firebase-analytics'
+}
+
+flutter {
+    source '../..'
+}

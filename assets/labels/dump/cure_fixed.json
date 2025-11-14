@@ -1,0 +1,176 @@
+{
+  "Apple___Apple_Scab": {
+    "Cause": "Fungal infection caused by Venturia inaequalis.",
+    "Symptoms": "Dark, irregularly-shaped lesions on leaves, blossoms, and fruits; premature leaf and fruit drop may occur.",
+    "Prevention": "Sanitize fallen leaves, ensure proper spacing and airflow, plant resistant varieties.",
+    "Treatment": "Apply fungicides such as Captan or EBDCs at 2-week intervals during early growth."
+  },
+  "Apple___Black_Rot": {
+    "Cause": "Fungal infection caused by Diplodia seriata.",
+    "Symptoms": "Dark lesions on leaves, branches, and fruits; fruit may shrivel and leaves may wilt.",
+    "Prevention": "Remove infected plant parts, maintain orchard sanitation, plant resistant varieties.",
+    "Treatment": "Use protectant fungicides like Mancozeb or Ziram before infection occurs."
+  },
+  "Apple___Cedar_Apple_Rust": {
+    "Cause": "Fungal infection requiring both apple and cedar hosts (Gymnosporangium juniperi-virginianae).",
+    "Symptoms": "Yellow-orange spots on leaves and fruits; can cause fruit deformation.",
+    "Prevention": "Remove nearby cedar trees, ensure proper airflow, plant resistant apple varieties.",
+    "Treatment": "Fungicides containing Myclobutanil applied before infection spreads."
+  },
+  "Apple___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Green, healthy leaves and fruits without lesions or discoloration.",
+    "Prevention": "Maintain proper watering, fertilization, and orchard sanitation.",
+    "Treatment": "Not required."
+  },
+  "Bell Pepper___Bacterial_Spot": {
+    "Cause": "Bacterial infection caused by Xanthomonas euvesicatoria.",
+    "Symptoms": "Small, dark, water-soaked spots on leaves and fruits; leaves may yellow and drop.",
+    "Prevention": "Use certified disease-free seeds, avoid overhead irrigation, rotate crops.",
+    "Treatment": "Copper-based bactericides; remove infected plant parts."
+  },
+  "Bell Pepper___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy green leaves and fruits; no spots or discoloration.",
+    "Prevention": "Provide balanced nutrients, water, and good field management.",
+    "Treatment": "Not required."
+  },
+  "Cherry___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits; uniform color and no lesions.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Cherry___Powdery_Mildew": {
+    "Cause": "Fungal infection caused by Podosphaera clandestina.",
+    "Symptoms": "White powdery growth on leaves, shoots, and fruits; may cause leaf curling and stunted growth.",
+    "Prevention": "Plant resistant cultivars, ensure proper pruning and airflow, avoid excessive nitrogen.",
+    "Treatment": "Use horticultural oils or fungicides designed for powdery mildew control."
+  },
+  "Corn (Maize)___Cercospora_Leaf_Spot": {
+    "Cause": "Fungal infection caused by Cercospora spp.",
+    "Symptoms": "Small dark spots on leaves, may merge into larger necrotic areas; leaves may yellow and drop.",
+    "Prevention": "Avoid overhead watering, ensure spacing for airflow, remove infected leaves.",
+    "Treatment": "Apply fungicides and maintain proper irrigation practices to reduce leaf wetness."
+  },
+  "Corn (Maize)___Common_Rust_": {
+    "Cause": "Fungal infection caused by Puccinia sorghi.",
+    "Symptoms": "Small reddish-brown pustules on leaves; may reduce photosynthesis in severe cases.",
+    "Prevention": "Plant resistant varieties, remove volunteer corn plants, rotate crops.",
+    "Treatment": "Fungicide application if infection is severe and conditions are favorable."
+  },
+  "Corn (Maize)___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy green leaves with no spots or discoloration.",
+    "Prevention": "Provide balanced nutrients, irrigation, and good field management.",
+    "Treatment": "Not required."
+  },
+  "Corn (Maize)___Northern_Leaf_Blight": {
+    "Cause": "Fungal infection caused by Exserohilum turcicum.",
+    "Symptoms": "Large, cigar-shaped gray-green lesions on leaves; leaves may die prematurely.",
+    "Prevention": "Resistant varieties, crop rotation, remove crop residues.",
+    "Treatment": "Fungicides if needed."
+  },
+  "Grape___Black_Rot": {
+    "Cause": "Fungal infection caused by Guignardia bidwellii.",
+    "Symptoms": "Dark, circular lesions on leaves and fruits; infected berries shrivel.",
+    "Prevention": "Prune for airflow, remove mummified berries, plant resistant varieties.",
+    "Treatment": "Apply fungicides such as Captan during susceptible growth stages."
+  },
+  "Grape___Esca_(Black_Measles)": {
+    "Cause": "Fungal infection caused by Phaeomoniella chlamydospora and Phaeoacremonium spp.",
+    "Symptoms": "Dark streaks in wood, black spots on berries, leaf yellowing, vine decline over years.",
+    "Prevention": "Use healthy planting material, avoid pruning wounds, remove infected wood.",
+    "Treatment": "No chemical cure; remove affected parts and manage vineyard sanitation."
+  },
+  "Grape___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits with no discoloration.",
+    "Prevention": "Maintain proper irrigation, pruning, and nutrition.",
+    "Treatment": "Not required."
+  },
+  "Grape___Leaf_Blight": {
+    "Cause": "Fungal infection caused by Isariopsis vitis.",
+    "Symptoms": "Brown spots on leaves with yellow halo; may cause defoliation.",
+    "Prevention": "Resistant varieties, remove infected leaves, maintain airflow.",
+    "Treatment": "Fungicide application."
+  },
+  "Peach___Bacterial_Spot": {
+    "Cause": "Bacterial infection caused by Xanthomonas campestris pv. pruni.",
+    "Symptoms": "Small, water-soaked spots on leaves and fruits; leaves may drop and fruits may crack.",
+    "Prevention": "Use disease-free nursery stock, prune properly, avoid overhead watering.",
+    "Treatment": "Apply copper-based bactericides; remove severely infected plant parts."
+  },
+  "Peach___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits; uniform color with no lesions.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Potato___Early_Blight": {
+    "Cause": "Fungal infection caused by Alternaria solani.",
+    "Symptoms": "Dark concentric spots on older leaves; leaf yellowing and drop.",
+    "Prevention": "Crop rotation, resistant varieties, remove infected debris.",
+    "Treatment": "Fungicide application."
+  },
+  "Potato___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and tubers; no lesions or discoloration.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pest management.",
+    "Treatment": "Not required."
+  },
+  "Potato___Late_Blight": {
+    "Cause": "Fungal infection caused by Phytophthora infestans.",
+    "Symptoms": "Dark lesions on leaves and stems; tuber rot may occur.",
+    "Prevention": "Resistant varieties, crop rotation, avoid overhead watering.",
+    "Treatment": "Fungicides; remove and destroy infected plants."
+  },
+  "Strawberry___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves and fruits; no spots or discoloration.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Strawberry___Leaf_Scorch": {
+    "Cause": "Fungal infection caused by Diplocarpon earliana.",
+    "Symptoms": "Small purple or brown lesions on leaves; may cause early leaf drop.",
+    "Prevention": "Use disease-free plants, maintain proper spacing and irrigation.",
+    "Treatment": "Fungicide application; remove and destroy infected leaves."
+  },
+  "Tomato___Bacterial_Spot": {
+    "Cause": "Bacterial infection caused by Xanthomonas spp.",
+    "Symptoms": "Small, dark, water-soaked spots on leaves, stems, and fruits; leaves may yellow and drop.",
+    "Prevention": "Use disease-free seeds, rotate crops, avoid overhead irrigation.",
+    "Treatment": "Copper-based bactericides; remove infected plant parts."
+  },
+  "Tomato___Early_Blight": {
+    "Cause": "Fungal infection caused by Alternaria solani.",
+    "Symptoms": "Dark, concentric lesions on older leaves; leaves may yellow and drop.",
+    "Prevention": "Crop rotation, resistant varieties, remove infected debris.",
+    "Treatment": "Fungicide sprays; remove infected leaves."
+  },
+  "Tomato___Healthy": {
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits; no spots, discoloration, or deformity.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Tomato___Late_Blight": {
+    "Cause": "Fungal infection caused by Phytophthora infestans.",
+    "Symptoms": "Dark, water-soaked lesions on leaves, stems, and fruits; fruit rot may occur.",
+    "Prevention": "Plant resistant varieties, rotate crops, avoid overhead watering.",
+    "Treatment": "Fungicide application; remove and destroy infected plants."
+  },
+  "Tomato___Septoria_Leaf_Spot": {
+    "Cause": "Fungal infection caused by Septoria lycopersici.",
+    "Symptoms": "Small circular spots with dark margins on leaves; leaves may yellow and drop.",
+    "Prevention": "Crop rotation, remove infected debris, plant disease-free seeds.",
+    "Treatment": "Fungicide sprays; remove infected leaves."
+  },
+  "Tomato___Yellow_Leaf_Curl_Virus": {
+    "Cause": "Viral infection transmitted by whiteflies.",
+    "Symptoms": "Yellowing and curling of leaves; stunted growth and reduced yield.",
+    "Prevention": "Control whiteflies, use resistant varieties.",
+    "Treatment": "No chemical cure; remove infected plants."
+  }
+}

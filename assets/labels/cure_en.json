@@ -1,0 +1,435 @@
+{
+  "Apple scab": {
+    "Description": "Apple scab is a fungal disease affecting apple leaves, blossoms, and fruits. \nSynonyms: Venturia leaf spot, Apple leaf blotch. \nFacts: Causes premature leaf drop; resistant apple varieties reduce incidence; early fungicide application is effective.",
+    "Cause": "Fungal infection caused by Venturia inaequalis.",
+    "Symptoms": "Dark, irregularly-shaped lesions on leaves, blossoms, and fruits; premature leaf and fruit drop may occur.",
+    "Prevention": "Sanitize fallen leaves, ensure proper spacing and airflow, plant resistant varieties.",
+    "Treatment": "Apply fungicides such as Captan or EBDCs at 2-week intervals during early growth."
+  },
+  "Apple Black rot": {
+    "Description": "Apple Black Rot is a fungal disease that causes dark lesions on apple fruits, leaves, and branches. \nSynonyms: Diplodia rot, Fruit rot. \nFacts: Affects storage quality of apples; pruning infected parts reduces spread.",
+    "Cause": "Fungal infection caused by Diplodia seriata.",
+    "Symptoms": "Dark lesions on leaves, branches, and fruits; fruit may shrivel and leaves may wilt.",
+    "Prevention": "Remove infected plant parts, maintain orchard sanitation, plant resistant varieties.",
+    "Treatment": "Use protectant fungicides like Mancozeb or Ziram before infection occurs."
+  },
+  "Apple Cedar apple rust": {
+    "Description": "Cedar apple rust is a fungal infection requiring both apple and cedar hosts. \nSynonyms: Gymnosporangium rust. \nFacts: Causes yellow-orange spots on leaves and fruits; can deform fruit.",
+    "Cause": "Fungal infection requiring both apple and cedar hosts (Gymnosporangium juniperi-virginianae).",
+    "Symptoms": "Yellow-orange spots on leaves and fruits; can cause fruit deformation.",
+    "Prevention": "Remove nearby cedar trees, ensure proper airflow, plant resistant apple varieties.",
+    "Treatment": "Fungicides containing Myclobutanil applied before infection spreads."
+  },
+  "Apple healthy": {
+    "Description": "Healthy apple plant. \nSynonyms: None. \nFacts: Green, healthy leaves and fruits; no lesions or discoloration; normal growth.",
+    "Cause": "No disease.",
+    "Symptoms": "Green, healthy leaves and fruits without lesions or discoloration.",
+    "Prevention": "Maintain proper watering, fertilization, and orchard sanitation.",
+    "Treatment": "Not required."
+  },
+  "Bacterial leaf blight in rice leaf": {
+    "Description": "Bacterial leaf blight is caused by Xanthomonas oryzae. \nSynonyms: BLB. \nFacts: Yellowing of leaf tips progressing to brown lesions; reduces growth and yield.",
+    "Cause": "Bacterial infection caused by Xanthomonas oryzae.",
+    "Symptoms": "Yellowing of leaf tips progressing to brown lesions, leaf wilting, reduced growth.",
+    "Prevention": "Use resistant varieties, ensure proper field drainage, avoid excessive nitrogen.",
+    "Treatment": "Remove infected plants, apply copper-based bactericides if necessary."
+  },
+  "Blight in corn Leaf": {
+    "Description": "Corn leaf blight is a fungal infection caused by Setosphaeria turcica. \nSynonyms: Northern corn leaf blight. \nFacts: Elongated gray-green lesions on lower leaves; severe cases lead to leaf death.",
+    "Cause": "Fungal infection caused by Setosphaeria turcica.",
+    "Symptoms": "Elongated gray-green lesions on lower leaves, progressing upwards; leaf death in severe cases.",
+    "Prevention": "Plant resistant varieties, rotate crops, remove crop debris.",
+    "Treatment": "Apply fungicides at early symptom appearance to reduce spread."
+  },
+  "Blueberry healthy": {
+    "Description": "Healthy blueberry plant. \nSynonyms: None. \nFacts: Healthy leaves, stems, and berries; no spots or discoloration.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and berries; no spots or discoloration.",
+    "Prevention": "Provide balanced nutrition, avoid waterlogging, maintain good airflow.",
+    "Treatment": "Not required."
+  },
+  "Brown spot in rice leaf": {
+    "Description": "Brown spot in rice leaf is a fungal infection caused by Cochliobolus miyabeanus. \nSynonyms: Helminthosporium leaf spot. \nFacts: Small brown circular lesions; may have yellow halos; affects yield.",
+    "Cause": "Fungal infection caused by Cochliobolus miyabeanus.",
+    "Symptoms": "Small brown circular lesions on leaves, sometimes surrounded by yellow halos.",
+    "Prevention": "Use resistant varieties, avoid excessive nitrogen fertilization, ensure good drainage.",
+    "Treatment": "Seed treatment with tricyclazole; spray mancozeb or tricyclazole during tillering and booting stages."
+  },
+  "Cercospora leaf spot": {
+    "Description": "Cercospora leaf spot is caused by Cercospora spp. \nSynonyms: Grey leaf spot. \nFacts: Small dark spots may merge; leaves may yellow and drop.",
+    "Cause": "Fungal infection caused by Cercospora spp.",
+    "Symptoms": "Small dark spots on leaves, may merge into larger necrotic areas; leaves may yellow and drop.",
+    "Prevention": "Avoid overhead watering, ensure spacing for airflow, remove infected leaves.",
+    "Treatment": "Apply fungicides and maintain proper irrigation practices to reduce leaf wetness."
+  },
+  "Cherry (including sour) Powdery mildew": {
+    "Description": "Powdery mildew affects cherry plants, caused by Podosphaera clandestina. \nSynonyms: Mildew. \nFacts: White powdery growth on leaves, shoots, and fruits; stunts growth.",
+    "Cause": "Fungal infection caused by Podosphaera clandestina.",
+    "Symptoms": "White powdery growth on leaves, shoots, and fruits; may cause leaf curling and stunted growth.",
+    "Prevention": "Plant resistant cultivars, ensure proper pruning and airflow, avoid excessive nitrogen.",
+    "Treatment": "Use horticultural oils or fungicides designed for powdery mildew control."
+  },
+  "Cherry healthy": {
+    "Description": "Healthy cherry plant. \nSynonyms: None. \nFacts: Healthy leaves, stems, and fruits; uniform color; no lesions.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits; uniform color and no lesions.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Corn Common rust": {
+    "Description": "Common rust of corn is a fungal disease caused by Puccinia sorghi. \nSynonyms: Corn rust. \nFacts: Small reddish-brown pustules on leaves; may reduce photosynthesis in severe cases.",
+    "Cause": "Fungal infection caused by Puccinia sorghi.",
+    "Symptoms": "Small reddish-brown pustules on leaves; may reduce photosynthesis in severe cases.",
+    "Prevention": "Plant resistant varieties, remove volunteer corn plants, rotate crops.",
+    "Treatment": "Fungicide application if infection is severe and conditions are favorable."
+  },
+  "Corn Gray leaf spot": {
+    "Description": "Gray leaf spot in corn is caused by Cercospora zeae-maydis. \nSynonyms: GLS. \nFacts: Rectangular gray lesions along veins; severe infections reduce yield.",
+    "Cause": "Fungal infection caused by Cercospora zeae-maydis.",
+    "Symptoms": "Rectangular gray lesions along leaf veins; leaves may wither in severe infections.",
+    "Prevention": "Rotate crops, use resistant hybrids, remove crop residue.",
+    "Treatment": "Apply fungicides at early lesion development to prevent spread."
+  },
+  "Corn healthy": {
+    "Description": "Healthy corn plant. \nSynonyms: Maize. \nFacts: Green leaves, strong stalks, normal growth; no disease.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy green leaves with no spots or discoloration.",
+    "Prevention": "Provide balanced nutrients, irrigation, and good field management.",
+    "Treatment": "Not required."
+  },
+  "Grape Black rot": {
+    "Description": "Grape Black Rot is a fungal disease caused by Guignardia bidwellii. \nSynonyms: Black rot of grape. \nFacts: Dark lesions on leaves and fruits; infected berries shrivel.",
+    "Cause": "Fungal infection caused by Guignardia bidwellii.",
+    "Symptoms": "Dark, circular lesions on leaves and fruits; infected berries shrivel.",
+    "Prevention": "Prune for airflow, remove mummified berries, plant resistant varieties.",
+    "Treatment": "Apply fungicides such as Captan during susceptible growth stages."
+  },
+  "Grape Esca Black Measles": {
+    "Description": "Esca or Black Measles affects grapevines. \nSynonyms: Black Measles. \nFacts: Dark streaks in wood, black spots on berries, vine decline over years.",
+    "Cause": "Fungal infection caused by Phaeomoniella chlamydospora and Phaeoacremonium spp.",
+    "Symptoms": "Dark streaks in wood, black spots on berries, leaf yellowing, vine decline over years.",
+    "Prevention": "Use healthy planting material, avoid pruning wounds, remove infected wood.",
+    "Treatment": "No chemical cure; remove affected parts and manage vineyard sanitation."
+  },
+  "Grape healthy": {
+    "Description": "Healthy grapevine. \nSynonyms: None. \nFacts: Healthy leaves, stems, and fruits; no discoloration.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits with no discoloration.",
+    "Prevention": "Maintain proper irrigation, pruning, and nutrition.",
+    "Treatment": "Not required."
+  },
+  "Orange Citrus canker": {
+    "Description": "Citrus canker is a bacterial disease caused by Xanthomonas citri. \nSynonyms: None. \nFacts: Raised lesions on leaves, stems, and fruits; leaves may drop prematurely.",
+    "Cause": "Bacterial infection caused by Xanthomonas citri.",
+    "Symptoms": "Raised lesions on leaves, stems, and fruits; leaves may drop prematurely.",
+    "Prevention": "Use disease-free plants, prune carefully, avoid overhead irrigation.",
+    "Treatment": "Copper-based bactericides; remove infected plant parts."
+  },
+  "Orange healthy": {
+    "Description": "Healthy orange plant. \nSynonyms: None. \nFacts: Healthy leaves, stems, and fruits; no lesions or yellowing.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits; no lesions or yellowing.",
+    "Prevention": "Maintain balanced nutrition and irrigation.",
+    "Treatment": "Not required."
+  },
+  "Peach Bacterial spot": {
+    "Description": "Peach Bacterial Spot is caused by Xanthomonas campestris pv. pruni. \nSynonyms: None. \nFacts: Small water-soaked spots on leaves and fruits; affects fruit quality.",
+    "Cause": "Bacterial infection caused by Xanthomonas campestris pv. pruni.",
+    "Symptoms": "Small, water-soaked spots on leaves and fruits; leaves may drop and fruits may crack.",
+    "Prevention": "Use disease-free nursery stock, prune properly, avoid overhead watering.",
+    "Treatment": "Apply copper-based bactericides; remove severely infected plant parts."
+  },
+  "Peach healthy": {
+    "Description": "Healthy peach plant. \nSynonyms: None. \nFacts: Leaves, stems, and fruits are healthy; no spots or lesions.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits; uniform color with no lesions.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Pepper bell Bacterial spot": {
+    "Description": "Bell pepper bacterial spot caused by Xanthomonas euvesicatoria. \nSynonyms: None. \nFacts: Water-soaked spots on leaves and fruits; can reduce yield.",
+    "Cause": "Bacterial infection caused by Xanthomonas euvesicatoria.",
+    "Symptoms": "Small, dark, water-soaked spots on leaves and fruits; leaves may yellow and drop.",
+    "Prevention": "Use certified disease-free seeds, avoid overhead irrigation, rotate crops.",
+    "Treatment": "Copper-based bactericides; remove infected plant parts."
+  },
+  
+  "Pepper bell healthy": {
+    "Description": "Healthy bell pepper plant. \nSynonyms: None. \nFacts: Leaves and fruits are healthy; no discoloration.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy green leaves and fruits; no spots or discoloration.",
+    "Prevention": "Provide balanced nutrients, water, and good field management.",
+    "Treatment": "Not required."
+  },
+  "Raspberry healthy": {
+    "Description": "Healthy raspberry plant. \nSynonyms: None. \nFacts: Green leaves and stems; normal fruiting.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy green leaves, stems, and fruits; no spots or discoloration.",
+    "Prevention": "Maintain proper irrigation, pruning, and nutrition.",
+    "Treatment": "Not required."
+  },
+  "Soybean healthy": {
+    "Description": "Healthy soybean plant. \nSynonyms: None. \nFacts: Leaves are healthy and free from lesions or discoloration.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy green leaves with no lesions or discoloration.",
+    "Prevention": "Balanced nutrition and proper field management.",
+    "Treatment": "Not required."
+  },
+  "Squash Powdery mildew": {
+    "Description": "Powdery mildew in squash caused by Podosphaera xanthii. \nSynonyms: Mildew. \nFacts: White powdery spots on leaves and stems; affects growth if severe.",
+    "Cause": "Fungal infection caused by Podosphaera xanthii.",
+    "Symptoms": "White powdery spots on leaves and stems; leaves may curl and wither.",
+    "Prevention": "Plant resistant varieties, ensure proper spacing and airflow.",
+    "Treatment": "Apply fungicides if infection is severe; remove infected leaves."
+  },
+  "Strawberry Leaf scorch": {
+    "Description": "Leaf scorch in strawberry caused by Diplocarpon earliana. \nSynonyms: Black leaf spot. \nFacts: Causes early leaf drop; affects yield.",
+    "Cause": "Fungal infection caused by Diplocarpon earliana.",
+    "Symptoms": "Small purple or brown lesions on leaves; may cause early leaf drop.",
+    "Prevention": "Use disease-free plants, maintain proper spacing and irrigation.",
+    "Treatment": "Fungicide application; remove and destroy infected leaves."
+  },
+  "Strawberry healthy": {
+    "Description": "Healthy strawberry plant. \nSynonyms: None. \nFacts: Leaves and fruits are healthy; no spots or discoloration.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves and fruits; no spots or discoloration.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Tomato Bacterial spot": {
+    "Description": "Bacterial spot in tomato caused by Xanthomonas spp. \nSynonyms: None. \nFacts: Water-soaked spots on leaves, stems, and fruits; reduces yield.",
+    "Cause": "Bacterial infection caused by Xanthomonas spp.",
+    "Symptoms": "Small, dark, water-soaked spots on leaves, stems, and fruits; leaves may yellow and drop.",
+    "Prevention": "Use disease-free seeds, rotate crops, avoid overhead irrigation.",
+    "Treatment": "Copper-based bactericides; remove infected plant parts."
+  },
+  "Tomato Early blight": {
+    "Description": "Early blight in tomato caused by Alternaria solani. \nSynonyms: Alternaria leaf spot. \nFacts: Dark concentric lesions on older leaves; affects yield.",
+    "Cause": "Fungal infection caused by Alternaria solani.",
+    "Symptoms": "Dark, concentric lesions on older leaves; leaves may yellow and drop.",
+    "Prevention": "Crop rotation, resistant varieties, remove infected debris.",
+    "Treatment": "Fungicide sprays; remove infected leaves."
+  },
+  "Tomato Late blight": {
+    "Description": "Late blight in tomato caused by Phytophthora infestans. \nSynonyms: Potato blight. \nFacts: Dark water-soaked lesions; can destroy crop quickly.",
+    "Cause": "Fungal infection caused by Phytophthora infestans.",
+    "Symptoms": "Dark, water-soaked lesions on leaves, stems, and fruits; fruit rot may occur.",
+    "Prevention": "Plant resistant varieties, rotate crops, avoid overhead watering.",
+    "Treatment": "Fungicide application; remove and destroy infected plants."
+  },
+  "Tomato Leaf Mold": {
+    "Description": "Leaf mold in tomato caused by Passalora fulva. \nSynonyms: Cladosporium leaf mold. \nFacts: Yellow spots turning brown; lower leaf decay common.",
+    "Cause": "Fungal infection caused by Passalora fulva.",
+    "Symptoms": "Yellow spots on leaves that turn brown; lower leaf decay is common.",
+    "Prevention": "Good ventilation, resistant varieties, avoid overhead irrigation.",
+    "Treatment": "Fungicides; remove infected leaves."
+  },
+  "Tomato Septoria leaf spot": {
+    "Description": "Septoria leaf spot in tomato caused by Septoria lycopersici. \nSynonyms: Leaf spot. \nFacts: Circular dark spots on leaves; reduces photosynthesis.",
+    "Cause": "Fungal infection caused by Septoria lycopersici.",
+    "Symptoms": "Small circular spots with dark margins on leaves; leaves may yellow and drop.",
+    "Prevention": "Crop rotation, remove infected debris, plant disease-free seeds.",
+    "Treatment": "Fungicide sprays; remove infected leaves."
+  },
+  "Tomato Spider mites Two spotted spider mite": {
+    "Description": "Tomato Spider Mite infestation by Tetranychus urticae. \nSynonyms: Two-spotted mite. \nFacts: Tiny yellow or white specks; webbing on undersides; can cause leaf drop.",
+    "Cause": "Infestation by Tetranychus urticae (spider mite).",
+    "Symptoms": "Tiny yellow or white specks on leaves; webbing on undersides; leaf drop in severe cases.",
+    "Prevention": "Maintain humidity, remove weeds, use predatory mites.",
+    "Treatment": "Miticides; regular monitoring."
+  },
+  "Tomato Target Spot": {
+    "Description": "Target Spot in tomato caused by Corynespora cassiicola. \nSynonyms: Corynespora leaf spot. \nFacts: Brown circular spots with concentric rings; can defoliate plants.",
+    "Cause": "Fungal infection caused by Corynespora cassiicola.",
+    "Symptoms": "Brown, circular spots with concentric rings on leaves; defoliation may occur.",
+    "Prevention": "Crop rotation, resistant varieties, remove infected debris.",
+    "Treatment": "Fungicide sprays; remove infected leaves."
+  },
+  "Tomato Yellow Leaf Curl Virus": {
+    "Description": "Yellow Leaf Curl Virus (YLCV) in tomato. \nSynonyms: TYLCV. \nFacts: Transmitted by whiteflies; causes leaf yellowing and curling; stunted growth.",
+    "Cause": "Viral infection transmitted by whiteflies.",
+    "Symptoms": "Yellowing and curling of leaves; stunted growth and reduced yield.",
+    "Prevention": "Control whiteflies, use resistant varieties.",
+    "Treatment": "No chemical cure; remove infected plants."
+  },
+  "Tomato mosaic virus": {
+    "Description": "Tomato Mosaic Virus (ToMV) infection. \nSynonyms: TMV. \nFacts: Mottled light and dark green leaves; reduced yield; spreads through contaminated tools.",
+    "Cause": "Viral infection caused by Tomato mosaic virus (ToMV).",
+    "Symptoms": "Mottled light and dark green leaves, distorted growth, reduced yield.",
+    "Prevention": "Use disease-free seeds, avoid contaminated tools.",
+    "Treatment": "No chemical cure; remove infected plants."
+  },
+  "Tomato healthy": {
+    "Description": "Healthy tomato plant. \nSynonyms: None. \nFacts: Leaves, stems, and fruits are healthy; no spots or deformity.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and fruits; no spots, discoloration, or deformity.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pruning.",
+    "Treatment": "Not required."
+  },
+  "Corn Northern leaf blight": {
+    "Description": "Northern leaf blight in corn caused by Exserohilum turcicum. \nSynonyms: NLB. \nFacts: Large cigar-shaped gray-green lesions; reduces photosynthesis.",
+    "Cause": "Fungal infection caused by Exserohilum turcicum.",
+    "Symptoms": "Large, cigar-shaped gray-green lesions on leaves; leaves may die prematurely.",
+    "Prevention": "Resistant varieties, crop rotation, remove crop residues.",
+    "Treatment": "Fungicides if needed."
+  },
+  "Potato Early blight": {
+    "Description": "Early blight in potato caused by Alternaria solani. \nSynonyms: Alternaria leaf spot. \nFacts: Dark concentric spots on older leaves; reduces yield.",
+    "Cause": "Fungal infection caused by Alternaria solani.",
+    "Symptoms": "Dark concentric spots on older leaves; leaf yellowing and drop.",
+    "Prevention": "Crop rotation, resistant varieties, remove infected debris.",
+    "Treatment": "Fungicide application."
+  },
+  "Potato Late blight": {
+    "Description": "Late blight in potato caused by Phytophthora infestans. \nSynonyms: Potato blight. \nFacts: Dark lesions on leaves, stems, and tubers; can destroy crop rapidly.",
+    "Cause": "Fungal infection caused by Phytophthora infestans.",
+    "Symptoms": "Dark lesions on leaves and stems; tuber rot may occur.",
+    "Prevention": "Resistant varieties, crop rotation, avoid overhead watering.",
+    "Treatment": "Fungicides; remove and destroy infected plants."
+  },
+  "Potato healthy": {
+    "Description": "Healthy potato plant. \nSynonyms: None. \nFacts: Leaves, stems, and tubers are healthy; no lesions or discoloration.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and tubers; no lesions or discoloration.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pest management.",
+    "Treatment": "Not required."
+  },
+  
+  "Cherry (including_sour) healthy": {
+    "Description": "Healthy cherry plant. \nSynonyms: None. \nFacts: Leaves, flowers, and fruits develop normally; no disease.",
+    "Cause": "No disease; plant is healthy.",
+    "Symptoms": "Normal leaf, flower, and fruit development.",
+    "Prevention": "Maintain good cultural practices and proper care.",
+    "Treatment": "Not applicable."
+  },
+  "Common Rust in corn Leaf": {
+    "Description": "Common rust in corn caused by Puccinia sorghi. \nSynonyms: Corn leaf rust. \nFacts: Small circular reddish-brown pustules; may reduce yield if severe.",
+    "Cause": "Fungal infection caused by Puccinia sorghi.",
+    "Symptoms": "Small, circular, reddish-brown pustules on leaves.",
+    "Prevention": "Plant resistant varieties, rotate crops, remove infected debris.",
+    "Treatment": "Fungicide application if infection is severe."
+  },
+  "Gray Leaf Spot in corn Leaf": {
+    "Description": "Gray leaf spot in corn caused by Cercospora zeae-maydis. \nSynonyms: GLS. \nFacts: Grayish lesions along leaf veins; reduces photosynthesis and yield.",
+    "Cause": "Fungal disease caused by Cercospora zeae-maydis.",
+    "Symptoms": "Grayish lesions on leaves that enlarge and reduce photosynthesis.",
+    "Prevention": "Plant resistant hybrids, rotate crops, remove crop residues.",
+    "Treatment": "Fungicide application when necessary."
+  },
+  "Garlic": {
+    "Description": "Healthy garlic crop. \nSynonyms: None. \nFacts: Leaves and bulbs develop normally; no disease reported.",
+    "Cause": "No specific disease mentioned; healthy garlic crop.",
+    "Symptoms": "Normal bulb and leaf development.",
+    "Prevention": "Use certified disease-free cloves, proper spacing, and soil drainage.",
+    "Treatment": "Not applicable."
+  },
+  "Grape Leaf blight Isariopsis Leaf Spot": {
+    "Description": "Leaf blight in grape caused by Isariopsis spp. \nSynonyms: Isariopsis leaf spot. \nFacts: Small brown spots on leaves; reduces photosynthesis; leaf drop may occur.",
+    "Cause": "Fungal infection caused by Isariopsis spp.",
+    "Symptoms": "Small brown spots on leaves, leaf drop, reduced photosynthesis.",
+    "Prevention": "Prune for good airflow, remove infected leaves, apply fungicides preventively.",
+    "Treatment": "Fungicide sprays when symptoms appear."
+  },
+  "Leaf smut in rice leaf": {
+    "Description": "Leaf smut in rice caused by Entyloma oryzae. \nSynonyms: Black smut. \nFacts: Black streaks on leaves; stunted growth; minor yield loss.",
+    "Cause": "Fungal infection caused by Entyloma oryzae.",
+    "Symptoms": "Black streaks or smut on leaves, stunted growth.",
+    "Prevention": "Use disease-free seeds, proper spacing, and water management.",
+    "Treatment": "Remove affected plants; fungicide rarely needed."
+  },
+  "Orange Haunglongbing Citrus greening": {
+    "Description": "Huanglongbing (HLB) or Citrus greening disease. \nSynonyms: Greening disease. \nFacts: Yellowing leaves, misshapen fruits, tree decline; transmitted by psyllids.",
+    "Cause": "Bacterial infection caused by Candidatus Liberibacter spp., transmitted by psyllids.",
+    "Symptoms": "Yellowing leaves, misshapen fruits, reduced yield, tree decline.",
+    "Prevention": "Use disease-free seedlings, control psyllid vectors, remove infected trees.",
+    "Treatment": "No cure; remove infected trees and manage vector population."
+  },
+  "Corn (maize) healthy": {
+    "Description": "Healthy corn plant. \nSynonyms: Maize. \nFacts: Green leaves, strong stalks, normal growth; no disease.",
+    "Cause": "No disease; plant is healthy.",
+    "Symptoms": "Green leaves, strong stalks, normal growth.",
+    "Prevention": "Proper fertilization, irrigation, and pest management.",
+    "Treatment": "Not applicable."
+  },
+  "Anthracnose in tea": {
+  "Description": "Anthracnose in tea is a fungal disease caused by Colletotrichum species. It affects leaves and young shoots, particularly in humid conditions. \nFacts: Causes leaf spots, shoot dieback, and can reduce yield.",
+  "Cause": "Fungal infection caused by Colletotrichum species, commonly Colletotrichum camelliae.",
+  "Symptoms": "Small brown to dark-brown circular or irregular spots on young leaves; severe infections cause leaf curling, drying, and falling; shoot dieback and stem lesions may occur.",
+  "Prevention": "Prune and remove infected leaves and shoots; maintain proper spacing for airflow; collect and destroy fallen infected leaves; use resistant cultivars if available.",
+  "Treatment": "Apply copper-based fungicides or systemic fungicides like Carbendazim and Mancozeb as recommended; ensure proper drainage and reduce leaf wetness."
+},
+  "Algal leaf in tea": {
+    "Description": "Algal leaf spot in tea is caused by Cephaleuros virescens. \nSynonyms: Red rust. \nFacts: Reddish-brown spots on leaves; affects photosynthesis and yield in humid conditions.",
+    "Cause": "Algal infection caused by Cephaleuros virescens.",
+    "Symptoms": "Reddish-brown, velvety spots on leaves; may coalesce into larger patches.",
+    "Prevention": "Ensure good drainage, avoid overhead watering, maintain proper spacing for airflow.",
+    "Treatment": "Apply copper-based fungicides; remove and destroy infected leaves."
+  },
+  "Bird eye spot in tea": {
+    "Description": "Bird eye spot in tea is a fungal disease caused by Cercospora theae. \nSynonyms: Cercospora leaf spot. \nFacts: Small circular spots resembling bird eyes; common in wet seasons.",
+    "Cause": "Fungal infection caused by Cercospora theae.",
+    "Symptoms": "Small circular spots with dark centers and lighter halos on leaves.",
+    "Prevention": "Prune infected leaves, improve ventilation, avoid excessive humidity.",
+    "Treatment": "Fungicide sprays such as copper oxychloride or mancozeb."
+  },
+  "Brown blight in tea": {
+    "Description": "Brown blight in tea is caused by Glomerella cingulata. \nSynonyms: Anthracnose. \nFacts: Brown lesions on leaves and shoots; leads to defoliation.",
+    "Cause": "Fungal infection caused by Glomerella cingulata.",
+    "Symptoms": "Brown, irregular lesions on leaves; severe cases cause leaf blight and shoot dieback.",
+    "Prevention": "Sanitation practices, use resistant varieties, proper pruning.",
+    "Treatment": "Apply fungicides like carbendazim or copper-based products."
+  },
+  "Healthy tea leaf": {
+    "Description": "Healthy tea leaf. \nSynonyms: None. \nFacts: Green, vibrant leaves; no spots or discoloration; normal growth.",
+    "Cause": "No disease.",
+    "Symptoms": "Green, healthy leaves without lesions or discoloration.",
+    "Prevention": "Maintain proper irrigation, nutrition, and pest management.",
+    "Treatment": "Not required."
+  },
+  "Lemon canker": {
+    "Description": "Citrus canker in lemon caused by Xanthomonas citri. \nSynonyms: None. \nFacts: Raised lesions on leaves, stems, and fruits; similar to orange canker.",
+    "Cause": "Bacterial infection caused by Xanthomonas citri.",
+    "Symptoms": "Raised, corky lesions on leaves, stems, and fruits; leaves may drop prematurely.",
+    "Prevention": "Use disease-free plants, avoid overhead irrigation, prune carefully.",
+    "Treatment": "Copper-based bactericides; remove infected plant parts."
+  },
+  "Potato hollow heart": {
+    "Description": "Hollow heart in potato is a physiological disorder. \nSynonyms: None. \nFacts: Hollow cavities in tubers due to uneven growth; not a disease.",
+    "Cause": "Physiological disorder caused by rapid growth, nutrient imbalances, or environmental stress.",
+    "Symptoms": "Hollow or cracked centers in potato tubers; external appearance may be normal.",
+    "Prevention": "Balanced fertilization, consistent watering, avoid temperature fluctuations.",
+    "Treatment": "Not applicable; manage through cultural practices."
+  },
+  "Red leaf spot in tea": {
+    "Description": "Red leaf spot in tea caused by Pestalotiopsis theae. \nSynonyms: None. \nFacts: Reddish spots on leaves; affects young leaves primarily.",
+    "Cause": "Fungal infection caused by Pestalotiopsis theae.",
+    "Symptoms": "Reddish-brown spots on leaves; may cause leaf drop in severe cases.",
+    "Prevention": "Sanitation, avoid wet conditions, use resistant varieties.",
+    "Treatment": "Fungicide application; remove infected leaves."
+  },
+  "Ginger": {
+    "Description": "Healthy ginger plant. \nSynonyms: None. \nFacts: Rhizomes and leaves develop normally; no disease.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy green leaves and rhizomes; no discoloration or lesions.",
+    "Prevention": "Proper soil drainage, balanced nutrition, weed control.",
+    "Treatment": "Not required."
+  },
+  "Corn crop": {
+    "Description": "Healthy corn crop. \nSynonyms: Maize. \nFacts: Green leaves, strong stalks, normal growth; no disease.",
+    "Cause": "No disease.",
+    "Symptoms": "Green leaves, strong stalks, normal growth.",
+    "Prevention": "Balanced fertilization, irrigation, and pest management.",
+    "Treatment": "Not required."
+  },
+  "Potato crop": {
+    "Description": "Healthy potato crop. \nSynonyms: None. \nFacts: Leaves, stems, and tubers are healthy; no lesions.",
+    "Cause": "No disease.",
+    "Symptoms": "Healthy leaves, stems, and tubers; no discoloration.",
+    "Prevention": "Proper irrigation, nutrition, and pest management.",
+    "Treatment": "Not required."
+  }
+
+}
+
+
+

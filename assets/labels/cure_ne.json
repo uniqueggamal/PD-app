@@ -1,0 +1,404 @@
+{
+  "Apple scab": {
+    "Description": "स्याउमा एपल स्क्याब। \nपर्यायवाची: Venturia inaequalis रोग। \nतथ्यहरू: पात, फूल, र फलमा कालो, अनियमित धब्बा; पात र फल समय भन्दा अघि झर्न सक्छ।",
+    "Cause": "Fungal संक्रमण caused by Venturia inaequalis।",
+    "Symptoms": "पात, फूल, र फलमा कालो, अनियमित आकारका धब्बाहरू; पात र फल समय भन्दा अघि झर्न सक्छ।",
+    "Prevention": "पात झरेका पातहरू सफा गर्नुहोस्, पर्याप्त दूरी र हावा प्रवाह सुनिश्चित गर्नुहोस्, प्रतिरोधी प्रजाति लगाउनुहोस्।",
+    "Treatment": "Captan वा EBDCs फन्जिसाइड २ हप्ता अन्तरालमा प्रारम्भिक वृद्धि बेला छर्कनुहोस्।"
+  },
+  "Apple Black rot": {
+    "Description": "स्याउमा कालो रोट। \nपर्यायवाची: Diplodia seriata रोग। \nतथ्यहरू: पात, डाँठ, र फलमा कालो धब्बा; फल सुकेको हुन सक्छ।",
+    "Cause": "Fungal संक्रमण caused by Diplodia seriata।",
+    "Symptoms": "पात, डाँठ, र फलमा कालो धब्बा; फल सुकेको हुन सक्छ र पात झर्न सक्छ।",
+    "Prevention": "संक्रमित भाग हटाउनुहोस्, बगैँचा सफा राख्नुहोस्, प्रतिरोधी प्रजाति लगाउनुहोस्।",
+    "Treatment": "Mancozeb वा Ziram जस्ता प्रोटेक्टेन्ट फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Apple Cedar apple rust": {
+    "Description": "स्याउमा सिडर एपल रस्ट। \nपर्यायवाची: Gymnosporangium juniperi-virginianae। \nतथ्यहरू: पात र फलमा पहेँलो-रातो धब्बा; फल विकृत हुन सक्छ।",
+    "Cause": "Fungal संक्रमण requiring both apple and cedar hosts।",
+    "Symptoms": "पात र फलमा पहेँलो-रातो धब्बा; फल विकृत हुन सक्छ।",
+    "Prevention": "नजिकको सिडर रूख हटाउनुहोस्, हावा प्रवाह सुनिश्चित गर्नुहोस्, प्रतिरोधी स्याउ प्रजाति लगाउनुहोस्।",
+    "Treatment": "Myclobutanil फन्जिसाइड संक्रमण फैलिनु अघि छर्कनुहोस्।"
+  },
+  "Apple healthy": {
+    "Description": "स्वस्थ स्याउ। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात र फल हरियो र स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात र फल स्वस्थ, कुनै धब्बा छैन।",
+    "Prevention": "सही सिंचाइ, मल, र बगैँचा सफाइ गर्नुहोस्।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Bacterial leaf blight in rice leaf": {
+    "Description": "धानमा ब्याक्टेरियल पात रोग। \nपर्यायवाची: Xanthomonas oryzae। \nतथ्यहरू: पातको tips पहेँलो हुँदै खैरो धब्बा; पात झर्ने, वृद्धि कम।",
+    "Cause": "ब्याक्टेरियल संक्रमण caused by Xanthomonas oryzae।",
+    "Symptoms": "पात tips पहेँलो हुँदै खैरो धब्बा, पात झर्ने, वृद्धि कम।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, राम्रो जल निकास सुनिश्चित गर्नुहोस्, अत्यधिक नाइट्रोजन नदिउ।",
+    "Treatment": "संक्रमित बिरुवा हटाउनुहोस्, आवश्यक परे तामाको आधारित ब्याक्टेरिसाइड प्रयोग गर्नुहोस्।"
+  },
+  "Blight in corn Leaf": {
+    "Description": "मकैमा ब्लाइट रोग। \nपर्यायवाची: Setosphaeria turcica। \nतथ्यहरू: तल्लो पातमा लामो खैरो-हरियो धब्बा, माथि फैलिन्छ।",
+    "Cause": "Fungal संक्रमण caused by Setosphaeria turcica।",
+    "Symptoms": "लामो खैरो-हरियो धब्बा, पात मर्न सक्छ।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, बाली घुमाउनुहोस्, फसलको अवशेष हटाउनुहोस्।",
+    "Treatment": "लक्षण देखा पर्नासाथ फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Blueberry healthy": {
+    "Description": "स्वस्थ ब्लुबेरी। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, र फल हरियो र स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, डाँठ, र फल स्वस्थ, कुनै धब्बा छैन।",
+    "Prevention": "सन्तुलित पोषण, अत्यधिक पानी नदिउ, राम्रो हावा प्रवाह सुनिश्चित गर्नुहोस्।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Brown spot in rice leaf": {
+    "Description": "धानमा खैरो धब्बा। \nपर्यायवाची: Cochliobolus miyabeanus। \nतथ्यहरू: सानो खैरो गोल धब्बा, कहिलेकाहीँ पहेँलो ह्यालो।",
+    "Cause": "Fungal संक्रमण caused by Cochliobolus miyabeanus।",
+    "Symptoms": "साना खैरो गोल धब्बा, कहिलेकाहीँ पहेँलो ह्यालो।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, अत्यधिक नाइट्रोजन नदिउ, राम्रो जल निकास सुनिश्चित गर्नुहोस्।",
+    "Treatment": "बीउमा tricyclazole वा म्यानकोजेब; बालीमा छर्कनुहोस्।"
+  },
+  "Cercospora leaf spot": {
+    "Description": "Cercospora पात रोग। \nपर्यायवाची: Cercospora spp। \nतथ्यहरू: पातमा साना कालो धब्बा, ठूलो बनिरहन्छ; पात पहेँलो र झर्छ।",
+    "Cause": "Fungal संक्रमण caused by Cercospora spp।",
+    "Symptoms": "साना कालो धब्बा, ठूलो बनिरहन्छ; पात पहेँलो र झर्छ।",
+    "Prevention": "माथि पानी नदिनुहोस्, पर्याप्त दूरी राख्नुहोस्, संक्रमित पात हटाउनुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस् र पर्याप्त सिंचाइ गर्नुहोस्।"
+  },
+  "Cherry (including sour) Powdery mildew": {
+    "Description": "चेरीमा पाउडरी मिल्ड्यू। \nपर्यायवाची: Podosphaera clandestina। \nतथ्यहरू: पात, डाँठ, फलमा सेतो धुलो जस्तो वृद्धि; पात वक्र र वृद्धि रोकिए।",
+    "Cause": "Fungal संक्रमण caused by Podosphaera clandestina।",
+    "Symptoms": "सेतो धुलो जस्तो वृद्धि, पात वक्र, वृद्धि रोकिए।",
+    "Prevention": "प्रतिरोधी जात लगाउनुहोस्, सही छाँटकाँट, हावा प्रवाह सुनिश्चित गर्नुहोस्, अत्यधिक नाइट्रोजन नदिनुहोस्।",
+    "Treatment": "होर्टिकल्चरियल तेल वा मिल्ड्यू नियन्त्रण फन्जिसाइड प्रयोग गर्नुहोस्।"
+  },
+  "Cherry (including_sour) healthy": {
+    "Description": "स्वस्थ चेरी। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, र फल हरियो र स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, डाँठ, र फल स्वस्थ, कुनै धब्बा छैन।",
+    "Prevention": "सही सिंचाइ, मल, र pruning गर्नुहोस्।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Common Rust in corn Leaf": {
+    "Description": "मकैमा सामान्य रस्ट। \nपर्यायवाची: Puccinia sorghi। \nतथ्यहरू: पातमा साना रातो-खैरो pustules; photosynthesis घट्छ।",
+    "Cause": "Fungal संक्रमण caused by Puccinia sorghi।",
+    "Symptoms": "पातमा साना रातो-खैरो pustules; photosynthesis घट्न सक्छ।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, volunteer plants हटाउनुहोस्, फसल घुमाउनुहोस्।",
+    "Treatment": "संक्रमण गम्भीर भए फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Gray Leaf Spot in corn Leaf": {
+    "Description": "मकैमा खैरो पात धब्बा। \nपर्यायवाची: Cercospora zeae-maydis। \nतथ्यहरू: पात veins मा आयताकार खैरो धब्बा; पात मर्न सक्छ।",
+    "Cause": "Fungal संक्रमण caused by Cercospora zeae-maydis।",
+    "Symptoms": "पात veins मा आयताकार खैरो धब्बा; पात मर्न सक्छ।",
+    "Prevention": "फसल घुमाउनुहोस्, प्रतिरोधी hybrid प्रयोग गर्नुहोस्, crop residue हटाउनुहोस्।",
+    "Treatment": "लक्षण देखा परे फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Corn (maize) healthy": {
+    "Description": "स्वस्थ मकै। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात हरियो र स्वस्थ, कुनै धब्बा छैन।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात हरियो र स्वस्थ।",
+    "Prevention": "सन्तुलित मल र irrigation।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Grape Black rot": {
+    "Description": "अंगुरमा कालो रोट। \nपर्यायवाची: Guignardia bidwellii। \nतथ्यहरू: पात र फलमा कालो गोल धब्बा; infected berries सुकेको हुन सक्छ।",
+    "Cause": "Fungal संक्रमण caused by Guignardia bidwellii।",
+    "Symptoms": "पात र फलमा कालो गोल धब्बा; infected berries सुकेको।",
+    "Prevention": "हावा प्रवाहको लागि pruning गर्नुहोस्, मरेका फल हटाउनुहोस्, प्रतिरोधी प्रजाति लगाउनुहोस्।",
+    "Treatment": "संवेदनशील growth stages मा Captan फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Grape Esca Black Measles": {
+    "Description": "अंगुरमा Esca (कालो मिजल्स)। \nपर्यायवाची: Phaeomoniella chlamydospora, Phaeoacremonium spp। \nतथ्यहरू: wood मा कालो रेखा, फलमा कालो धब्बा, पात पहेँलो, vine decline।",
+    "Cause": "Fungal संक्रमण caused by Phaeomoniella chlamydospora and Phaeoacremonium spp।",
+    "Symptoms": "wood मा कालो रेखा, फलमा कालो धब्बा, पात पहेँलो, vine decline।",
+    "Prevention": "स्वस्थ बिरुवा प्रयोग गर्नुहोस्, pruning wound सर्तकता, संक्रमित wood हटाउनुहोस्।",
+    "Treatment": "केही रासायनिक उपाय छैन; संक्रमित भाग हटाउनुहोस्।"
+  },
+  "Grape healthy": {
+    "Description": "स्वस्थ अंगुर। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, र फल हरियो र स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, डाँठ, र फल स्वस्थ।",
+    "Prevention": "सन्तुलित irrigation, pruning र nutrition।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Orange Citrus canker": {
+    "Description": "सुन्तलामा सिट्रस क्यानकर। \nपर्यायवाची: Xanthomonas citri। \nतथ्यहरू: पात, डाँठ, फलमा उभिएका धब्बा; पात छिटो झर्छ।",
+    "Cause": "Bacterial संक्रमण caused by Xanthomonas citri।",
+    "Symptoms": "पात, डाँठ, फलमा raised lesions; पात झर्न सक्छ।",
+    "Prevention": "संक्रमित बिरुवा हटाउनुहोस्, सावधानीपूर्वक pruning, overhead irrigation नदिनुहोस्।",
+    "Treatment": "Copper-based bactericides; संक्रमित भाग हटाउनुहोस्।"
+  },
+  "Orange healthy": {
+    "Description": "स्वस्थ सुन्तला। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, फल हरियो र स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, डाँठ, फल स्वस्थ।",
+    "Prevention": "सन्तुलित irrigation र पोषण।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Peach Bacterial spot": {
+    "Description": "आडूमा ब्याक्टेरियल स्पट। \nपर्यायवाची: Xanthomonas campestris pv. pruni। \nतथ्यहरू: पात र फलमा साना पानी सटेको धब्बा; पात झर्छ, फल फाट्छ।",
+    "Cause": "Bacterial संक्रमण caused by Xanthomonas campestris pv. pruni।",
+    "Symptoms": "पात र फलमा साना पानी सटेको धब्बा; पात झर्छ, फल फाट्छ।",
+    "Prevention": "रोगमुक्त nursery stock प्रयोग गर्नुहोस्, pruning सही गर्नुहोस्, overhead watering नदिनुहोस्।",
+    "Treatment": "Copper-based bactericides; धेरै संक्रमित भाग हटाउनुहोस्।"
+  },
+  "Peach healthy": {
+    "Description": "स्वस्थ आडू। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, फूल, र फल सामान्य विकास।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, फूल, फल स्वस्थ।",
+    "Prevention": "सही irrigation, nutrition, pruning।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Pepper bell Bacterial spot": {
+    "Description": "शिमला मिर्चमा ब्याक्टेरियल स्पट। \nपर्यायवाची: Xanthomonas euvesicatoria। \nतथ्यहरू: पात र फलमा साना पानी सटेको धब्बा; पात पहेँलो।",
+    "Cause": "Bacterial संक्रमण caused by Xanthomonas euvesicatoria।",
+    "Symptoms": "पात र फलमा साना पानी सटेको धब्बा; पात पहेँलो।",
+    "Prevention": "रोगमुक्त बीउ प्रयोग गर्नुहोस्, overhead irrigation नदिनुहोस्, फसल घुमाउनुहोस्।",
+    "Treatment": "Copper-based bactericides; संक्रमित भाग हटाउनुहोस्।"
+  },
+  "Pepper bell healthy": {
+    "Description": "स्वस्थ शिमला मिर्च। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात र फल हरियो र स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात र फल स्वस्थ।",
+    "Prevention": "सन्तुलित पोषण र irrigation।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Raspberry healthy": {
+    "Description": "स्वस्थ रास्पबेरी। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, फल स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, डाँठ, फल स्वस्थ।",
+    "Prevention": "सही irrigation, pruning र nutrition।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Soybean healthy": {
+    "Description": "स्वस्थ सोयाबीन। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात हरियो, धब्बा वा discoloration बिना।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात हरियो, स्वस्थ।",
+    "Prevention": "सन्तुलित nutrition र proper field management।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Squash Powdery mildew": {
+    "Description": "स्क्वासमा Powdery mildew। \nपर्यायवाची: Podosphaera xanthii। \nतथ्यहरू: पात र डाँठमा सेतो powdery धब्बा; पात curl र सुकेको।",
+    "Cause": "Fungal संक्रमण caused by Podosphaera xanthii।",
+    "Symptoms": "पात र डाँठमा सेतो powdery धब्बा; पात curl र सुकेको।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, spacing र airflow ठीक राख्नुहोस्।",
+    "Treatment": "संक्रमण गम्भीर भए फन्जिसाइड छर्कनुहोस्; संक्रमित पात हटाउनुहोस्।"
+  },
+  "Strawberry Leaf scorch": {
+    "Description": "स्ट्रबेरीमा Leaf scorch। \nपर्यायवाची: Diplocarpon earliana। \nतथ्यहरू: पातमा साना खैरो/बैजनी धब्बा; पात पहिले झर्छ।",
+    "Cause": "Fungal संक्रमण caused by Diplocarpon earliana।",
+    "Symptoms": "पातमा साना खैरो/बैजनी धब्बा; पात पहिले झर्छ।",
+    "Prevention": "रोगमुक्त बिरुवा प्रयोग गर्नुहोस्, spacing, irrigation ठीक राख्नुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्; संक्रमित पात नष्ट गर्नुहोस्।"
+  },
+  "Strawberry healthy": {
+    "Description": "स्वस्थ स्ट्रबेरी। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात र फल स्वस्थ।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात र फल स्वस्थ।",
+    "Prevention": "सही irrigation, nutrition, pruning।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Tomato Bacterial spot": {
+    "Description": "टमाटरमा ब्याक्टेरियल स्पट। \nपर्यायवाची: Xanthomonas spp। \nतथ्यहरू: पात र फलमा साना पानी सटेको धब्बा; पात झर्छ।",
+    "Cause": "Bacterial संक्रमण caused by Xanthomonas spp।",
+    "Symptoms": "पात र फलमा साना पानी सटेको धब्बा; पात झर्छ।",
+    "Prevention": "रोगमुक्त बीउ प्रयोग गर्नुहोस्, फसल घुमाउनुहोस्, overhead irrigation नदिनुहोस्।",
+    "Treatment": "Copper-based bactericides; संक्रमित भाग हटाउनुहोस्।"
+  },
+  "Tomato Early blight": {
+    "Description": "टमाटरमा Early blight। \nपर्यायवाची: Alternaria solani। \nतथ्यहरू: पुरानो पातमा dark concentric lesions; पात पहेँलो र झर्छ।",
+    "Cause": "Fungal संक्रमण caused by Alternaria solani।",
+    "Symptoms": "पुरानो पातमा dark concentric lesions; पात पहेँलो र झर्छ।",
+    "Prevention": "फसल घुमाउनुहोस्, प्रतिरोधी प्रजाति लगाउनुहोस्, संक्रमित debris हटाउनुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्; infected पात हटाउनुहोस्।"
+  },
+  "Tomato Late blight": {
+    "Description": "टमाटरमा Late blight। \nपर्यायवाची: Phytophthora infestans। \nतथ्यहरू: पात, डाँठ, र फलमा dark water-soaked lesions; फल सड्न सक्छ।",
+    "Cause": "Fungal संक्रमण caused by Phytophthora infestans।",
+    "Symptoms": "पात, डाँठ, फलमा dark water-soaked lesions; फल सड्न सक्छ।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, फसल घुमाउनुहोस्, overhead watering नदिनुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्; संक्रमित बिरुवा नष्ट गर्नुहोस्।"
+  },
+  "Tomato Leaf Mold": {
+    "Description": "टमाटरमा Leaf Mold। \nपर्यायवाची: Passalora fulva। \nतथ्यहरू: पातमा पहेँलो धब्बा पछि brown; तल्लो पात decay।",
+    "Cause": "Fungal संक्रमण caused by Passalora fulva।",
+    "Symptoms": "पातमा पहेँलो धब्बा; तल्लो पात decay।",
+    "Prevention": "सही ventilation, प्रतिरोधी प्रजाति लगाउनुहोस्, overhead irrigation नदिनुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्; संक्रमित पात हटाउनुहोस्।"
+  },
+  "Tomato Septoria leaf spot": {
+    "Description": "टमाटरमा Septoria leaf spot। \nपर्यायवाची: Septoria lycopersici। \nतथ्यहरू: पातमा साना circular spots dark margin; पात पहेँलो र झर्छ।",
+    "Cause": "Fungal संक्रमण caused by Septoria lycopersici।",
+    "Symptoms": "पातमा साना circular spots dark margin; पात पहेँलो र झर्छ।",
+    "Prevention": "फसल घुमाउनुहोस्, infected debris हटाउनुहोस्, रोगमुक्त बीउ प्रयोग गर्नुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्; संक्रमित पात हटाउनुहोस्।"
+  },
+  "Tomato Spider mites Two-spotted spider mite": {
+    "Description": "टमाटरमा Two-spotted spider mite। \nपर्यायवाची: Tetranychus urticae। \nतथ्यहरू: पातमा साना yellow/white specks; underside मा webbing; severe मा पात झर्छ।",
+    "Cause": "Infestation by Tetranychus urticae।",
+    "Symptoms": "पातमा साना yellow/white specks; webbing underside; severe मा पात झर्छ।",
+    "Prevention": "Humidity maintain गर्नुहोस्, weeds हटाउनुहोस्, predatory mites प्रयोग गर्नुहोस्।",
+    "Treatment": "Miticides; regular monitoring।"
+  },
+  "Tomato Target Spot": {
+    "Description": "टमाटरमा Target Spot। \nपर्यायवाची: Corynespora cassiicola। \nतथ्यहरू: पातमा brown circular spots concentric rings; defoliation हुन्छ।",
+    "Cause": "Fungal संक्रमण caused by Corynespora cassiicola।",
+    "Symptoms": "पातमा brown circular spots concentric rings; defoliation।",
+    "Prevention": "फसल घुमाउनुहोस्, प्रतिरोधी प्रजाति लगाउनुहोस्, infected debris हटाउनुहोस्।",
+    "Treatment": "फन्जिसाइड sprays; infected पात हटाउनुहोस्।"
+  },
+  "Tomato Yellow Leaf Curl Virus": {
+    "Description": "टमाटर Yellow Leaf Curl Virus। \nपर्यायवाची: ToYLCV। \nतथ्यहरू: पात पहेँलो, curl; growth stunted; yield घट्छ।",
+    "Cause": "Viral संक्रमण transmitted by whiteflies।",
+    "Symptoms": "पात पहेँलो, curl; growth stunted।",
+    "Prevention": "Whiteflies control गर्नुहोस्, प्रतिरोधी प्रजाति लगाउनुहोस्।",
+    "Treatment": "कोई chemical cure छैन; infected plants हटाउनुहोस्।"
+  },
+  "Tomato Mosaic Virus": {
+    "Description": "टमाटर Mosaic Virus। \nपर्यायवाची: ToMV। \nतथ्यहरू: पात mottled light/dark green; growth distorted; yield घट्छ।",
+    "Cause": "Viral संक्रमण caused by Tomato mosaic virus (ToMV)।",
+    "Symptoms": "पात mottled light/dark green; growth distorted; yield घट्छ।",
+    "Prevention": "रोगमुक्त बीउ प्रयोग गर्नुहोस्, contaminated tools avoid गर्नुहोस्।",
+    "Treatment": "कोई chemical cure छैन; infected plants हटाउनुहोस्।"
+  },
+  "Tomato healthy": {
+    "Description": "स्वस्थ टमाटर। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, फल स्वस्थ; कुनै धब्बा, discoloration वा deformity छैन।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, डाँठ, फल स्वस्थ।",
+    "Prevention": "सही irrigation, nutrition, pruning।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Corn Northern leaf blight": {
+    "Description": "मकैमा Northern leaf blight। \nपर्यायवाची: Exserohilum turcicum। \nतथ्यहरू: पातमा cigar-shaped gray-green lesions; पात पहिले मर्छ।",
+    "Cause": "Fungal संक्रमण caused by Exserohilum turcicum।",
+    "Symptoms": "पातमा cigar-shaped gray-green lesions; पात पहिले मर्छ।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, फसल घुमाउनुहोस्, crop residues हटाउनुहोस्।",
+    "Treatment": "फन्जिसाइड आवश्यक परे छर्कनुहोस्।"
+  },
+  "Grape Leaf blight Isariopsis Leaf Spot": {
+    "Description": "अङ्गुरमा Leaf blight। \nपर्यायवाची: Isariopsis vitis। \nतथ्यहरू: पातमा brown spots yellow halo; defoliation।",
+    "Cause": "Fungal संक्रमण caused by Isariopsis vitis।",
+    "Symptoms": "पातमा brown spots yellow halo; defoliation।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, infected पात हटाउनुहोस्, airflow maintain गर्नुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Potato Early blight": {
+    "Description": "आलुमा Early blight। \nपर्यायवाची: Alternaria solani। \nतथ्यहरू: पुराना पातमा dark concentric spots; पात पहेँलो र झर्छ।",
+    "Cause": "Fungal संक्रमण caused by Alternaria solani।",
+    "Symptoms": "पुराना पातमा dark concentric spots; पात पहेँलो र झर्छ।",
+    "Prevention": "फसल घुमाउनुहोस्, प्रतिरोधी प्रजाति लगाउनुहोस्, infected debris हटाउनुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Potato Late blight": {
+    "Description": "आलुमा Late blight। \nपर्यायवाची: Phytophthora infestans। \nतथ्यहरू: पात, डाँठमा dark lesions; tuber rot सम्भावना।",
+    "Cause": "Fungal संक्रमण caused by Phytophthora infestans।",
+    "Symptoms": "पात, डाँठमा dark lesions; tuber rot सम्भावना।",
+    "Prevention": "प्रतिरोधी प्रजाति लगाउनुहोस्, फसल घुमाउनुहोस्, overhead watering avoid गर्नुहोस्।",
+    "Treatment": "फन्जिसाइड छर्कनुहोस्; infected plants हटाउनुहोस्।"
+  },
+  "Potato healthy": {
+    "Description": "स्वस्थ आलु। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, tuber स्वस्थ; कुनै lesions वा discoloration छैन।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "पात, डाँठ, tuber स्वस्थ।",
+    "Prevention": "सही irrigation, nutrition, pest management।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Garlic": {
+    "Description": "स्वस्थ Garlic। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: सामान्य bulb र पात विकास।",
+    "Cause": "कोई विशेष रोग छैन।",
+    "Symptoms": "सामान्य bulb र पात विकास।",
+    "Prevention": "सही spacing, certified disease-free cloves, राम्रो drainage।",
+    "Treatment": "लागु नहुने।"
+  },
+  "Leaf smut in rice leaf": {
+    "Description": "धानमा Leaf smut। \nपर्यायवाची: Entyloma oryzae। \nतथ्यहरू: पातमा black streaks/smut; stunted growth।",
+    "Cause": "Fungal संक्रमण caused by Entyloma oryzae।",
+    "Symptoms": "पातमा black streaks/smut; stunted growth।",
+    "Prevention": "रोगमुक्त बीउ, सही spacing, water management।",
+    "Treatment": "infected plants हटाउनुहोस्; फन्जिसाइड rarely।"
+  },
+  "Orange Huanglongbing Citrus greening": {
+    "Description": "सुन्तलामा Haunglongbing Citrus greening। \nपर्यायवाची: Candidatus Liberibacter spp। \nतथ्यहरू: पात पहेँलो; misshapen fruits; yield घट्छ।",
+    "Cause": "Bacterial संक्रमण transmitted by psyllids।",
+    "Symptoms": "पात पहेँलो; misshapen fruits; tree decline।",
+    "Prevention": "रोगमुक्त seedlings; psyllid control; infected trees हटाउनुहोस्।",
+    "Treatment": "कोई cure छैन; infected trees हटाउनुहोस्।"
+  },
+
+
+  "Anthracnose in tea": {
+    "Description": "चियामा एन्ट्राक्नोज fungal रोग हो जुन Colletotrichum जातिले गर्छ। यो पात र नयाँ सुइटमा असर गर्छ, विशेष गरी भिजेको र आर्द्र मौसममा। तथ्य: पातमा दाग, सुइटको मृत्यु, र उत्पादन घटाउन सक्छ।",
+    "Cause": "Colletotrichum जातिको फङ्गस संक्रमण, प्रायः Colletotrichum camelliae।",
+    "Symptoms": "नयाँ पातमा साना खैरो देखि गाढा खैरो गोलाकार वा अनियमित दाग; गम्भीर संक्रमणले पात घुम्नु, सुक्नु, र झर्नु; सुइटको मृत्यु र डाँठामा घाउ हुन सक्छ।",
+    "Prevention": "संक्रमित पात र सुइट काटेर हटाउने; हावा सन्चालनका लागि राम्रो दूरी राख्ने; झरेका संक्रमित पात संकलन र नष्ट गर्ने; उपलब्ध भएमा प्रतिरोधी जात प्रयोग गर्ने।",
+    "Treatment": "सिफारिसअनुसार कपर आधारित फङ्गीसाइड वा systemic fungicide जस्तै Carbendazim र Mancozeb प्रयोग गर्ने; उचित निस्कास र पात भिजाइ घटाउने।"
+  },
+  "Algal leaf in tea": {
+    "Description": "चियामा एल्गल पात रोग Cephaleuros virescens द्वारा हुन्छ। \nपर्यायवाची: रातो रस्ट। \nतथ्यहरू: पातमा रातो-खैरो धब्बा; आर्द्र अवस्थामा प्रकाश संश्लेषण र उत्पादनमा असर गर्छ।",
+    "Cause": "Cephaleuros virescens द्वारा एल्गल संक्रमण।",
+    "Symptoms": "पातमा रातो-खैरो, भेल्वेटी धब्बा; ठूला प्याचहरूमा मिल्न सक्छ।",
+    "Prevention": "राम्रो निकास सुनिश्चित गर्नुहोस्, माथि पानी नदिनुहोस्, हावा प्रवाहको लागि उचित दूरी राख्नुहोस्।",
+    "Treatment": "कपर आधारित फन्जिसाइड छर्कनुहोस्; संक्रमित पात हटाएर नष्ट गर्नुहोस्।"
+  },
+  "Bird eye spot in tea": {
+    "Description": "चियामा बर्ड आइ स्पट Cercospora theae द्वारा हुने फङ्गल रोग हो। \nपर्यायवाची: Cercospora पात रोग। \nतथ्यहरू: चरा आँखा जस्ता साना गोलाकार धब्बा; भिजेको मौसममा सामान्य।",
+    "Cause": "Cercospora theae द्वारा फङ्गल संक्रमण।",
+    "Symptoms": "पातमा गाढा केन्द्र र हल्का ह्यालो भएका साना गोलाकार धब्बा।",
+    "Prevention": "संक्रमित पात काट्नुहोस्, भेन्टिलेसन सुधार गर्नुहोस्, अत्यधिक आर्द्रता नदिनुहोस्।",
+    "Treatment": "कपर अक्सीक्लोराइड वा म्यानकोजेब जस्ता फन्जिसाइड छर्कनुहोस्।"
+  },
+  "Brown blight in tea": {
+    "Description": "चियामा खैरो ब्लाइट Glomerella cingulata द्वारा हुन्छ। \nपर्यायवाची: एन्ट्राक्नोज। \nतथ्यहरू: पात र सुइटमा खैरो घाउ; पात झर्नुमा परिणाम।",
+    "Cause": "Glomerella cingulata द्वारा फङ्गल संक्रमण।",
+    "Symptoms": "पातमा खैरो, अनियमित घाउ; गम्भीर अवस्थामा पात ब्लाइट र सुइट डाइब्याक।",
+    "Prevention": "स्वच्छता अभ्यास, प्रतिरोधी प्रजाति प्रयोग गर्नुहोस्, उचित छाँटकाँट।",
+    "Treatment": "कार्बेन्डाजिम वा कपर आधारित उत्पादन जस्ता फन्जिसाइड प्रयोग गर्नुहोस्।"
+  },
+  "Healthy tea leaf": {
+    "Description": "स्वस्थ चिया पात। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: हरियो, जीवन्त पात; कुनै धब्बा वा discoloration छैन; सामान्य विकास।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "घाउ वा discoloration बिना हरियो, स्वस्थ पात।",
+    "Prevention": "उचित सिंचाइ, पोषण, र कीट नियन्त्रण कायम राख्नुहोस्।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Lemon canker": {
+    "Description": "लेमनमा सिट्रस क्यानकर Xanthomonas citri द्वारा हुने ब्याक्टेरियल रोग हो। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, र फलमा उभिएका घाउ; सुन्तला क्यानकरसँग मिल्दोजुल्दो।",
+    "Cause": "Xanthomonas citri द्वारा ब्याक्टेरियल संक्रमण।",
+    "Symptoms": "पात, डाँठ, र फलमा उभिएका, कोर्की घाउ; पात समय भन्दा अघि झर्न सक्छ।",
+    "Prevention": "रोगमुक्त बिरुवा प्रयोग गर्नुहोस्, माथि पानी नदिनुहोस्, सावधानीपूर्वक छाँटकाँट गर्नुहोस्।",
+    "Treatment": "कपर आधारित ब्याक्टेरिसाइड; संक्रमित बिरुवा भाग हटाउनुहोस्।"
+  },
+  "Potato hollow heart": {
+    "Description": "आलुमा होलो हर्ट एक फिजियोलोजिकल डिसअर्डर हो। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: असमान विकासका कारण ट्युबरमा होलो गुहा; रोग होइन।",
+    "Cause": "द्रुत विकास, पोषक तत्व असन्तुलन, वा वातावरणीय तनावका कारण फिजियोलोजिकल डिसअर्डर।",
+    "Symptoms": "आलु ट्युबरमा होलो वा क्र्याक्ड केन्द्र; बाह्य उपस्थिति सामान्य हुन सक्छ।",
+    "Prevention": "सन्तुलित मल, निरन्तर पानी, तापक्रम उतारचढाव नदिनुहोस्।",
+    "Treatment": "लागु नहुने; सांस्कृतिक अभ्यास मार्फत व्यवस्थापन गर्नुहोस्।"
+  },
+  "Red leaf spot in tea": {
+    "Description": "चियामा रातो पात धब्बा Pestalotiopsis theae द्वारा हुन्छ। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पातमा रातो धब्बा; मुख्यतया नयाँ पातमा असर गर्छ।",
+    "Cause": "Pestalotiopsis theae द्वारा फङ्गल संक्रमण।",
+    "Symptoms": "पातमा रातो-खैरो धब्बा; गम्भीर अवस्थामा पात झर्न सक्छ।",
+    "Prevention": "स्वच्छता, भिजेको अवस्था नदिनुहोस्, प्रतिरोधी प्रजाति प्रयोग गर्नुहोस्।",
+    "Treatment": "फन्जिसाइड प्रयोग गर्नुहोस्; संक्रमित पात हटाउनुहोस्।"
+  },
+  "Ginger": {
+    "Description": "स्वस्थ अदुवा बिरुवा। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: राइजोम र पात सामान्य विकास; कुनै रोग छैन।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "हरियो पात र राइजोम; discoloration वा घाउ बिना।",
+    "Prevention": "उचित माटो निकास, सन्तुलित पोषण, झारपात नियन्त्रण।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Corn crop": {
+    "Description": "स्वस्थ मकै बाली। \nपर्यायवाची: मकै। \nतथ्यहरू: हरियो पात, मजबूत डाँठ, सामान्य विकास; कुनै रोग छैन।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "हरियो पात, मजबूत डाँठ, सामान्य विकास।",
+    "Prevention": "सन्तुलित मल, सिंचाइ, र कीट नियन्त्रण।",
+    "Treatment": "आवश्यक छैन।"
+  },
+  "Potato crop": {
+    "Description": "स्वस्थ आलु बाली। \nपर्यायवाची: कुनै छैन। \nतथ्यहरू: पात, डाँठ, र ट्युबर स्वस्थ; कुनै घाउ छैन।",
+    "Cause": "कोई रोग छैन।",
+    "Symptoms": "स्वस्थ पात, डाँठ, र ट्युबर; discoloration बिना।",
+    "Prevention": "उचित सिंचाइ, पोषण, र कीट नियन्त्रण।",
+    "Treatment": "आवश्यक छैन।"
+  }
+
+}

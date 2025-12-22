@@ -8,26 +8,26 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../models/ai_model.dart';
-import '../models/reminder_model.dart';
-import '../providers/text_provider.dart';
-import '../providers/reminder_provider.dart';
-import '../providers/settings_provider.dart';
-import '../providers/home_provider.dart';
-import 'reminder_edit_screen.dart';
+import '../../models/ai_model.dart';
+import '../../models/reminder_model.dart';
+import '../../providers/text_provider.dart';
+import '../../providers/reminder_provider.dart';
+import '../../providers/settings_provider.dart';
+import '../../providers/home_provider.dart';
+import '../reminder/reminder_edit_screen.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class CameraScreen extends ConsumerStatefulWidget {
+  const CameraScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<CameraScreen> createState() => _CameraScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _CameraScreenState extends ConsumerState<CameraScreen> {
   final AiModel _aiModel = AiModel();
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
     _loadModel();
   }

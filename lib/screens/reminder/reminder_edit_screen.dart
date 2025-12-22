@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import '../models/reminder_model.dart';
-import '../providers/reminder_provider.dart';
-import '../providers/text_provider.dart';
-import '../providers/settings_provider.dart';
+import '../../models/reminder_model.dart';
+import '../../providers/reminder_provider.dart';
+import '../../providers/text_provider.dart';
+import '../../providers/settings_provider.dart';
 
 class AddEditReminderScreen extends ConsumerStatefulWidget {
   final ReminderModel? reminder;

@@ -72,6 +72,11 @@
   "gallery": "Gallery",
   "camera": "Camera",
   "pickImage": "Pick Image",
+  "capture": "Capture",
+  "scan": "Scan",
+  "analyze": "Analyze",
+  "photo": "Photo",
+  "image": "Image",
 
   "_comment": "Reminders",
   "addReminder": "Add Reminder",
@@ -142,4 +147,6 @@
   "ok": "OK",
   "close": "Close",
   "update": "Update"
+
+  
 }

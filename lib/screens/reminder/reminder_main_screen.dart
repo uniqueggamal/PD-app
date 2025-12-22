@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../providers/reminder_provider.dart';
-import '../providers/text_provider.dart';
-import '../providers/settings_provider.dart';
+import '../../providers/reminder_provider.dart';
+import '../../providers/text_provider.dart';
+import '../../providers/settings_provider.dart';
 import 'reminder_edit_screen.dart';
 import 'reminder_view_screen.dart';
-import '../models/reminder_model.dart';
+import '../../models/reminder_model.dart';
 
 class ReminderScreen extends ConsumerStatefulWidget {
   const ReminderScreen({super.key});

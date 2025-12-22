@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/text_provider.dart';
+import '../../providers/text_provider.dart';
 
 class HelpSupportScreen extends ConsumerWidget {
   const HelpSupportScreen({super.key});

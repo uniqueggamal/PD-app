@@ -1,0 +1,80 @@
+Project Documentation: Plant Disease Detection App
+
+1. Project Overview
+   - This is a Flutter-based mobile application designed for plant disease detection using AI and machine learning.
+   - The app allows users to capture or select plant images, analyze them using a pre-trained TensorFlow Lite model, and receive disease identification along with treatment recommendations.
+   - It supports multiple languages (English and Nepali) and includes features like reminders for plant care.
+
+2. Key Features
+   - AI-Powered Disease Detection: Uses TensorFlow Lite to analyze plant images and identify diseases with confidence scores.
+   - Image Capture and Selection: Users can take photos using the camera or select from gallery, with image cropping functionality for better accuracy.
+   - Multi-Language Support: Localized text for English and Nepali users.
+   - Plant Care Reminders: Set customizable reminders for watering, fertilizing, and disease checks.
+   - Dark Mode: Toggle between light and dark themes.
+   - Offline Functionality: Core features work without internet connection.
+   - Firebase Integration: Authentication and cloud storage for user data.
+
+3. Technology Stack
+   - Framework: Flutter (Dart)
+   - State Management: Riverpod
+   - AI/ML: TensorFlow Lite (tflite_flutter package)
+   - Image Processing: image_picker, image_cropper, image packages
+   - Local Storage: Hive, SharedPreferences, SQLite (sqflite)
+   - Notifications: flutter_local_notifications
+   - Firebase: firebase_core, firebase_auth, cloud_firestore
+   - Permissions: permission_handler
+   - Other: intl for date formatting, timezone for notifications
+
+4. Project Structure
+   - lib/: Main application code
+     - main.dart: App entry point
+     - screens/: UI screens (home, camera, reminders, settings)
+     - providers/: State management with Riverpod
+     - models/: Data models (AI model, reminders)
+     - services/: Business logic and utilities
+     - utils/: Helper functions
+     - widgets/: Reusable UI components
+   - assets/: Static assets
+     - img/: Images and icons
+     - labels/: Text labels and model labels in JSON/TXT format
+     - ai/: AI models and related files
+   - android/: Android-specific configuration
+   - ios/: iOS-specific configuration
+   - pubspec.yaml: Dependencies and configuration
+
+5. AI Model Details
+   - Model: MobileNetV2 trained on 51 plant disease classes
+   - Input: 224x224 RGB images
+   - Output: Disease prediction with confidence score
+   - Supported formats: TFLite (quantized and non-quantized versions)
+
+6. Supported Diseases
+   - The app can detect various plant diseases including bacterial spots, fungal infections, viral diseases, and nutrient deficiencies.
+   - Detailed information provided for each disease including symptoms, causes, prevention, and treatment.
+
+7. User Interface
+   - Clean, intuitive design with Material Design principles
+   - Bottom navigation for main sections: Home, Reminders, Settings
+   - Camera screen for image capture and analysis
+   - Reminder management with date/time selection and repeat options
+   - Settings for language, theme, notifications, and app info
+
+8. Permissions and Privacy
+   - Camera permission for taking photos
+   - Gallery permission for selecting images
+   - Notification permission for reminders
+   - Data stored locally and optionally synced to Firebase
+
+9. Development and Deployment
+   - Built with Flutter SDK ^3.8.1
+   - Supports Android, iOS, and potentially other platforms
+   - Uses Firebase for backend services
+   - Version: 1.0.0+1
+
+10. Future Enhancements
+    - Expanded disease database
+    - Community features for sharing plant care tips
+    - Integration with weather APIs for better care recommendations
+    - Advanced analytics and reporting
+
+This documentation provides a comprehensive overview of the Plant Disease Detection App for reporting and reference purposes.

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'home_screen.dart';
-import 'reminder_main_screen.dart';
-import 'settings_screen.dart';
+import 'home/home_screen.dart';
+import 'camera/cameraScreen.dart';
+import 'reminder/reminder_main_screen.dart';
+import 'settings/settings_screen.dart';
 import '../providers/text_provider.dart';
 import '../providers/settings_provider.dart';
 
@@ -19,6 +20,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   static final List<Widget> _screens = <Widget>[
     const HomeScreen(),
+    const CameraScreen(),
     const ReminderScreen(),
     const SettingsScreen(),
   ];
@@ -50,6 +52,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final textsAsync = ref.watch(textProvider);
     final locale = ref.watch(localeProvider);
+    final isDarkMode = ref.watch(themeModeProvider) == ThemeMode.dark;
 
     // Listen to locale changes and reset to home page
     ref.listen(localeProvider, (previous, next) {
@@ -83,6 +86,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               label: ref.read(currentTextProvider('home')),
             ),
             BottomNavigationBarItem(
+              icon: const Icon(Icons.camera_alt),
+              label: ref.read(currentTextProvider('camera')) ?? 'Camera',
+            ),
+            BottomNavigationBarItem(
               icon: const Icon(Icons.notifications),
               label: ref.read(currentTextProvider('reminders')),
             ),
@@ -93,6 +100,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.green,
+          unselectedItemColor: isDarkMode ? Colors.white : Colors.grey.shade600,
           onTap: _onItemTapped,
         ),
       ),

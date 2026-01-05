@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plant_disease_detection_app/screens/home/home_landing_screen.dart';
 import 'package:plant_disease_detection_app/screens/camera/cameraScreen.dart';
 import 'package:plant_disease_detection_app/screens/reminder/reminder_view_screen.dart';
 import 'package:plant_disease_detection_app/screens/settings/help_support_screen.dart';
+import 'package:plant_disease_detection_app/screens/onboarding/onboarding_screen.dart';
 import 'package:plant_disease_detection_app/widgets/app_drawer.dart';
 import 'firebase_options.dart';
 import 'providers/settings_provider.dart';
@@ -14,11 +16,16 @@ import 'providers/settings_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: MyApp()));
+
+  final prefs = await SharedPreferences.getInstance();
+  final isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+
+  runApp(ProviderScope(child: MyApp(isFirstLaunch: isFirstLaunch)));
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+  final bool isFirstLaunch;
+  const MyApp({super.key, required  this.isFirstLaunch});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,27 +33,38 @@ class MyApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
 
     final GoRouter _router = GoRouter(
+      initialLocation: isFirstLaunch ? '/onboarding' : '/',
       routes: [
-        GoRoute(path: '/', builder: (context, state) => AppShell()),
-        GoRoute(path: '/home', builder: (context, state) => AppShell()),
-        GoRoute(path: '/camera', builder: (context, state) => CameraScreen()),
         GoRoute(
-          path: '/reminders',
-          builder: (context, state) => Scaffold(
-            appBar: AppBar(title: Text('Reminders')),
-            body: Center(child: Text('Reminders List - Coming Soon')),
-          ),
+          path: '/onboarding',
+          builder: (context, state) => const OnboardingScreen(),
         ),
-        GoRoute(
-          path: '/settings',
-          builder: (context, state) => HelpSupportScreen(),
-        ),
-        GoRoute(
-          path: '/history',
-          builder: (context, state) => Scaffold(
-            appBar: AppBar(title: Text('Scan History')),
-            body: Center(child: Text('Scan History - Coming Soon')),
-          ),
+        ShellRoute(
+          builder: (context, state, child) => AppShell(child: child),
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (context, state) => HomeLandingScreen(),
+            ),
+            GoRoute(
+              path: '/camera',
+              builder: (context, state) => const CameraScreen(),
+            ),
+            GoRoute(
+              path: '/reminders',
+              builder: (context, state) =>
+                  Center(child: Text('Reminders List - Coming Soon')),
+            ),
+            GoRoute(
+              path: '/settings',
+              builder: (context, state) => HelpSupportScreen(),
+            ),
+            GoRoute(
+              path: '/history',
+              builder: (context, state) =>
+                  const Center(child: Text('Scan History - Coming Soon')),
+            ),
+          ],
         ),
       ],
     );
@@ -82,6 +100,9 @@ class MyApp extends ConsumerWidget {
 }
 
 class AppShell extends ConsumerWidget {
+  final Widget child;
+  const AppShell({required this.child, super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -89,15 +110,9 @@ class AppShell extends ConsumerWidget {
         title: Text('PD App'),
         backgroundColor: Colors.green[700],
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.camera_alt),
-            onPressed: () => context.go('/camera'),
-          ),
-        ],
       ),
       drawer: AppDrawer(),
-      body: HomeLandingScreen(),
+      body: child,
       floatingActionButton: FloatingActionButton.large(
         backgroundColor: Colors.green,
         onPressed: () => context.go('/camera'),

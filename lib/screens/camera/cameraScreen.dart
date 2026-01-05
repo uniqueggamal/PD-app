@@ -27,7 +27,7 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
   final AiModel _aiModel = AiModel();
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _loadModel();
   }
@@ -260,17 +260,9 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
     final statusMessage = ref.watch(statusMessageProvider);
     final isPickingImage = ref.watch(isPickingImageProvider);
     final predictionResult = ref.watch(predictionResultProvider);
-    return Scaffold(
-      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
-      appBar: AppBar(
-        title: Text(
-          ref.read(currentTextProvider('appTitle')) ??
-              'Plant Disease Detection',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.green,
-      ),
-      body: SingleChildScrollView(
+    return Container(
+      color: isDarkMode ? Colors.grey.shade900 : Colors.white,
+      child: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 20),

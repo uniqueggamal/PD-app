@@ -14,6 +14,7 @@ import '../../providers/text_provider.dart';
 import '../../providers/reminder_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/home_provider.dart';
+import '../../services/app_permissions.dart';
 import '../reminder/reminder_edit_screen.dart';
 
 class CameraScreen extends ConsumerStatefulWidget {
@@ -29,7 +30,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
   @override
   void initState() {
     super.initState();
-    _loadModel();
   }
 
   Future<void> _loadModel() async {
@@ -48,38 +48,49 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
+    // Prevent multiple taps
     final isPicking = ref.read(isPickingImageProvider);
     if (isPicking) return;
     ref.read(isPickingImageProvider.notifier).state = true;
 
     try {
-      // Check & request permission
+      debugPrint("--- Starting _pickImage from $source ---");
+
+      // 1. Request Permission
       PermissionStatus status;
       if (source == ImageSource.camera) {
         status = await Permission.camera.request();
       } else {
-        status = await Permission.photos
-            .request(); // or Permission.storage for Android <13
+        // Use photos for iOS/Android 13+, storage for older Android
+        status = await Permission.photos.request();
       }
 
+      debugPrint("Permission status: ${status.toString()}");
+
+      // 2. Handle Permission Results
       if (!status.isGranted) {
         if (!mounted) return;
 
-        // Determine proper message based on source
-        final message = source == ImageSource.camera
-            ? ref.read(currentTextProvider('cameraPermissionDenied')) ??
-                  'Camera permission denied. Please enable it in settings.'
-            : ref.read(currentTextProvider('galleryPermissionDenied')) ??
-                  'Gallery permission denied. Please enable it in settings.';
+        String message;
+        String title =
+            ref.read(currentTextProvider('permissionDenied')) ??
+            'Permission Denied';
 
-        // Show a dialog guiding user to settings
+        if (status.isPermanentlyDenied) {
+          message = source == ImageSource.camera
+              ? "Camera permission is permanently denied. Please enable it in App Settings."
+              : "Gallery permission is permanently denied. Please enable it in App Settings.";
+        } else {
+          message = source == ImageSource.camera
+              ? "Camera permission is required to take photos."
+              : "Gallery permission is required to select photos.";
+        }
+
+        // Show Dialog
         await showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            title: Text(
-              ref.read(currentTextProvider('permissionDenied')) ??
-                  'Permission denied',
-            ),
+            title: Text(title),
             content: Text(message),
             actions: [
               TextButton(
@@ -88,40 +99,60 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
                   ref.read(currentTextProvider('cancel')) ?? 'Cancel',
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  openAppSettings(); // Open system app settings
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  ref.read(currentTextProvider('settings')) ?? 'Settings',
+              if (status.isPermanentlyDenied)
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    openAppSettings();
+                  },
+                  child: Text(
+                    ref.read(currentTextProvider('settings')) ?? 'Settings',
+                  ),
                 ),
-              ),
             ],
           ),
         );
-        return;
+        return; // Stop execution if no permission
       }
 
-      // Pick image if permission granted
+      // 3. Pick Image
+      debugPrint("Permissions granted. Launching ImagePicker...");
       final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: source);
+      final pickedFile = await picker.pickImage(
+        source: source,
+        imageQuality: 80, // Reduce quality to prevent memory crashes
+      );
 
-      if (pickedFile != null && mounted) {
+      if (pickedFile != null) {
+        debugPrint("Image picked: ${pickedFile.path}");
+        if (!mounted) return;
+
         ref.read(selectedImagePathProvider.notifier).state = pickedFile.path;
         ref.read(predictionResultProvider.notifier).state = null;
         ref.read(statusMessageProvider.notifier).state =
             ref.read(currentTextProvider('predicting')) ?? 'Predicting...';
+
         await _runPrediction();
+      } else {
+        debugPrint("User cancelled picking image.");
       }
     } on PlatformException catch (e) {
+      debugPrint("PLATFORM EXCEPTION in _pickImage: ${e.message}");
       if (!mounted) return;
-      ref.read(statusMessageProvider.notifier).state =
-          "Error picking image: ${e.message}";
-    } catch (e) {
+
+      // Show specific error to user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Camera Error: ${e.message ?? 'Unknown error'}"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e, stackTrace) {
+      debugPrint("GENERAL EXCEPTION in _pickImage: $e");
+      debugPrint(stackTrace.toString());
       if (!mounted) return;
-      ref.read(statusMessageProvider.notifier).state =
-          "Error picking image: $e";
+
+      ref.read(statusMessageProvider.notifier).state = "Error: $e";
     } finally {
       if (mounted) ref.read(isPickingImageProvider.notifier).state = false;
     }
@@ -162,6 +193,10 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
     if (imagePath == null) return;
 
     try {
+      // Load model here before prediction
+      final locale = ref.read(localeProvider);
+      await _aiModel.loadModel(lang: locale.languageCode);
+
       final selectedImage = File(imagePath);
       final rawBytes = await selectedImage.readAsBytes();
       final decodedImage = img.decodeImage(rawBytes);
@@ -256,6 +291,12 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _aiModel.closeInterpreter();
+    super.dispose();
   }
 
   @override

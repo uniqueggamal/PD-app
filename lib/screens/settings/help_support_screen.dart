@@ -23,54 +23,52 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // Hero Section with Healthy Leaf Background
+            // Hero Section
             Container(
-              height: 220,
+              height: 300,
               width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
-                  image: const AssetImage(
-                    'assets/img/leaf1.jpg',
-                  ), // Healthy leaf hero
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.green.withOpacity(0.65),
-                    BlendMode.multiply,
-                  ),
-                ),
-              ),
               child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      texts?['welcomeToHelpSupport'] ?? 'Help & Support',
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            shadows: const [
-                              Shadow(
-                                offset: Offset(1, 1),
-                                blurRadius: 4,
-                                color: Colors.black45,
-                              ),
-                            ],
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.green.shade100,
+                  ),
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            texts?['welcomeToHelpSupport'] ?? 'Help & Support',
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(
+                                  color: Colors.green.shade800,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 26,
+                                ),
                           ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      texts?['helpSupportDescription'] ??
-                          'We\'re here to help you get the most out of PD App',
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 16,
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 8),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            texts?['helpSupportDescription'] ??
+                                'We\'re here to help you get the most out of PD App',
+                            style: TextStyle(
+                              color: Colors.green.shade600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -84,21 +82,18 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
               title: texts?['gettingStarted'] ?? 'Getting Started',
               children: [
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf5.jpg', // Good lighting example
                   title: texts?['takingPhotos'] ?? 'Taking Good Photos',
                   description:
                       texts?['takingPhotosDescription'] ??
                       'Use natural daylight, place the leaf flat, and fill the frame.',
                 ),
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf3.jpg',
                   title: texts?['diseaseDetection'] ?? 'Disease Detection',
                   description:
                       texts?['diseaseDetectionDescription'] ??
                       'The AI analyzes the leaf and shows disease name with confidence score.',
                 ),
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf10.jpg',
                   title: texts?['settingReminders'] ?? 'Setting Reminders',
                   description:
                       texts?['settingRemindersDescription'] ??
@@ -116,21 +111,18 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
               title: texts?['troubleshooting'] ?? 'Troubleshooting',
               children: [
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf12.jpg', // Blurry leaf example
                   title: texts?['poorPhotoQuality'] ?? 'Poor Photo Quality',
                   description:
                       texts?['poorPhotoQualityDescription'] ??
                       'Hold steady, use good light, and avoid shadows on the leaf.',
                 ),
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf15.jpg',
                   title: texts?['appNotResponding'] ?? 'App Not Responding',
                   description:
                       texts?['appNotRespondingDescription'] ??
                       'Restart the app or clear cache. Works fully offline.',
                 ),
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf7.jpg',
                   title: texts?['permissionIssues'] ?? 'Permission Issues',
                   description:
                       texts?['permissionIssuesDescription'] ??
@@ -148,28 +140,24 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
               title: texts?['featuresGuide'] ?? 'Features Guide',
               children: [
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf10.jpg',
                   title: texts?['aiDiseaseDetection'] ?? 'AI Disease Detection',
                   description:
                       texts?['aiDiseaseDetectionDescription'] ??
                       'Detects 51+ diseases using MobileNetV2 – works offline.',
                 ),
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf20.jpg',
                   title: texts?['plantCareReminders'] ?? 'Plant Care Reminders',
                   description:
                       texts?['plantCareRemindersDescription'] ??
                       'Set custom notifications for watering, fertilizing, etc.',
                 ),
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf1.jpg',
                   title: texts?['treatmentDatabase'] ?? 'Treatment Database',
                   description:
                       texts?['treatmentDatabaseDescription'] ??
                       'Prevention & treatment tips in English and Nepali.',
                 ),
                 _buildHelpItem(
-                  leafImage: 'assets/img/leaf8.jpg',
                   title:
                       texts?['multiLanguageSupport'] ??
                       'Multi-Language Support',
@@ -205,14 +193,6 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: const AssetImage(
-                        'assets/img/leaf20.jpg',
-                      ),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    const SizedBox(height: 16),
                     Text(
                       texts?['needMoreHelp'] ??
                           'Need more help? Reach out to us!',
@@ -235,23 +215,6 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.email_outlined),
-                      label: const Text('Send Email'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green[700],
-                      ),
-                      onPressed: () async {
-                        final Uri emailUri = Uri(
-                          scheme: 'mailto',
-                          path: texts?['supportEmail'] ?? 'support@pdapp.np',
-                          query: 'subject=PD App Support Request',
-                        );
-                        if (await canLaunchUrl(emailUri)) {
-                          await launchUrl(emailUri);
-                        }
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -313,47 +276,23 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
     );
   }
 
-  // Reusable Help Item with Leaf Avatar
-  Widget _buildHelpItem({
-    required String leafImage,
-    required String title,
-    required String description,
-  }) {
+  // Reusable Help Item
+  Widget _buildHelpItem({required String title, required String description}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Outer CircleAvatar for green border
-          CircleAvatar(
-            radius: 34, // Slightly larger for border thickness
-            backgroundColor: Colors.green.shade600,
-            child: CircleAvatar(
-              radius: 32, // Inner image size
-              backgroundImage: AssetImage(leafImage),
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.green.shade700,
             ),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.green.shade700,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  description,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ),
+          const SizedBox(height: 6),
+          Text(description, style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

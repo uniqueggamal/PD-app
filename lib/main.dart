@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,12 +9,10 @@ import 'package:plant_disease_detection_app/screens/reminder/reminder_main_scree
 import 'package:plant_disease_detection_app/screens/settings/help_support_screen.dart';
 import 'package:plant_disease_detection_app/screens/onboarding/onboarding_screen.dart';
 import 'package:plant_disease_detection_app/widgets/app_drawer.dart';
-import 'firebase_options.dart';
 import 'providers/settings_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   final prefs = await SharedPreferences.getInstance();
   final isFirstLaunch = prefs.getBool('firstLaunch') ?? true;

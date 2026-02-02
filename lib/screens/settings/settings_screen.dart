@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../../providers/auth_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/text_provider.dart';
 import 'help_support_screen.dart';
@@ -14,18 +12,7 @@ class SettingsScreen extends ConsumerWidget {
     final textsAsync = ref.watch(textProvider);
 
     return textsAsync.when(
-      data: (_) {
-        final authState = ref.watch(authProvider);
-        final authService = ref.read(authServiceProvider);
-
-        return authState.when(
-          data: (user) => _buildSettingsScreen(context, ref, user, authService),
-          loading: () =>
-              const Scaffold(body: Center(child: CircularProgressIndicator())),
-          error: (error, stack) =>
-              Scaffold(body: Center(child: Text('Error: $error'))),
-        );
-      },
+      data: (_) => _buildSettingsScreen(context, ref),
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (error, stack) =>
@@ -33,12 +20,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSettingsScreen(
-    BuildContext context,
-    WidgetRef ref,
-    User? user,
-    AuthService authService,
-  ) {
+  Widget _buildSettingsScreen(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
     final isDarkMode = themeMode == ThemeMode.dark;
     final notificationsEnabled = ref.watch(notificationsProvider);
@@ -81,31 +63,6 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // User Profile Section
-          if (user != null) ...[
-            Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.green,
-                  child: Text(
-                    user.displayName?.isNotEmpty == true
-                        ? user.displayName![0].toUpperCase()
-                        : 'U',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                title: Text(user.displayName ?? 'User'),
-                subtitle: Text(user.email ?? ''),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  // Navigate to profile details
-                  _showProfileDialog(context, user, ref);
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
-
           // App Settings
           Card(
             child: ExpansionTile(
@@ -254,21 +211,6 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: Column(
               children: [
-                /*
-                ListTile(
-                  leading: const Icon(Icons.privacy_tip),
-                  title: Text(ref.watch(currentTextProvider('privacyPolicy'))),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    // Navigate to privacy policy
-                    _showInfoDialog(
-                      context,
-                      ref.watch(currentTextProvider('privacyPolicy')),
-                      ref,
-                    );
-                  },
-                ),
-                */
                 ListTile(
                   leading: const Icon(Icons.help_outline),
                   title: Text(ref.watch(currentTextProvider('helpSupport'))),
@@ -294,24 +236,6 @@ class SettingsScreen extends ConsumerWidget {
               ],
             ),
           ),
-
-          const SizedBox(height: 16),
-
-          // Logout Button
-          if (user != null)
-            Card(
-              color: Colors.red.shade50,
-              child: ListTile(
-                leading: const Icon(Icons.logout, color: Colors.red),
-                title: Text(
-                  ref.watch(currentTextProvider('signOut')),
-                  style: const TextStyle(color: Colors.red),
-                ),
-                onTap: () async {
-                  await _showLogoutDialog(context, ref);
-                },
-              ),
-            ),
 
           const SizedBox(height: 24),
 
@@ -362,55 +286,6 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _showProfileDialog(BuildContext context, User user, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(ref.watch(currentTextProvider('profile'))),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${ref.watch(currentTextProvider('name'))}: ${user.displayName ?? 'N/A'}',
-            ),
-            Text(
-              '${ref.watch(currentTextProvider('email'))}: ${user.email ?? 'N/A'}',
-            ),
-            if (user.photoURL != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                '${ref.watch(currentTextProvider('photoUrl'))}: ${user.photoURL}',
-              ),
-            ],
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(ref.watch(currentTextProvider('close'))),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showInfoDialog(BuildContext context, String title, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(ref.watch(currentTextProvider('comingSoon'))),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(ref.watch(currentTextProvider('ok'))),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showAboutDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
@@ -425,41 +300,5 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  Future<void> _showLogoutDialog(BuildContext context, WidgetRef ref) async {
-    // Read texts before await to avoid dispose error
-    final signOutText = ref.read(currentTextProvider('signOut'));
-    final signOutConfirmText = ref.read(currentTextProvider('signOutConfirm'));
-    final cancelText = ref.read(currentTextProvider('cancel'));
-    final signedOutText = ref.read(currentTextProvider('signedOut'));
-    final authService = ref.read(authServiceProvider);
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(signOutText),
-        content: Text(signOutConfirmText),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(cancelText),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(signOutText),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed == true) {
-      await authService.signOut();
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(signedOutText)));
-      }
-    }
   }
 }

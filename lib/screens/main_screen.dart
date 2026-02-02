@@ -22,7 +22,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     const HomeScreen(),
     const CameraScreen(),
     const ReminderScreen(),
-    const SettingsScreen(),
+    // const SettingsScreen(),
   ];
 
   @override

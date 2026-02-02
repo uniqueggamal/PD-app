@@ -25,6 +25,8 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
   bool _isCameraPermissionDenied = false;
   bool _isDialogShowing = false;
 
+  bool _isInitialized = false;
+
   // Store cure data here
   Map<String, dynamic> _cureData = {};
 
@@ -34,15 +36,12 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
     WidgetsBinding.instance.addObserver(this);
     _cameraService = CameraService(ref);
 
-    // Load initial cure data
-    _loadCureData();
-
     // Reload cure data if user changes language
     ref.listen<Locale>(localeProvider, (prev, next) {
       _loadCureData();
     });
 
-    _initializeCamera();
+    _initializeAsync();
   }
 
   Future<void> _initializeCamera() async {
@@ -81,6 +80,23 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
       });
     } catch (e) {
       debugPrint("Error loading cure data for ${locale.languageCode}: $e");
+    }
+  }
+
+  Future<void> _initializeAsync() async {
+    try {
+      await _loadCureData();
+      await _initializeCamera();
+    } catch (e) {
+      debugPrint("Initialization failed: $e");
+      // Optional: You might want to set _isCameraPermissionDenied here if it's a permission error
+    } finally {
+      // ALWAYS update the state, whether success or failure
+      if (mounted) {
+        setState(() {
+          _isInitialized = true;
+        });
+      }
     }
   }
 
@@ -464,7 +480,9 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
     // --- LIVE CAMERA SCREEN ---
     return Scaffold(
       backgroundColor: Colors.black,
-      body: _isCameraPermissionDenied
+      body: !_isInitialized
+          ? const Center(child: CircularProgressIndicator(color: Colors.white))
+          : _isCameraPermissionDenied
           ? const Center(
               child: Text(
                 "Camera Permission Denied",
@@ -473,57 +491,51 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
             )
           : Stack(
               children: [
-                Center(
-                  // FIX: Check if service is initialized before showing preview
-                  child: _cameraService.isInitialized
-                      ? CameraPreview(_cameraService.controller)
-                      : const CircularProgressIndicator(color: Colors.white),
-                ),
-                if (_cameraService.isInitialized)
-                  Positioned(
-                    bottom: 40,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () => _pickImage(ImageSource.gallery),
-                          child: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 10,
-                                ),
-                              ],
-                            ),
-                            child: const Icon(
-                              Icons.photo_library,
-                              color: Colors.black,
-                              size: 28,
-                            ),
+                Center(child: CameraPreview(_cameraService.controller)),
+                Positioned(
+                  bottom: 40,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () => _pickImage(ImageSource.gallery),
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.9),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.photo_library,
+                            color: Colors.black,
+                            size: 28,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: _takePhoto,
-                          child: Container(
-                            height: 75,
-                            width: 75,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              border: Border.all(color: Colors.white, width: 5),
-                              shape: BoxShape.circle,
-                            ),
+                      ),
+                      GestureDetector(
+                        onTap: _takePhoto,
+                        child: Container(
+                          height: 75,
+                          width: 75,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: Colors.white, width: 5),
+                            shape: BoxShape.circle,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                ),
               ],
             ),
     );

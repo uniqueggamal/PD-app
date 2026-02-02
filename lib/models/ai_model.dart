@@ -34,21 +34,33 @@ class PredictionResult {
 
 // ---------------------- AI Model Class ----------------------
 class AiModel {
-  late dynamic _interpreter;
-  late List<String> _labels;
-  late List<String> _labelsEn;
-  late List<String> _labelsNe;
-  late Map<String, dynamic> _cureData;
+  Interpreter? _interpreter; // Changed to nullable
+  List<String> _labels = [];
+  List<String> _labelsEn = [];
+  List<String> _labelsNe = [];
+  Map<String, dynamic> _cureData = {};
+  String? _currentLang; // Track loaded language to prevent reloading
 
   /// Public getter to access cure data outside this class
   Map<String, dynamic> get cureData => _cureData;
 
   /// Load model, labels, and cure info
   Future<void> loadModel({String lang = 'en'}) async {
+    // FIX 1: Do not reload if model is already loaded for this language
+    if (_interpreter != null && _currentLang == lang) {
+      print("Model already loaded for $lang. Skipping...");
+      return;
+    }
+
     if (!kIsWeb) {
-      _interpreter = await Interpreter.fromAsset(
-        "assets/ai/models/mobilenetv2_51classes_quant.tflite",
-      );
+      try {
+        _interpreter = await Interpreter.fromAsset(
+          "assets/ai/models/mobilenetv2_51classes_quant.tflite",
+        );
+      } catch (e) {
+        print("Error loading TFLite model: $e");
+        rethrow;
+      }
     }
 
     // Load class labels from JSON
@@ -73,22 +85,31 @@ class AiModel {
       print("Cure data not found or invalid. Skipping...");
     }
 
-    print("Model and labels loaded successfully");
+    _currentLang = lang; // Remember which language we loaded
+    print("Model and labels loaded successfully for $lang");
   }
 
   /// Run prediction
   Future<PredictionResult?> predict(img.Image image) async {
     if (kIsWeb) return null;
+    if (_interpreter == null) {
+      print("Interpreter not initialized. Call loadModel first.");
+      return null;
+    }
 
-    final normalized = _normalizeLighting(image);
-    final resized = img.copyResize(normalized, width: 224, height: 224);
+    // FIX 2: RESIZE FIRST.
+    // Don't process a 12-megapixel image. Resize to 224x224 immediately.
+    final resized = img.copyResize(image, width: 224, height: 224);
+
+    // Now normalize the small image (much faster)
+    final normalized = _normalizeLighting(resized);
 
     final input = List.generate(
       1,
       (_) => List.generate(
         224,
         (y) => List.generate(224, (x) {
-          final pixel = resized.getPixel(x, y);
+          final pixel = normalized.getPixel(x, y);
           return [
             (pixel.r / 127.5) - 1.0,
             (pixel.g / 127.5) - 1.0,
@@ -99,7 +120,9 @@ class AiModel {
     );
 
     var output = List.filled(_labels.length, 0.0).reshape([1, _labels.length]);
-    _interpreter.run(input, output);
+
+    // Run inference
+    _interpreter!.run(input, output);
 
     double maxProb = output[0][0];
     int maxIndex = 0;
@@ -123,6 +146,7 @@ class AiModel {
           'Treatment': 'Information not available',
           'Description': 'Description not available',
         };
+
     print(diseaseName);
     return PredictionResult(
       diseaseName: diseaseName,
@@ -139,6 +163,7 @@ class AiModel {
   /// Adjust image brightness for better predictions
   img.Image _normalizeLighting(img.Image image) {
     double sum = 0;
+    // This loop is now only 224x224, very fast!
     for (final pixel in image) {
       sum += pixel.r + pixel.g + pixel.b;
     }
@@ -149,13 +174,7 @@ class AiModel {
 
   /// Close the interpreter to free resources
   void closeInterpreter() {
-    try {
-      if (_interpreter != null) {
-        _interpreter!.close();
-        _interpreter = null;
-      }
-    } catch (e) {
-      print("Error closing TFLite interpreter: $e");
-    }
+    _interpreter?.close();
+    _interpreter = null;
   }
 }

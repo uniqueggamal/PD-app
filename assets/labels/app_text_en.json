@@ -1,8 +1,12 @@
 {
   "_comment": "General App Navigation and Titles",
-  "appTitle": "Plant Disease Detection",
+  "appTitle": "LeafMate",
   "home": "Home",
+  "scanLeaf": "Scan Leaf",
+  "scanHistory": "Scan History",
   "reminders": "Reminders",
+  "helpSupport": "Help & Support",
+  "about": "About",
   "settings": "Settings",
 
   "_comment": "Authentication and Profile",
@@ -17,6 +21,7 @@
 
   "_comment": "Settings Page",
   "language": "Language",
+  "theme": "Theme",
   "darkMode": "Dark Mode",
   "notifications": "Notifications",
   "appSettings": "App Settings",
@@ -56,6 +61,12 @@
   "aiPoweredDetection": "AI-powered disease detection",
   "getTreatment": "Get treatment recommendations",
   "setReminders": "Set care reminders",
+  "detectPlantDiseasesInstantly": "Detect Plant Diseases Instantly",
+  "aiPoweredOfflineDetection": "AI-powered offline detection for 51+ diseases",
+  "scanLeafNow": "Scan Leaf Now",
+  "recentScans": "Recent Scans",
+  "plantCareTips": "Plant Care Tips",
+  "healthyPlants": "Healthy Plants",
 
   "_comment": "Disease Detection",
   "predicting": "Predicting...",
@@ -141,6 +152,12 @@
   "contactSupport": "Contact Support",
   "needMoreHelp": "Need more help? Contact our support team:",
   "supportEmail": "support@plantdiseaseapp.com",
+
+  "_comment": "About Page",
+  "aboutIntroduction": "LeafMate is an AI-powered plant disease detection app that helps farmers and gardeners identify plant diseases quickly and accurately. Using advanced machine learning, it analyzes leaf images to detect over 50 different diseases across various crops.",
+  "detectableClasses": "Detectable Classes",
+  "detectableClassesDescription": "The app can detect the following plant diseases and conditions:",
+  "errorLoadingClasses": "Error loading classes",
 
   "_comment": "Common UI Elements",
   "cancel": "Cancel",

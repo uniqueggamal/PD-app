@@ -1,8 +1,12 @@
 {
   "_comment": "सामान्य एप नेभिगेसन र शीर्षकहरू",
-  "appTitle": "प्लान्ट डिजीज डिटेक्शन एप",
+  "appTitle": "लीफमेट",
   "home": "होम",
+  "scanLeaf": "पात स्क्यान गर्नुहोस्",
+  "scanHistory": "स्क्यान इतिहास",
   "reminders": "रिमाइन्डर",
+  "helpSupport": "मदद र समर्थन",
+  "about": "बारेमा",
   "settings": "सेटिङ",
 
   "_comment_authentication": "प्रमाणीकरण र प्रोफाइल",
@@ -17,6 +21,7 @@
 
   "_comment_settings": "सेटिङ पेज",
   "language": "भाषा",
+  "theme": "थिम",
   "darkMode": "गाढा मोड",
   "notifications": "सूचनाहरू",
   "appSettings": "एप सेटिङ",
@@ -56,6 +61,12 @@
   "aiPoweredDetection": "AI-संचालित रोग पत्ता लगाउने",
   "getTreatment": "उपचार सिफारिसहरू प्राप्त गर्नुहोस्",
   "setReminders": "हेरचाह रिमाइन्डरहरू सेट गर्नुहोस्",
+  "detectPlantDiseasesInstantly": "तत्काल बिरुवा रोगहरू पत्ता लगाउनुहोस्",
+  "aiPoweredOfflineDetection": "५१+ रोगहरूका लागि AI-संचालित अफलाइन पत्ता लगाउने",
+  "scanLeafNow": "अहिले पात स्क्यान गर्नुहोस्",
+  "recentScans": "हालका स्क्यानहरू",
+  "plantCareTips": "बिरुवा हेरचाह टिप्स",
+  "healthyPlants": "स्वस्थ बिरुवाहरू",
 
   "_comment_disease_detection": "रोग पत्ता लगाउने",
   "predicting": "पत्ता लगाउँदै...",
@@ -142,6 +153,12 @@
   "contactSupport": "समर्थनलाई सम्पर्क गर्नुहोस्",
   "needMoreHelp": "थप मदद चाहियो? हाम्रो समर्थन टोलीलाई सम्पर्क गर्नुहोस्:",
   "supportEmail": "support@plantdiseaseapp.com",
+
+  "_comment_about": "बारेमा पेज",
+  "aboutIntroduction": "लीफमेट एक AI-संचालित बिरुवा रोग पत्ता लगाउने एप हो जसले किसान र बगैचाहरूलाई बिरुवा रोगहरू छिटो र सटीक रूपमा पहिचान गर्न मद्दत गर्दछ। उन्नत मेसिन लर्निङ प्रयोग गरेर, यसले विभिन्न फसलहरूमा ५० भन्दा बढी रोगहरू पत्ता लगाउन पातका तस्विरहरू विश्लेषण गर्दछ।",
+  "detectableClasses": "पत्ता लगाउन सकिने वर्गहरू",
+  "detectableClassesDescription": "एपले निम्न बिरुवा रोगहरू र अवस्थाहरू पत्ता लगाउन सक्छ:",
+  "errorLoadingClasses": "वर्गहरू लोड गर्दा त्रुटि",
 
   "_comment_common": "सामान्य UI तत्वहरू",
   "cancel": "रद्द गर्नुहोस्",

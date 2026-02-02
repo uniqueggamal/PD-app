@@ -13,6 +13,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
   int _currentIndex = 0;
   bool _isLoading = true;
+  bool _precached = false;
 
   final List<Map<String, String>> _pages = [
     {
@@ -40,7 +41,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    _loadImages();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_precached) {
+      _loadImages();
+      _precached = true;
+    }
   }
 
   Future<void> _loadImages() async {
@@ -61,6 +70,55 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('firstLaunch', false);
     if (mounted) context.go('/');
+  }
+
+  Widget _buildPage(int index) {
+    final page = _pages[index];
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Image.asset(page['image']!, fit: BoxFit.cover, cacheWidth: 800),
+        Container(color: Colors.white.withOpacity(0.25)), // Brighter overlay
+        SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    page['title']!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[800],
+                      shadows: [
+                        Shadow(
+                          blurRadius: 6,
+                          color: Colors.white70,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Text(
+                    page['body']!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black87,
+                      height: 1.6,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -100,56 +158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 const NeverScrollableScrollPhysics(), // No swipe – buttons only
             itemCount: _pages.length,
             onPageChanged: (i) => setState(() => _currentIndex = i),
-            itemBuilder: (context, index) {
-              final page = _pages[index];
-              return Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(page['image']!, fit: BoxFit.cover),
-                  Container(
-                    color: Colors.white.withOpacity(0.25),
-                  ), // Brighter overlay
-                  SafeArea(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              page['title']!,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green[800],
-                                shadows: [
-                                  Shadow(
-                                    blurRadius: 6,
-                                    color: Colors.white70,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 30),
-                            Text(
-                              page['body']!,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black87,
-                                height: 1.6,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+            itemBuilder: (context, index) => _buildPage(index),
           ),
           // Bottom controls: Dots + Back/Next/Done
           Positioned(

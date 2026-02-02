@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plant_disease_detection_app/screens/home/home_landing_screen.dart';
 import 'package:plant_disease_detection_app/screens/camera/cameraScreen.dart';
-import 'package:plant_disease_detection_app/screens/reminder/reminder_view_screen.dart';
+import 'package:plant_disease_detection_app/screens/reminder/reminder_main_screen.dart';
 import 'package:plant_disease_detection_app/screens/settings/help_support_screen.dart';
 import 'package:plant_disease_detection_app/screens/onboarding/onboarding_screen.dart';
 import 'package:plant_disease_detection_app/widgets/app_drawer.dart';
@@ -23,17 +23,22 @@ void main() async {
   runApp(ProviderScope(child: MyApp(isFirstLaunch: isFirstLaunch)));
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   final bool isFirstLaunch;
-  const MyApp({super.key, required  this.isFirstLaunch});
+  const MyApp({super.key, required this.isFirstLaunch});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider);
-    final locale = ref.watch(localeProvider);
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
 
-    final GoRouter _router = GoRouter(
-      initialLocation: isFirstLaunch ? '/onboarding' : '/',
+class _MyAppState extends ConsumerState<MyApp> {
+  late final GoRouter _router;
+
+  @override
+  void initState() {
+    super.initState();
+    _router = GoRouter(
+      initialLocation: widget.isFirstLaunch ? '/onboarding' : '/',
       routes: [
         GoRoute(
           path: '/onboarding',
@@ -52,8 +57,7 @@ class MyApp extends ConsumerWidget {
             ),
             GoRoute(
               path: '/reminders',
-              builder: (context, state) =>
-                  Center(child: Text('Reminders List - Coming Soon')),
+              builder: (context, state) => const ReminderScreen(),
             ),
             GoRoute(
               path: '/settings',
@@ -68,9 +72,15 @@ class MyApp extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final themeMode = ref.watch(themeModeProvider);
+    final locale = ref.watch(localeProvider);
 
     return MaterialApp.router(
-      title: 'Plant Disease Detection',
+      title: 'LeafMate',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
@@ -107,7 +117,7 @@ class AppShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PD App'),
+        title: Text('LeafMate'),
         backgroundColor: Colors.green[700],
         foregroundColor: Colors.white,
       ),

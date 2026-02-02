@@ -161,18 +161,22 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
     final imagePath = ref.read(selectedImagePathProvider);
     if (imagePath == null) return;
 
-    final selectedImage = File(imagePath);
-    final rawBytes = await selectedImage.readAsBytes();
-    final decodedImage = img.decodeImage(rawBytes);
-    if (decodedImage == null) {
-      ref.read(statusMessageProvider.notifier).state =
-          "Error: Could not decode image";
-      return;
-    }
-
-    final resizedImage = img.copyResize(decodedImage, width: 224, height: 224);
-
     try {
+      final selectedImage = File(imagePath);
+      final rawBytes = await selectedImage.readAsBytes();
+      final decodedImage = img.decodeImage(rawBytes);
+      if (decodedImage == null) {
+        ref.read(statusMessageProvider.notifier).state =
+            "Error: Could not decode image";
+        return;
+      }
+
+      final resizedImage = img.copyResize(
+        decodedImage,
+        width: 224,
+        height: 224,
+      );
+
       final prediction = await _aiModel.predict(resizedImage);
       if (!mounted) return;
 
@@ -187,7 +191,8 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
     } catch (e) {
       if (!mounted) return;
       ref.read(statusMessageProvider.notifier).state =
-          "Error during prediction: $e";
+          "Prediction failed - model may not be loaded properly";
+      print("Prediction error: $e");
     }
   }
 
@@ -260,174 +265,209 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
     final statusMessage = ref.watch(statusMessageProvider);
     final isPickingImage = ref.watch(isPickingImageProvider);
     final predictionResult = ref.watch(predictionResultProvider);
-    return Container(
-      color: isDarkMode ? Colors.grey.shade900 : Colors.white,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Center(
-              child: selectedImagePath != null
-                  ? Column(
-                      children: [
-                        GestureDetector(
-                          onTap: _cropImage,
-                          child: Image.file(
-                            File(selectedImagePath),
-                            height: 250,
-                            width: MediaQuery.of(context).size.width * .94,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        ElevatedButton.icon(
-                          icon: const Icon(Icons.crop),
-                          label: Text(
-                            ref.read(currentTextProvider('editCrop')) ??
-                                'Crop Image',
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orangeAccent.shade700,
-                            foregroundColor: Colors.white,
-                          ),
-                          onPressed: _cropImage,
-                        ),
-                      ],
-                    )
-                  : Image.asset('assets/img/leafcam.png', height: 250),
-            ),
-            if (statusMessage.isNotEmpty) ...[
-              const SizedBox(height: 20),
+
+    if (selectedImagePath != null) {
+      // Show prediction results screen
+      return Container(
+        color: isDarkMode ? Colors.grey.shade900 : Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 20),
               Center(
-                child: Text(
-                  statusMessage,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: _cropImage,
+                      child: Image.file(
+                        File(selectedImagePath),
+                        height: 250,
+                        width: MediaQuery.of(context).size.width * .94,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.crop),
+                      label: Text(
+                        ref.read(currentTextProvider('editCrop')) ??
+                            'Crop Image',
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orangeAccent.shade700,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: _cropImage,
+                    ),
+                  ],
                 ),
               ),
-            ],
-            SizedBox(height: 20),
-            Center(
-              child: Wrap(
-                spacing: 20,
-                children: [
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.photo),
-                    label: Text(
-                      ref.read(currentTextProvider('gallery')) ?? 'Gallery',
+              if (statusMessage.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    statusMessage,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightGreen,
-                      foregroundColor: Colors.white,
-                    ),
-                    onPressed: isPickingImage
-                        ? null
-                        : () => _pickImage(ImageSource.gallery),
+                    textAlign: TextAlign.center,
                   ),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.camera_alt),
+                ),
+              ],
+              if (predictionResult != null) ...[
+                const SizedBox(height: 20),
+                _buildSectionCard(
+                  title: ref.read(currentTextProvider('disease')) ?? 'Disease',
+                  content:
+                      "${predictionResult.diseaseName} (${(predictionResult.confidence * 100).toStringAsFixed(1)}%)",
+                  titleColor: Colors.red,
+                  contentColor: isDarkMode ? Colors.white70 : Colors.black87,
+                  surfaceTintColor: isDarkMode ? Colors.red : Colors.redAccent,
+                ),
+                _buildSectionCard(
+                  title:
+                      ref.read(currentTextProvider('description')) ??
+                      'Description',
+                  content: predictionResult.description,
+                  titleColor: isDarkMode
+                      ? Colors.yellow.shade700
+                      : Colors.yellow.shade900,
+                  contentColor: isDarkMode ? Colors.white70 : Colors.black87,
+                  surfaceTintColor: isDarkMode
+                      ? Colors.yellow
+                      : Colors.yellowAccent,
+                ),
+                _buildSectionCard(
+                  title: ref.read(currentTextProvider('cause')) ?? 'Cause',
+                  content: predictionResult.cause,
+                  titleColor: isDarkMode ? Colors.cyanAccent : Colors.blue,
+                  contentColor: isDarkMode ? Colors.white70 : Colors.black87,
+                  surfaceTintColor: isDarkMode
+                      ? Colors.blue
+                      : Colors.lightBlueAccent,
+                ),
+                _buildSectionCard(
+                  title:
+                      ref.read(currentTextProvider('symptoms')) ?? 'Symptoms',
+                  content: predictionResult.symptoms,
+                  titleColor: isDarkMode
+                      ? Colors.pinkAccent.shade100
+                      : Colors.pinkAccent.shade700,
+                  contentColor: isDarkMode ? Colors.white70 : Colors.black87,
+                  surfaceTintColor: isDarkMode
+                      ? Colors.pink
+                      : Colors.pinkAccent,
+                ),
+                _buildSectionCard(
+                  title:
+                      ref.read(currentTextProvider('prevention')) ??
+                      'Prevention',
+                  content: predictionResult.prevention,
+                  titleColor: isDarkMode ? Colors.amberAccent : Colors.orange,
+                  contentColor: isDarkMode ? Colors.white70 : Colors.black87,
+                  surfaceTintColor: isDarkMode
+                      ? Colors.yellow.shade900
+                      : Colors.amberAccent,
+                ),
+                _buildSectionCard(
+                  title:
+                      ref.read(currentTextProvider('treatment')) ?? 'Treatment',
+                  content: predictionResult.treatment,
+                  titleColor: isDarkMode
+                      ? Colors.green.shade200
+                      : Colors.green.shade400,
+                  contentColor: isDarkMode ? Colors.white70 : Colors.black87,
+                  surfaceTintColor: isDarkMode
+                      ? Colors.green
+                      : Colors.lightGreen,
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.add_alarm),
                     label: Text(
-                      ref.read(currentTextProvider('camera')) ?? 'Camera',
+                      ref.read(currentTextProvider('addToReminders')) ??
+                          'Add to Reminders',
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.orange,
                       foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                     ),
-                    onPressed: isPickingImage
-                        ? null
-                        : () => _pickImage(ImageSource.camera),
+                    onPressed: _addPredictionToReminder,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Show camera/gallery selection screen
+    return Container(
+      color: isDarkMode ? Colors.grey.shade900 : Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Camera preview placeholder
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.camera_alt,
+                    size: 100,
+                    color: isDarkMode ? Colors.white54 : Colors.grey,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    statusMessage.isNotEmpty
+                        ? statusMessage
+                        : 'Select an option below',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: isDarkMode ? Colors.white70 : Colors.black87,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
             ),
+          ),
 
-            if (predictionResult != null) ...[
-              const SizedBox(height: 20),
-              _buildSectionCard(
-                title: ref.read(currentTextProvider('disease')) ?? 'Disease',
-                content:
-                    "${predictionResult.diseaseName} (${(predictionResult.confidence * 100).toStringAsFixed(1)}%)",
-                titleColor: Colors.red,
-                contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-                surfaceTintColor: isDarkMode ? Colors.red : Colors.redAccent,
-              ),
-              _buildSectionCard(
-                title:
-                    ref.read(currentTextProvider('description')) ??
-                    'Description',
-                content: predictionResult.description,
-                titleColor: isDarkMode
-                    ? Colors.yellow.shade700
-                    : Colors.yellow.shade900,
-                contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-                surfaceTintColor: isDarkMode
-                    ? Colors.yellow
-                    : Colors.yellowAccent,
-              ),
-              _buildSectionCard(
-                title: ref.read(currentTextProvider('cause')) ?? 'Cause',
-                content: predictionResult.cause,
-                titleColor: isDarkMode ? Colors.cyanAccent : Colors.blue,
-                contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-                surfaceTintColor: isDarkMode
-                    ? Colors.blue
-                    : Colors.lightBlueAccent,
-              ),
-              _buildSectionCard(
-                title: ref.read(currentTextProvider('symptoms')) ?? 'Symptoms',
-                content: predictionResult.symptoms,
-                titleColor: isDarkMode
-                    ? Colors.pinkAccent.shade100
-                    : Colors.pinkAccent.shade700,
-                contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-                surfaceTintColor: isDarkMode ? Colors.pink : Colors.pinkAccent,
-              ),
-              _buildSectionCard(
-                title:
-                    ref.read(currentTextProvider('prevention')) ?? 'Prevention',
-                content: predictionResult.prevention,
-                titleColor: isDarkMode ? Colors.amberAccent : Colors.orange,
-                contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-                surfaceTintColor: isDarkMode
-                    ? Colors.yellow.shade900
-                    : Colors.amberAccent,
-              ),
-              _buildSectionCard(
-                title:
-                    ref.read(currentTextProvider('treatment')) ?? 'Treatment',
-                content: predictionResult.treatment,
-                titleColor: isDarkMode
-                    ? Colors.green.shade200
-                    : Colors.green.shade400,
-                contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-                surfaceTintColor: isDarkMode ? Colors.green : Colors.lightGreen,
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.add_alarm),
-                  label: Text(
-                    ref.read(currentTextProvider('addToReminders')) ??
-                        'Add to Reminders',
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                  ),
-                  onPressed: _addPredictionToReminder,
+          // Bottom controls
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Gallery button
+                FloatingActionButton(
+                  backgroundColor: Colors.white.withOpacity(0.9),
+                  onPressed: isPickingImage
+                      ? null
+                      : () => _pickImage(ImageSource.gallery),
+                  child: Icon(Icons.photo, color: Colors.black, size: 30),
                 ),
-              ),
-            ],
 
-            const SizedBox(height: 30),
-          ],
-        ),
+                // Camera button
+                FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  onPressed: isPickingImage
+                      ? null
+                      : () => _pickImage(ImageSource.camera),
+                  child: const Icon(Icons.camera_alt, size: 30),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

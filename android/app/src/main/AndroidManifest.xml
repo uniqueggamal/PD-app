@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- ✅ CAMERA HARDWARE FEATURES (ADDED - Prevents Crashes) -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
-    <!-- ✅ Permissions -->
+    <!-- ✅ PERMISSIONS -->
     <!-- Camera and Storage -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -8,7 +12,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
 
-    <!-- ✅ Notifications -->
+    <!-- Notifications -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -19,11 +23,6 @@
         android:name="${applicationName}"
         android:label="plant_disease_detection_app"
         android:icon="@mipmap/launcher_icon">
-
-        <!-- ✅ Firebase / Google sign-in -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
 
         <!-- ✅ Flutter main activity -->
         <activity
@@ -58,12 +57,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true"/>
 
-        <!-- ✅ Notification channel meta -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="reminder_channel"/>
-
-        <!-- ✅ Notification receivers for scheduled notifications -->
+        <!-- ✅ Notification receivers for scheduled reminders (Keep these!) -->
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
             android:exported="false">
@@ -85,5 +79,6 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
-<uses-permission android:name="android.permission.INTERNET"/>
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

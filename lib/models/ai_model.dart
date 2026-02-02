@@ -44,23 +44,17 @@ class AiModel {
   /// Public getter to access cure data outside this class
   Map<String, dynamic> get cureData => _cureData;
 
-  /// Load model, labels, and cure info
-  Future<void> loadModel({String lang = 'en'}) async {
-    // FIX 1: Do not reload if model is already loaded for this language
-    if (_interpreter != null && _currentLang == lang) {
-      print("Model already loaded for $lang. Skipping...");
-      return;
-    }
+  /// Set the interpreter (loaded lazily from provider)
+  void setInterpreter(Interpreter? interpreter) {
+    _interpreter = interpreter;
+  }
 
-    if (!kIsWeb) {
-      try {
-        _interpreter = await Interpreter.fromAsset(
-          "assets/ai/models/mobilenetv2_51classes_quant.tflite",
-        );
-      } catch (e) {
-        print("Error loading TFLite model: $e");
-        rethrow;
-      }
+  /// Load labels and cure info (no interpreter loading here)
+  Future<void> loadModel({String lang = 'en'}) async {
+    // FIX 1: Do not reload if labels are already loaded for this language
+    if (_currentLang == lang && _labels.isNotEmpty) {
+      print("Labels already loaded for $lang. Skipping...");
+      return;
     }
 
     // Load class labels from JSON
@@ -86,14 +80,14 @@ class AiModel {
     }
 
     _currentLang = lang; // Remember which language we loaded
-    print("Model and labels loaded successfully for $lang");
+    print("Labels and cure data loaded successfully for $lang");
   }
 
   /// Run prediction
   Future<PredictionResult?> predict(img.Image image) async {
     if (kIsWeb) return null;
     if (_interpreter == null) {
-      print("Interpreter not initialized. Call loadModel first.");
+      debugPrint("Interpreter not initialized. Call loadModel first.");
       return null;
     }
 

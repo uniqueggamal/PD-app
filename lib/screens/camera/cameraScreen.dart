@@ -6,11 +6,13 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'dart:async'; // ← add this line
 import '../../providers/text_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../services/camera_service.dart';
+
+enum CameraInitStatus { initializing, ready, timeout, error, permissionDenied }
 
 class CameraScreen extends ConsumerStatefulWidget {
   const CameraScreen({super.key});
@@ -22,10 +24,10 @@ class CameraScreen extends ConsumerStatefulWidget {
 class _CameraScreenState extends ConsumerState<CameraScreen>
     with WidgetsBindingObserver {
   late CameraService _cameraService;
-  bool _isCameraPermissionDenied = false;
   bool _isDialogShowing = false;
 
-  bool _isInitialized = false;
+  CameraInitStatus _initStatus = CameraInitStatus.initializing;
+  String? _errorMessage;
 
   // Store cure data here
   Map<String, dynamic> _cureData = {};
@@ -44,57 +46,84 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
     _initializeAsync();
   }
 
-  Future<void> _initializeCamera() async {
-    try {
-      await _cameraService.initializeCamera();
-      if (mounted) {
-        setState(() {
-          _isCameraPermissionDenied = false;
-          if (_isDialogShowing) {
-            Navigator.of(context).pop();
-            _isDialogShowing = false;
-          }
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _isCameraPermissionDenied = true;
-        });
-        _showPermissionDialog();
-      }
-    }
-  }
-
   Future<void> _loadCureData() async {
     final locale = ref.read(localeProvider);
-    // Load specific language file
     final cureFile = locale.languageCode == 'ne'
         ? 'assets/labels/cure_ne.json'
         : 'assets/labels/cure_en.json';
 
     try {
       final jsonString = await rootBundle.loadString(cureFile);
-      setState(() {
-        _cureData = json.decode(jsonString);
-      });
+      if (mounted) {
+        setState(() {
+          _cureData = json.decode(jsonString);
+        });
+      }
     } catch (e) {
       debugPrint("Error loading cure data for ${locale.languageCode}: $e");
     }
   }
 
   Future<void> _initializeAsync() async {
+    if (!mounted) return;
+
+    setState(() {
+      _initStatus = CameraInitStatus.initializing;
+      _errorMessage = null;
+    });
+
     try {
+      // 1. Load cure data first (non-blocking for camera)
       await _loadCureData();
-      await _initializeCamera();
-    } catch (e) {
-      debugPrint("Initialization failed: $e");
-      // Optional: You might want to set _isCameraPermissionDenied here if it's a permission error
-    } finally {
-      // ALWAYS update the state, whether success or failure
+
+      // 2. Explicit permission check BEFORE camera init
+      var status = await Permission.camera.status;
+      if (!status.isGranted) {
+        status = await Permission.camera.request();
+        if (!status.isGranted) {
+          if (mounted) {
+            setState(() {
+              _initStatus = CameraInitStatus.permissionDenied;
+            });
+            _showPermissionDialog();
+          }
+          return;
+        }
+      }
+
+      // 3. Initialize camera with timeout
+      debugPrint("Starting camera initialization...");
+      await _cameraService.initializeCamera().timeout(
+        const Duration(seconds: 12),
+        onTimeout: () {
+          throw TimeoutException("Camera initialization timeout");
+        },
+      );
+
       if (mounted) {
         setState(() {
-          _isInitialized = true;
+          _initStatus = CameraInitStatus.ready;
+        });
+      }
+    } catch (e, stack) {
+      debugPrint("Camera initialization failed: $e\n$stack");
+
+      String userMessage = "Failed to open camera. Please try again.";
+      CameraInitStatus newStatus = CameraInitStatus.error;
+
+      if (e is TimeoutException) {
+        userMessage =
+            "Camera is taking too long to start.\nThis can happen on first use or on some devices.";
+        newStatus = CameraInitStatus.timeout;
+      } else if (e.toString().contains("permission")) {
+        newStatus = CameraInitStatus.permissionDenied;
+        _showPermissionDialog();
+      }
+
+      if (mounted) {
+        setState(() {
+          _initStatus = newStatus;
+          _errorMessage = userMessage;
         });
       }
     }
@@ -107,35 +136,61 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => AlertDialog(
+      builder: (context) => AlertDialog(
         title: const Text("Camera Permission Required"),
-        content: const Text("Please enable camera permission to scan leaves."),
+        content: const Text("Please allow camera access to scan plant leaves."),
         actions: [
           TextButton(
             onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-                _isDialogShowing = false;
-              }
+              Navigator.pop(context);
+              _isDialogShowing = false;
             },
             child: const Text("Cancel"),
           ),
           TextButton(
             onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-                _isDialogShowing = false;
-              }
+              Navigator.pop(context);
+              _isDialogShowing = false;
               openAppSettings();
             },
-            child: const Text("Settings"),
+            child: const Text("Open Settings"),
           ),
         ],
       ),
-    );
+    ).then((_) => _isDialogShowing = false);
   }
 
-  // --- UI HELPERS ---
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final controller = _cameraService.controller;
+
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      // Pause preview when app goes to background
+      if (controller.value.isInitialized) {
+        controller.pausePreview();
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      // Resume or re-init when coming back
+      if (_initStatus == CameraInitStatus.ready &&
+          controller.value.isInitialized) {
+        controller.resumePreview();
+      } else if (_initStatus != CameraInitStatus.ready) {
+        _initializeAsync();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _cameraService.dispose();
+    super.dispose();
+  }
+
+  // ──────────────────────────────────────────────
+  // Your existing helper methods (unchanged)
+  // ──────────────────────────────────────────────
 
   Widget _buildInfoCard({
     required IconData icon,
@@ -181,14 +236,11 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
   }
 
   List<Widget> _buildCureDetails(String diseaseName) {
-    // Find the entry in the loaded cure JSON (cure_en or cure_ne)
-    // Assuming keys in JSON are standard (e.g., "Description", "Treatment")
     final cureInfo = _cureData[diseaseName] as Map<String, dynamic>?;
     if (cureInfo == null) return [];
 
     final textData = ref.watch(textProvider);
 
-    // Helper to get localized label from app_text_XX.json
     String getLabel(String key, String fallback) {
       return textData.maybeWhen(
         data: (data) => data[key] ?? fallback,
@@ -198,7 +250,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
 
     final widgets = <Widget>[];
 
-    // Dynamically map known JSON keys to localized labels
     final details = [
       {'key': 'Description', 'fallback': 'Description', 'icon': Icons.article},
       {'key': 'Cause', 'fallback': 'Cause', 'icon': Icons.coronavirus},
@@ -213,7 +264,7 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
 
     for (var detail in details) {
       final jsonKey = detail['key'] as String;
-      final labelKey = jsonKey.toLowerCase(); // e.g. 'treatment'
+      final labelKey = jsonKey.toLowerCase();
       final fallback = detail['fallback'] as String;
       final iconData = detail['icon'] as IconData;
 
@@ -221,9 +272,7 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
         widgets.add(
           _buildInfoCard(
             icon: iconData,
-            // Get Label from app_text_en/ne (e.g., "Treatment" or "उपचार")
             title: getLabel(labelKey, fallback),
-            // Get Content from cure_en/ne (e.g., "Apply fungicide" or "फफूंगीसाइड लगाउनुहोस्")
             content: cureInfo[jsonKey],
           ),
         );
@@ -231,8 +280,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
     }
     return widgets;
   }
-
-  // --- ACTIONS ---
 
   Future<void> _pickImage(ImageSource source) async {
     final isPicking = ref.read(isPickingImageProvider);
@@ -276,20 +323,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _initializeCamera();
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _cameraService.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final isDarkMode = ref.watch(themeModeProvider) == ThemeMode.dark;
     final selectedImagePath = ref.watch(processedImagePathProvider);
@@ -297,12 +330,10 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
     final statusMessage = ref.watch(statusMessageProvider);
     final predictionResult = ref.watch(predictionResultProvider);
 
-    // --- RESULT SCREEN UI ---
+    // ── RESULT SCREEN ──
     if (selectedImagePath != null) {
       return Scaffold(
-        backgroundColor: const Color(
-          0xFFF1F8E9,
-        ), // Light Green Theme Background
+        backgroundColor: const Color(0xFFF1F8E9),
         appBar: AppBar(
           backgroundColor: Colors.green,
           foregroundColor: Colors.white,
@@ -369,7 +400,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
                     ),
                 ],
               ),
-
               if (predictionResult != null) ...[
                 const SizedBox(height: 20),
                 Padding(
@@ -379,7 +409,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
                       final textData = ref.watch(textProvider);
                       return Column(
                         children: [
-                          // Confidence Badge
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
@@ -407,7 +436,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
                             ),
                           ),
                           const SizedBox(height: 12),
-                          // Disease Name
                           Text(
                             predictionResult!.diseaseName,
                             textAlign: TextAlign.center,
@@ -422,14 +450,9 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
                     },
                   ),
                 ),
-
                 const SizedBox(height: 24),
-
-                // Detailed Cards (Localized)
                 ..._buildCureDetails(predictionResult!.diseaseName),
-
                 const SizedBox(height: 30),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SizedBox(
@@ -468,7 +491,6 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 40),
               ],
             ],
@@ -477,67 +499,172 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
       );
     }
 
-    // --- LIVE CAMERA SCREEN ---
+    // ── CAMERA / LOADING / ERROR SCREEN ──
     return Scaffold(
       backgroundColor: Colors.black,
-      body: !_isInitialized
-          ? const Center(child: CircularProgressIndicator(color: Colors.white))
-          : _isCameraPermissionDenied
-          ? const Center(
-              child: Text(
-                "Camera Permission Denied",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          : Stack(
-              children: [
-                Center(child: CameraPreview(_cameraService.controller)),
-                Positioned(
-                  bottom: 40,
-                  left: 0,
-                  right: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () => _pickImage(ImageSource.gallery),
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.9),
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 10,
-                              ),
-                            ],
-                          ),
-                          child: const Icon(
-                            Icons.photo_library,
-                            color: Colors.black,
-                            size: 28,
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: _takePhoto,
-                        child: Container(
-                          height: 75,
-                          width: 75,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            border: Border.all(color: Colors.white, width: 5),
-                            shape: BoxShape.circle,
-                          ),
+      body: SafeArea(
+        child: Builder(
+          builder: (context) {
+            switch (_initStatus) {
+              case CameraInitStatus.initializing:
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(color: Colors.white),
+                      SizedBox(height: 24),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child: Text(
+                          "Preparing camera... may take 5–15s on first use",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
+                );
+
+              case CameraInitStatus.permissionDenied:
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.no_photography,
+                        size: 80,
+                        color: Colors.redAccent,
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        "Camera permission denied",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.settings),
+                        label: const Text("Grant Permission"),
+                        onPressed: openAppSettings,
+                      ),
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: _initializeAsync,
+                        child: const Text(
+                          "Retry",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+
+              case CameraInitStatus.timeout:
+              case CameraInitStatus.error:
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          size: 80,
+                          color: Colors.orange,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          _errorMessage ?? "Failed to open camera",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 32),
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.refresh),
+                          label: const Text("Try Again"),
+                          onPressed: _initializeAsync,
+                        ),
+                        const SizedBox(height: 16),
+                        TextButton(
+                          onPressed: openAppSettings,
+                          child: const Text(
+                            "Check Settings",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+
+              case CameraInitStatus.ready:
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (_cameraService.controller.value.isInitialized)
+                      CameraPreview(_cameraService.controller)
+                    else
+                      const Center(
+                        child: Text(
+                          "Camera ready but preview not available",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    Positioned(
+                      bottom: 40,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () => _pickImage(ImageSource.gallery),
+                            child: Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.9),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 10,
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.photo_library,
+                                color: Colors.black,
+                                size: 28,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: _takePhoto,
+                            child: Container(
+                              height: 75,
+                              width: 75,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 5,
+                                ),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+            }
+          },
+        ),
+      ),
     );
   }
 }

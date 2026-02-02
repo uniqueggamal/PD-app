@@ -175,6 +175,14 @@ class CameraService {
     if (imagePath == null) return;
 
     try {
+      // Load interpreter
+      final interpreter = await ref.read(interpreterProvider.future);
+      if (interpreter == null) {
+        ref.read(statusMessageProvider.notifier).state = "Model not loaded";
+        return;
+      }
+      _aiModel.setInterpreter(interpreter);
+
       // Load model with current language
       final locale = ref.read(localeProvider);
       await _aiModel.loadModel(lang: locale.languageCode);

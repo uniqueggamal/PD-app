@@ -1,19 +1,13 @@
-# TODO List for Plant Disease Detection App Refactoring
+# TODO: Fix Flutter App Startup Freeze and Camera Tab Hang
 
-## Part 1: Clean Dependencies (pubspec.yaml)
-- [x] Remove Firebase-related dependencies: firebase_core, firebase_auth, cloud_firestore
-- [x] Remove commented google_sign_in line
-- [x] Run flutter pub get
+## Completed Tasks
+- [x] Add FutureProvider for TFLite interpreter in home_provider.dart (lazy loading)
+- [x] Modify ai_model.dart: Remove interpreter loading from loadModel, add setInterpreter method
+- [x] Update camera_service.dart: In runPrediction, await interpreter from provider, set to AiModel, then load labels
+- [x] Verify cameraScreen.dart has clear loading UI with timeout/retry (already implemented)
 
-## Part 2: Remove Auth Logic (main.dart)
-- [x] Remove Firebase imports: firebase_core, firebase_options
-- [x] Remove Firebase.initializeApp() from main()
-- [x] Ensure home is set directly to HomeLandingScreen (already done via GoRouter)
-
-## Part 3: Fix Camera Crash (cameraScreen.dart)
-- [x] Remove _loadModel() call from initState()
-- [x] Move model loading logic to _runPrediction() or image capture function
-
-## Part 4: Clean Up Unused Files
-- [x] Delete authentication-related files in lib/screens (e.g., login_screen.dart)
-- [x] Remove any remaining imports of deleted files from main.dart
+## Followup Steps
+- [ ] Test on mid-range Android device (OPPO/Realme CPH2263) to ensure no startup freeze, smooth camera tab switch, prediction works
+- [ ] Monitor frame skips at launch (should be reduced)
+- [ ] Confirm app responsiveness early in startup
+- [ ] Ensure all features (prediction, crop, gallery, cure cards, localization) still work

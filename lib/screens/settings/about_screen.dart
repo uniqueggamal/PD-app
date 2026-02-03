@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/text_provider.dart';
 import '../../providers/settings_provider.dart';
+import '../../widgets/app_drawer.dart';
 
 class AboutScreen extends ConsumerStatefulWidget {
   const AboutScreen({super.key});
@@ -54,6 +55,8 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     final textsAsync = ref.watch(textProvider);
+    final themeMode = ref.watch(themeModeProvider);
+    final isDark = themeMode == ThemeMode.dark;
 
     return textsAsync.when(
       data: (texts) {
@@ -68,6 +71,7 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
             backgroundColor: Colors.green[700],
             foregroundColor: Colors.white,
           ),
+          drawer: AppDrawer(),
           body: ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -92,7 +96,7 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.green[800],
+                                  color: Colors.green[500],
                                 ),
                           ),
                         ],
@@ -100,7 +104,9 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
                       const SizedBox(height: 16),
                       Text(
                         texts['aboutIntroduction'] ?? 'App introduction',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: isDark ? null : Colors.black,
+                        ),
                         textAlign: TextAlign.justify,
                       ),
                     ],
@@ -131,7 +137,8 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.green[800],
+                                  color: Colors.green[500],
+                                  fontSize: 20,
                                 ),
                           ),
                         ],
@@ -166,9 +173,12 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
                                   Expanded(
                                     child: Text(
                                       detectableClasses[index],
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: isDark ? null : Colors.black,
+                                          ),
                                     ),
                                   ),
                                 ],

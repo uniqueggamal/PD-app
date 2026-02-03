@@ -92,10 +92,8 @@ class AppDrawer extends ConsumerWidget {
               leading: Icon(Icons.info),
               title: Text(localization['about'] ?? 'About'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutScreen()),
-                );
+                context.go('/about');
+                Navigator.of(context).pop();
               },
             ),
             Divider(),

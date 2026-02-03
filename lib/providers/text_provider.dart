@@ -12,26 +12,44 @@ class TextProvider extends AsyncNotifier<Map<String, String>> {
   }
 
   Future<Map<String, String>> loadTexts(Locale locale) async {
+    // Always load English texts first as the base
+    Map<String, String> englishTexts = {};
     try {
-      final languageCode = locale.languageCode;
-      final fileName = 'assets/labels/app_text_${languageCode}.json';
+      final englishJsonString = await rootBundle.loadString(
+        'assets/labels/app_text_en.json',
+      );
+      final Map<String, dynamic> englishJsonMap = json.decode(
+        englishJsonString,
+      );
+      englishTexts = englishJsonMap.map(
+        (key, value) => MapEntry(key, value.toString()),
+      );
+    } catch (e) {
+      // If English file fails, return empty map
+      return {};
+    }
 
+    // If locale is English, return English texts
+    if (locale.languageCode == 'en') {
+      return englishTexts;
+    }
+
+    // Load current language texts
+    Map<String, String> currentTexts = {};
+    try {
+      final fileName = 'assets/labels/app_text_${locale.languageCode}.json';
       final jsonString = await rootBundle.loadString(fileName);
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-      return jsonMap.map((key, value) => MapEntry(key, value.toString()));
+      currentTexts = jsonMap.map(
+        (key, value) => MapEntry(key, value.toString()),
+      );
     } catch (e) {
-      // Fallback to English if file not found
-      try {
-        final jsonString = await rootBundle.loadString(
-          'assets/labels/app_text_en.json',
-        );
-        final Map<String, dynamic> jsonMap = json.decode(jsonString);
-        return jsonMap.map((key, value) => MapEntry(key, value.toString()));
-      } catch (fallbackError) {
-        return {};
-      }
+      // If current language file fails, fall back to English
+      return englishTexts;
     }
+
+    // Merge: current language takes precedence, English fills missing keys
+    return {...englishTexts, ...currentTexts};
   }
 }
 

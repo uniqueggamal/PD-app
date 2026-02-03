@@ -10,21 +10,11 @@ class PredictionResult {
   final String diseaseName;
   final String diseaseKey;
   final double confidence;
-  final String cause;
-  final String symptoms;
-  final String prevention;
-  final String treatment;
-  final String description;
 
   const PredictionResult({
     required this.diseaseName,
     required this.diseaseKey,
     required this.confidence,
-    required this.cause,
-    required this.symptoms,
-    required this.prevention,
-    required this.treatment,
-    required this.description,
   });
 
   @override
@@ -146,11 +136,6 @@ class AiModel {
       diseaseName: diseaseName,
       diseaseKey: _labelsEn[maxIndex],
       confidence: maxProb,
-      cause: cureInfo['Cause'] ?? 'Information not available',
-      symptoms: cureInfo['Symptoms'] ?? 'Information not available',
-      prevention: cureInfo['Prevention'] ?? 'Information not available',
-      treatment: cureInfo['Treatment'] ?? 'Information not available',
-      description: cureInfo['Description'] ?? 'Description not available',
     );
   }
 

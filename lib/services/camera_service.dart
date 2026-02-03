@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img;
 import 'package:permission_handler/permission_handler.dart';
-
+import 'dart:async';
 import '../models/ai_model.dart';
 import '../providers/settings_provider.dart';
 import '../providers/home_provider.dart';
@@ -14,7 +14,7 @@ import '../providers/home_provider.dart';
 class CameraService {
   final WidgetRef ref;
 
-  late CameraController _controller;
+  CameraController? _controller;
   List<CameraDescription>? _cameras;
   bool _isCameraInitialized = false;
   bool _isInitializing = false;
@@ -24,12 +24,9 @@ class CameraService {
 
   CameraService(this.ref);
 
-  // Camera Hardware: Initialize CameraController and handle permissions
   Future<void> initializeCamera() async {
     if (_isInitializing) {
-      debugPrint(
-        "Camera initialization already in progress, skipping concurrent call",
-      );
+      debugPrint("Camera init already in progress, skipping...");
       return;
     }
 
@@ -37,85 +34,73 @@ class CameraService {
     debugPrint("Starting camera initialization...");
 
     try {
+      // Request permission with better handling
       final status = await Permission.camera.request();
-      debugPrint("Camera permission status: ${status.name}");
-
       if (!status.isGranted) {
-        // Check if it was permanently denied to handle differently
         if (status.isPermanentlyDenied) {
           debugPrint("Camera permission permanently denied");
-          throw Exception("Camera permission permanently denied");
+          openAppSettings(); // optional: prompt user to settings
         }
-        debugPrint("Camera permission denied");
-        throw Exception("Camera permission denied");
+        throw Exception("Camera permission not granted: ${status.name}");
       }
 
-      debugPrint("Fetching available cameras...");
-      // 2. Add a timeout to prevent infinite hanging
+      // Get cameras with timeout
       _cameras = await availableCameras().timeout(
         const Duration(seconds: 5),
-        onTimeout: () {
-          debugPrint("Timeout: No cameras found after 5 seconds");
-          throw Exception("Timeout: No cameras found");
-        },
+        onTimeout: () =>
+            throw TimeoutException("No cameras found after timeout"),
       );
-      debugPrint("Found ${_cameras?.length ?? 0} cameras");
 
       if (_cameras == null || _cameras!.isEmpty) {
-        debugPrint("No cameras available on device");
-        throw Exception("No cameras found");
+        throw Exception("No cameras available on this device");
       }
 
-      // 3. Try to pick the back camera, or fallback to front
+      // Prefer back camera, fallback to first available
       CameraDescription cameraDesc = _cameras!.firstWhere(
         (cam) => cam.lensDirection == CameraLensDirection.back,
         orElse: () => _cameras!.first,
       );
+
       debugPrint(
-        "Selected camera: ${cameraDesc.name} (${cameraDesc.lensDirection})",
+        "Using camera: ${cameraDesc.name} (${cameraDesc.lensDirection})",
       );
 
       _controller = CameraController(
-        cameraDesc, // Use the selected camera description
-        ResolutionPreset.low, // Low resolution for faster hardware setup
+        cameraDesc,
+        ResolutionPreset
+            .ultraHigh, // balanced: faster than high, better quality than low
         enableAudio: false,
+        imageFormatGroup: ImageFormatGroup.jpeg, // most compatible
       );
-      debugPrint("Created CameraController with low resolution preset");
 
-      // 4. Add timeout to the controller initialization as well
-      debugPrint("Initializing camera controller...");
-      await _controller.initialize().timeout(
+      await _controller!.initialize().timeout(
         const Duration(seconds: 10),
-        onTimeout: () {
-          debugPrint(
-            "Timeout: Camera controller failed to initialize after 10 seconds",
-          );
-          throw Exception("Timeout: Camera controller failed to initialize");
-        },
+        onTimeout: () =>
+            throw TimeoutException("Camera controller init timeout"),
       );
-      debugPrint("Camera controller initialized successfully");
 
       _isCameraInitialized = true;
-      debugPrint("Camera initialization completed successfully");
-    } catch (e) {
-      debugPrint("Camera initialization failed: $e");
-      // Ensure we dispose if init fails partially
-      if (_controller.value.isInitialized) {
-        debugPrint("Disposing partially initialized controller");
-        _controller.dispose();
+      debugPrint("Camera initialized successfully");
+    } catch (e, stack) {
+      debugPrint("Camera init failed: $e\n$stack");
+      // Clean up partial init
+      if (_controller != null) {
+        await _controller!.dispose().catchError((_) {});
+        _controller = null;
       }
-      throw Exception("Camera initialization failed: $e");
+      rethrow; // Let caller handle UI error
     } finally {
       _isInitializing = false;
     }
   }
 
-  // Image Picking: Use ImagePicker to get images from Gallery or Camera, save to originalImagePathProvider
   Future<void> pickImage(ImageSource source) async {
     try {
       final pickedFile = await _picker.pickImage(
         source: source,
-        imageQuality: 100,
+        imageQuality:
+            85, // ← lowered from 100 — huge perf gain, still good quality
+        preferredCameraDevice: CameraDevice.rear,
       );
 
       if (pickedFile != null) {
@@ -123,41 +108,46 @@ class CameraService {
         ref.read(processedImagePathProvider.notifier).state = pickedFile.path;
       }
     } catch (e) {
-      throw Exception("Image picking failed: $e");
+      debugPrint("Image picking failed: $e");
+      rethrow;
     }
   }
 
-  // Take photo with camera
   Future<void> takePhoto() async {
-    if (!_isCameraInitialized) return;
+    if (!_isCameraInitialized ||
+        _controller == null ||
+        !_controller!.value.isInitialized) {
+      throw Exception("Camera not ready");
+    }
 
     try {
-      final image = await _controller.takePicture();
+      final image = await _controller!.takePicture();
       ref.read(originalImagePathProvider.notifier).state = image.path;
       ref.read(processedImagePathProvider.notifier).state = image.path;
     } catch (e) {
-      throw Exception("Taking photo failed: $e");
+      debugPrint("Photo capture failed: $e");
+      rethrow;
     }
   }
 
-  // Cropping: Use ImageCropper to crop from originalImagePathProvider and save to processedImagePathProvider
   Future<void> cropImage() async {
     final originalPath = ref.read(originalImagePathProvider);
-    if (originalPath == null) return;
+    if (originalPath == null || originalPath.isEmpty) return;
 
     try {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: originalPath,
         aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        compressQuality: 85, // ← added: reduce file size
         uiSettings: [
           AndroidUiSettings(
-            toolbarTitle: 'Cropper',
+            toolbarTitle: 'Crop Image',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
           ),
-          IOSUiSettings(title: 'Cropper'),
+          IOSUiSettings(title: 'Crop Image'),
         ],
       );
 
@@ -165,61 +155,61 @@ class CameraService {
         ref.read(processedImagePathProvider.notifier).state = croppedFile.path;
       }
     } catch (e) {
-      throw Exception("Cropping failed: $e");
+      debugPrint("Crop failed: $e");
+      rethrow;
     }
   }
 
-  // Prediction: runPrediction method that reads processedImagePathProvider, resizes using image package, runs AiModel with localeProvider language code, saves to predictionResultProvider
   Future<void> runPrediction() async {
     final imagePath = ref.read(processedImagePathProvider);
-    if (imagePath == null) return;
+    if (imagePath == null || imagePath.isEmpty) return;
 
     try {
-      // Load interpreter
+      // Ensure model is ready
       final interpreter = await ref.read(interpreterProvider.future);
       if (interpreter == null) {
-        ref.read(statusMessageProvider.notifier).state = "Model not loaded";
+        ref.read(statusMessageProvider.notifier).state = "AI model not loaded";
         return;
       }
+
       _aiModel.setInterpreter(interpreter);
 
-      // Load model with current language
       final locale = ref.read(localeProvider);
       await _aiModel.loadModel(lang: locale.languageCode);
 
       final imageFile = File(imagePath);
-      final rawBytes = await imageFile.readAsBytes();
-      final decodedImage = img.decodeImage(rawBytes);
+      final bytes = await imageFile.readAsBytes();
+      final decoded = img.decodeImage(bytes);
 
-      if (decodedImage == null) {
-        throw Exception("Failed to decode image");
-      }
+      if (decoded == null) throw Exception("Failed to decode image");
 
-      final resizedImage = img.copyResize(
-        decodedImage,
-        width: 224,
-        height: 224,
-      );
+      final resized = img.copyResize(decoded, width: 224, height: 224);
 
-      final prediction = await _aiModel.predict(resizedImage);
+      final prediction = await _aiModel.predict(resized);
 
       if (prediction != null) {
         ref.read(predictionResultProvider.notifier).state = prediction;
+      } else {
+        ref.read(statusMessageProvider.notifier).state = "No prediction result";
       }
-    } catch (e) {
-      throw Exception("Prediction failed: $e");
+    } catch (e, stack) {
+      debugPrint("Prediction failed: $e\n$stack");
+      ref.read(statusMessageProvider.notifier).state = "Analysis failed: $e";
+      rethrow;
     }
   }
 
-  // Getters for camera access
-  CameraController get controller => _controller;
-  bool get isInitialized => _isCameraInitialized;
+  CameraController? get controller => _controller;
+  bool get isInitialized =>
+      _isCameraInitialized && _controller?.value.isInitialized == true;
 
-  // Disposal: Ensure dispose() properly closes the CameraController and TFLite interpreter
   void dispose() {
-    if (_isCameraInitialized) {
-      _controller.dispose();
-    }
+    _controller?.dispose().catchError(
+      (e) => debugPrint("Controller dispose error: $e"),
+    );
+    _controller = null;
+    _isCameraInitialized = false;
     _aiModel.closeInterpreter();
+    debugPrint("CameraService disposed");
   }
 }

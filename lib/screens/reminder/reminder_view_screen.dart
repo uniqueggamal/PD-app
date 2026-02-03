@@ -1,24 +1,22 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../models/reminder_model.dart';
 import '../../providers/reminder_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/text_provider.dart';
+import '../../providers/localization_provider.dart';
 import 'reminder_edit_screen.dart';
 
-class ReminderViewScreen extends ConsumerStatefulWidget {
+class ReminderViewScreen extends ConsumerWidget {
   final ReminderModel reminder;
   const ReminderViewScreen({super.key, required this.reminder});
 
-  @override
-  ConsumerState<ReminderViewScreen> createState() => _ReminderViewScreenState();
-}
-
-class _ReminderViewScreenState extends ConsumerState<ReminderViewScreen> {
   /// Convert time to Nepali digits if needed
-  String _formatTime(DateTime time) {
+  String _formatTime(DateTime time, WidgetRef ref) {
     final currentLocale = ref.watch(localeProvider);
     String formatted = DateFormat('HH:mm').format(time);
     if (currentLocale.languageCode == 'ne') {
@@ -31,167 +29,287 @@ class _ReminderViewScreenState extends ConsumerState<ReminderViewScreen> {
     return formatted;
   }
 
-  String _getRepeatText(ReminderModel reminder) {
+  String _getRepeatText(ReminderModel reminder, WidgetRef ref) {
     if (reminder.repeat == 'none')
-      return ref.read(currentTextProvider('norepeat'));
+      return ref.read(currentTextProvider('norepeat')) ?? 'No Repeat';
     if (reminder.repeat == 'daily')
-      return ref.read(currentTextProvider('daily'));
-    return ref.read(currentTextProvider('custom'));
+      return ref.read(currentTextProvider('daily')) ?? 'Daily';
+    return ref.read(currentTextProvider('custom')) ?? 'Custom';
   }
 
-  Widget _buildSectionCard({
+  Widget _buildInfoCard(
+    BuildContext context,
+    WidgetRef ref, {
+    required IconData icon,
     required String title,
     required String content,
-    Color titleColor = Colors.black,
-    Color contentColor = Colors.black87,
-    Color surfaceTintColor = Colors.black,
   }) {
-    if (content.isEmpty) return const SizedBox.shrink();
-    final isDarkMode = ref.watch(themeModeProvider) == ThemeMode.dark;
+    final themeMode = ref.watch(themeModeProvider);
+    final isDark = themeMode == ThemeMode.dark;
+    final cardColor = isDark ? Colors.grey[700] : Colors.green[50];
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Card(
-      elevation: 3,
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      surfaceTintColor: surfaceTintColor,
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      color: cardColor,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (title.isNotEmpty)
-              Text(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: titleColor,
+            Row(
+              children: [
+                Icon(icon, color: colorScheme.primary, size: 24),
+                const SizedBox(width: 12),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
                 ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              content,
+              style: TextStyle(
+                fontSize: 14,
+                color: isDark ? Colors.white70 : Colors.black87,
+                height: 1.4,
               ),
-            const SizedBox(height: 6),
-            Text(content, style: TextStyle(fontSize: 14, color: contentColor)),
+            ),
           ],
         ),
       ),
     );
   }
 
+  List<Widget> _buildReminderDetails(
+    BuildContext context,
+    ReminderModel reminder,
+    WidgetRef ref,
+  ) {
+    final fields = [
+      {
+        'key': 'title',
+        'fallback': 'Title',
+        'icon': Icons.title,
+        'content': reminder.title,
+      },
+      {
+        'key': 'description',
+        'fallback': 'Description',
+        'icon': Icons.article,
+        'content': reminder.description ?? '',
+      },
+      {
+        'key': 'time',
+        'fallback': 'Time',
+        'icon': Icons.schedule,
+        'content': _formatTime(reminder.reminderTime, ref),
+      },
+      {
+        'key': 'repeat',
+        'fallback': 'Repeat',
+        'icon': Icons.repeat,
+        'content': _getRepeatText(reminder, ref),
+      },
+      {
+        'key': 'cause',
+        'fallback': 'Cause',
+        'icon': Icons.coronavirus,
+        'content': reminder.cause ?? '',
+      },
+      {
+        'key': 'symptoms',
+        'fallback': 'Symptoms',
+        'icon': Icons.monitor_heart,
+        'content': reminder.symptoms ?? '',
+      },
+      {
+        'key': 'prevention',
+        'fallback': 'Prevention',
+        'icon': Icons.shield,
+        'content': reminder.prevention ?? '',
+      },
+      {
+        'key': 'treatment',
+        'fallback': 'Treatment',
+        'icon': Icons.medical_services,
+        'content': reminder.treatment ?? '',
+      },
+    ];
+
+    return fields
+        .where((f) => (f['content'] as String).isNotEmpty)
+        .map(
+          (f) => _buildInfoCard(
+            context,
+            ref,
+            icon: f['icon'] as IconData,
+            title:
+                ref.read(currentTextProvider(f['key'] as String)) ??
+                f['fallback'] as String,
+            content: f['content'] as String,
+          ),
+        )
+        .toList();
+  }
+
   @override
-  Widget build(BuildContext context) {
-    final reminder = widget.reminder;
-    final isDarkMode = ref.watch(themeModeProvider) == ThemeMode.dark;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeModeProvider);
+    final isDark = themeMode == ThemeMode.dark;
+
+    final backgroundGradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: isDark
+          ? [Colors.grey[850]!, Colors.grey[900]!, Colors.black87]
+          : [Colors.green[50]!, Colors.green[100]!, Colors.green[200]!],
+    );
+
+    final textColor = isDark ? Colors.white : Colors.green[900]!;
+    final subtitleColor = isDark ? Colors.grey[400] : Colors.green[700]!;
+    final cardColor = isDark ? Colors.grey[700] : Colors.green[50];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          ref.read(currentTextProvider('reminderDetails')) ??
-              'Reminder Details',
+          'Reminder Details',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
         ),
-        backgroundColor: Colors.green,
+        centerTitle: true,
+        backgroundColor: Colors.green[700],
         foregroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/reminders'),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AddEditReminderScreen(reminder: reminder),
-                ),
-              );
-            },
+            onPressed: () => context.go('/reminder/edit', extra: reminder),
           ),
         ],
       ),
-      backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.grey.shade100,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            reminder.imagePath != null && File(reminder.imagePath!).existsSync()
-                ? Image.file(
-                    File(reminder.imagePath!),
-                    height: 250,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                : const Icon(Icons.alarm, size: 100, color: Colors.green),
-            const SizedBox(height: 20),
-            _buildSectionCard(
-              title: ref.read(currentTextProvider('title')) ?? 'Title',
-              content: reminder.title,
-              titleColor: Colors.red,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode ? Colors.red : Colors.redAccent,
+      body: Container(
+        decoration: BoxDecoration(gradient: backgroundGradient),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Full Image
+                  Card(
+                    color: cardColor,
+                    elevation: isDark ? 2 : 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child:
+                          reminder.imagePath != null &&
+                              reminder.imagePath!.isNotEmpty
+                          ? Image.file(
+                              File(reminder.imagePath!),
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 250,
+                              errorBuilder: (_, __, ___) => Container(
+                                height: 250,
+                                color: Colors.grey[300],
+                                child: const Icon(
+                                  Icons.image_not_supported,
+                                  size: 80,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            )
+                          : Container(
+                              height: 250,
+                              width: double.infinity,
+                              color: Colors.grey[300],
+                              child: const Icon(
+                                Icons.alarm,
+                                size: 80,
+                                color: Colors.grey,
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Reminder Details
+                  // Card(
+                  //   color: cardColor,
+                  //   elevation: isDark ? 2 : 4,
+                  //   margin: const EdgeInsets.symmetric(
+                  //     horizontal: 0,
+                  //     vertical: 8,
+                  //   ),
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(16),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(20),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(
+                  //           reminder.title,
+                  //           style: GoogleFonts.poppins(
+                  //             fontSize: 22,
+                  //             fontWeight: FontWeight.w600,
+                  //             color: textColor,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20),
+
+                  // Reminder Info Details
+                  ..._buildReminderDetails(context, reminder, ref),
+                  const SizedBox(height: 20),
+
+                  // Action Buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.edit),
+                          label: Text(
+                            ref.watch(currentTextProvider('editReminder')) ??
+                                'Edit Reminder',
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            backgroundColor: Colors.green[400],
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () =>
+                              context.go('/reminder/edit', extra: reminder),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            _buildSectionCard(
-              title:
-                  ref.read(currentTextProvider('description')) ?? 'Description',
-              content: reminder.description ?? '',
-              titleColor: isDarkMode
-                  ? Colors.yellow.shade700
-                  : Colors.yellow.shade900,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode
-                  ? Colors.yellow
-                  : Colors.yellowAccent,
-            ),
-            _buildSectionCard(
-              title: ref.read(currentTextProvider('time')) ?? 'Time',
-              content: _formatTime(reminder.reminderTime),
-              titleColor: Colors.deepOrange.shade800,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode
-                  ? Colors.red.shade500
-                  : Colors.red.shade100,
-            ),
-            _buildSectionCard(
-              title: ref.read(currentTextProvider('repeat')) ?? 'Repeat',
-              content: _getRepeatText(reminder),
-              titleColor: Colors.deepOrange.shade400,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode
-                  ? Colors.orangeAccent
-                  : Colors.deepPurpleAccent,
-            ),
-            _buildSectionCard(
-              title: ref.read(currentTextProvider('cause')) ?? 'Cause',
-              content: reminder.cause ?? '',
-              titleColor: isDarkMode ? Colors.cyanAccent : Colors.blue,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode
-                  ? Colors.blue
-                  : Colors.lightBlueAccent,
-            ),
-            _buildSectionCard(
-              title: ref.read(currentTextProvider('symptoms')) ?? 'Symptoms',
-              content: reminder.symptoms ?? '',
-              titleColor: isDarkMode
-                  ? Colors.pinkAccent.shade100
-                  : Colors.pinkAccent.shade700,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode ? Colors.pink : Colors.pinkAccent,
-            ),
-            _buildSectionCard(
-              title:
-                  ref.read(currentTextProvider('prevention')) ?? 'Prevention',
-              content: reminder.prevention ?? '',
-              titleColor: isDarkMode ? Colors.amberAccent : Colors.orange,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode
-                  ? Colors.yellow.shade900
-                  : Colors.amberAccent,
-            ),
-            _buildSectionCard(
-              title: ref.read(currentTextProvider('treatment')) ?? 'Treatment',
-              content: reminder.treatment ?? '',
-              titleColor: isDarkMode
-                  ? Colors.green.shade200
-                  : Colors.green.shade400,
-              contentColor: isDarkMode ? Colors.white70 : Colors.black87,
-              surfaceTintColor: isDarkMode ? Colors.green : Colors.lightGreen,
-            ),
-            const SizedBox(height: 30),
-          ],
+          ),
         ),
       ),
     );

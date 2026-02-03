@@ -163,7 +163,14 @@
   "cancel": "Cancel",
   "ok": "OK",
   "close": "Close",
-  "update": "Update"
+  "update": "Update",
+  "analysisResult": "Analysis Result",
 
-  
+  "_comment": "App Bar Titles",
+  "scanDetail": "Scan Detail",
+
+  "_comment": "App Bar Actions",
+  "edit": "Edit",
+  "delete": "Delete"
+
 }

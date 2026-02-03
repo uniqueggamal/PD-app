@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.example.plant_disease_detection_app'
-    compileSdkVersion 36       // Updated to highest SDK required by plugins
+    compileSdkVersion 36
 
     defaultConfig {
         applicationId "com.example.plant_disease_detection_app"
-        minSdkVersion flutter.minSdkVersion    // required for permission_handler v10+
-        targetSdkVersion 36    // Updated to match compileSdkVersion
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
         versionCode 1
         versionName "1.0"
     }
@@ -28,8 +28,13 @@ android {
 
     buildTypes {
         release {
-            // Signing with debug keys for now
+            // Use debug signing for now (safe for testing)
             signingConfig signingConfigs.debug
+            // For real release builds later, change to: signingConfigs.release
+
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

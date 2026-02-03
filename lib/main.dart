@@ -3,11 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:plant_disease_detection_app/screens/home/home_landing_screen.dart';
+import 'package:plant_disease_detection_app/screens/home/home_screen.dart';
 import 'package:plant_disease_detection_app/screens/camera/cameraScreen.dart';
 import 'package:plant_disease_detection_app/screens/reminder/reminder_main_screen.dart';
+import 'package:plant_disease_detection_app/screens/reminder/reminder_edit_screen.dart';
+import 'package:plant_disease_detection_app/screens/reminder/reminder_view_screen.dart';
+import 'package:plant_disease_detection_app/models/reminder_model.dart';
 import 'package:plant_disease_detection_app/screens/settings/help_support_screen.dart';
+import 'package:plant_disease_detection_app/screens/settings/about_screen.dart';
 import 'package:plant_disease_detection_app/screens/onboarding/onboarding_screen.dart';
+import 'package:plant_disease_detection_app/screens/history/history_screen.dart';
+import 'package:plant_disease_detection_app/screens/history/scan_detail_screen.dart';
 import 'package:plant_disease_detection_app/widgets/app_drawer.dart';
 import 'providers/settings_provider.dart';
 
@@ -17,62 +23,80 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
 
-  runApp(ProviderScope(child: MyApp(isFirstLaunch: isFirstLaunch)));
-}
-
-class MyApp extends ConsumerStatefulWidget {
-  final bool isFirstLaunch;
-  const MyApp({super.key, required this.isFirstLaunch});
-
-  @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  late final GoRouter _router;
-
-  @override
-  void initState() {
-    super.initState();
-    _router = GoRouter(
-      initialLocation: widget.isFirstLaunch ? '/onboarding' : '/',
-      routes: [
-        GoRoute(
-          path: '/onboarding',
-          builder: (context, state) => const OnboardingScreen(),
+  // Create router
+  final router = GoRouter(
+    initialLocation: isFirstLaunch ? '/onboarding' : '/',
+    routes: [
+      GoRoute(
+        path: '/onboarding',
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(path: '/', builder: (context, state) => HomeScreen()),
+      GoRoute(
+        path: '/camera',
+        builder: (context, state) => const CameraScreen(),
+      ),
+      GoRoute(
+        path: '/reminders',
+        builder: (context, state) => const ReminderScreen(),
+      ),
+      GoRoute(
+        path: '/reminder/edit',
+        builder: (context, state) => AddEditReminderScreen(
+          reminder: state.extra is ReminderModel
+              ? state.extra as ReminderModel
+              : null,
+          extraData: state.extra is Map<String, dynamic>
+              ? state.extra as Map<String, dynamic>
+              : null,
         ),
-        ShellRoute(
-          builder: (context, state, child) => AppShell(child: child),
-          routes: [
-            GoRoute(
-              path: '/',
-              builder: (context, state) => HomeLandingScreen(),
-            ),
-            GoRoute(
-              path: '/camera',
-              builder: (context, state) => const CameraScreen(),
-            ),
-            GoRoute(
-              path: '/reminders',
-              builder: (context, state) => const ReminderScreen(),
-            ),
-            GoRoute(
-              path: '/settings',
-              builder: (context, state) => HelpSupportScreen(),
-            ),
-            GoRoute(
-              path: '/history',
-              builder: (context, state) =>
-                  const Center(child: Text('Scan History - Coming Soon')),
-            ),
-          ],
-        ),
+      ),
+      GoRoute(
+        path: '/reminder/view',
+        builder: (context, state) {
+          final reminder = state.extra as ReminderModel?;
+          return ReminderViewScreen(reminder: reminder!);
+        },
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => HelpSupportScreen(),
+      ),
+      GoRoute(path: '/about', builder: (context, state) => const AboutScreen()),
+      GoRoute(
+        path: '/history',
+        builder: (context, state) => const HistoryScreen(),
+      ),
+      GoRoute(
+        path: '/scan-detail/:scanId',
+        builder: (context, state) {
+          final scanId = state.pathParameters['scanId']!;
+          return ScanDetailScreen(scanId: scanId);
+        },
+      ),
+    ],
+  );
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        goRouterProvider.overrideWith((ref) {
+          final notifier = GoRouterNotifier();
+          notifier.setRouter(router);
+          return notifier;
+        }),
       ],
-    );
-  }
+      child: MyApp(router: router),
+    ),
+  );
+}
+
+class MyApp extends ConsumerWidget {
+  final GoRouter router;
+  const MyApp({super.key, required this.router});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
 
@@ -100,7 +124,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         Locale('en'), // English
         Locale('ne'), // Nepali
       ],
-      routerConfig: _router,
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
   }
@@ -112,19 +136,15 @@ class AppShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appBarTitle = ref.watch(currentRouteTitleProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('LeafMate'),
+        title: Text(appBarTitle),
         backgroundColor: Colors.green[700],
         foregroundColor: Colors.white,
       ),
       drawer: AppDrawer(),
       body: child,
-      floatingActionButton: FloatingActionButton.large(
-        backgroundColor: Colors.green,
-        onPressed: () => context.go('/camera'),
-        child: Icon(Icons.camera_enhance, size: 40, color: Colors.white),
-      ),
     );
   }
 }

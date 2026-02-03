@@ -1,0 +1,571 @@
+Project Folder Structure: plant_disease_detection_app
+===================================================
+
+Root Directory (c:/Users/Lenovo/Desktop/plant_disease_detection_app)
+-------------------------------------------------------------------
+Files:
+- .gitignore (Configuration file for Git version control)
+- .metadata (Flutter project metadata)
+- analysis_options.yaml (Dart/Flutter linting and analysis configuration)
+- devtools_options.yaml (Flutter DevTools configuration)
+- my_model_float16.tflite (TensorFlow Lite model file for AI inference)
+- project_documentation.txt (Project documentation file)
+- pubspec.lock (Flutter dependency lock file)
+- pubspec.yaml (Flutter project configuration and dependencies)
+- README.md (Project readme file)
+- TODO.md (Task list file)
+
+Subdirectories:
+- android/ (Android platform-specific code and configuration)
+- assets/ (Static assets like images, models, and labels)
+- build/ (Build output directory)
+- ios/ (iOS platform-specific code and configuration)
+- lib/ (Main Flutter application source code)
+- linux/ (Linux platform-specific code and configuration)
+- macos/ (macOS platform-specific code and configuration)
+- test/ (Unit and widget tests)
+- web/ (Web platform-specific code and configuration)
+- windows/ (Windows platform-specific code and configuration)
+
+android/ Directory
+------------------
+Description: Contains Android-specific build files, configurations, and native code for the Flutter app's Android version.
+
+Files:
+- .gitignore (Git ignore rules for Android)
+- build.gradle.kts (Android build script in Kotlin DSL)
+- gradle.properties (Gradle build properties)
+- settings.gradle.kts (Gradle settings in Kotlin DSL)
+
+Subdirectories:
+- app/ (Android app module)
+- gradle/ (Gradle wrapper files)
+
+assets/ Directory
+-----------------
+Description: Stores static assets used by the Flutter app, including AI models, images, labels, and localization files.
+
+Subdirectories:
+- ai/ (AI-related assets, likely containing model files)
+- img/ (Image assets for the app UI)
+- labels/ (JSON files for class labels, cures, and app text in different languages)
+- logo/ (Logo images)
+- screen/ (Screenshot or screen-related images)
+
+build/ Directory
+----------------
+Description: Contains build artifacts and outputs generated during the Flutter build process.
+
+(No specific files listed in the structure)
+
+ios/ Directory
+--------------
+Description: Contains iOS-specific build files, configurations, and native code for the Flutter app's iOS version.
+
+Files:
+- .gitignore (Git ignore rules for iOS)
+
+Subdirectories:
+- Flutter/ (Flutter engine files for iOS)
+- Runner/ (iOS app runner code)
+- Runner.xcodeproj/ (Xcode project file)
+- Runner.xcworkspace/ (Xcode workspace)
+- RunnerTests/ (iOS unit tests)
+
+lib/ Directory
+--------------
+Description: Main source code directory for the Flutter application, containing Dart files for the app logic, UI, and services.
+
+Files:
+- main.dart (Entry point of the Flutter app)
+
+Subdirectories:
+- models/ (Data models)
+- providers/ (State management providers, likely using Riverpod)
+- screens/ (UI screens/pages)
+- services/ (Business logic services, e.g., camera, AI inference)
+- widgets/ (Reusable UI components)
+
+linux/ Directory
+----------------
+Description: Contains Linux-specific build files and configurations for the Flutter app's Linux desktop version.
+
+Files:
+- .gitignore (Git ignore rules for Linux)
+- CMakeLists.txt (CMake build configuration)
+
+Subdirectories:
+- flutter/ (Flutter engine files for Linux)
+- runner/ (Linux app runner code)
+
+macos/ Directory
+----------------
+Description: Contains macOS-specific build files and configurations for the Flutter app's macOS desktop version.
+
+Files:
+- .gitignore (Git ignore rules for macOS)
+
+Subdirectories:
+- Flutter/ (Flutter engine files for macOS)
+- Runner/ (macOS app runner code)
+- Runner.xcodeproj/ (Xcode project file)
+- Runner.xcworkspace/ (Xcode workspace)
+- RunnerTests/ (macOS unit tests)
+
+test/ Directory
+---------------
+Description: Contains unit and widget tests for the Flutter application.
+
+Files:
+- widget_test.dart (Basic widget test file)
+
+web/ Directory
+--------------
+Description: Contains web-specific build files and configurations for the Flutter app's web version.
+
+(No specific files listed in the structure)
+
+windows/ Directory
+------------------
+Description: Contains Windows-specific build files and configurations for the Flutter app's Windows desktop version.
+
+(No specific files listed in the structure)
+
+Overall Purpose Summary
+=======================
+This is a Flutter-based mobile application for plant disease detection. The app leverages AI (using TensorFlow Lite models) to analyze plant images captured via the device's camera or selected from the gallery. It identifies diseases across 51 classes, provides cures in English and Nepali, and includes features like onboarding, notifications, local storage, and multi-language support. The main modules include camera integration, image processing, AI inference, user interface screens, state management, and data persistence.
+
+Part 2: File Analysis
+=====================
+
+lib/main.dart
+-------------
+Purpose / role: Entry point of the Flutter app, sets up routing, localization, and providers.
+
+List of functions / classes:
+- main
+  - Purpose / description: Initializes the app, checks first launch, sets up router.
+  - Inputs (parameters): None
+  - Outputs (return values): None
+  - Short note on how it interacts with other parts of the app: Uses SharedPreferences, GoRouter, ProviderScope, MyApp.
+
+- MyApp
+  - Purpose / description: Builds the MaterialApp.
+  - Inputs (parameters): GoRouter router
+  - Outputs (return values): MaterialApp widget
+  - Short note on how it interacts with other parts of the app: Uses ref to watch themeModeProvider, localeProvider, goRouterProvider.
+
+- AppShell
+  - Purpose / description: Provides scaffold with app bar and drawer.
+  - Inputs (parameters): Widget child
+  - Outputs (return values): Scaffold widget
+  - Short note on how it interacts with other parts of the app: Uses ref to watch currentRouteTitleProvider, AppDrawer.
+
+lib/models/ai_model.dart
+------------------------
+Purpose / role: Handles AI model operations for plant disease detection.
+
+List of functions / classes:
+- PredictionResult
+  - Purpose / description: Data class for prediction results.
+  - Inputs (parameters): diseaseName, diseaseKey, confidence
+  - Outputs (return values): None
+  - Short note on how it interacts with other parts of the app: Used by AiModel.predict.
+
+- AiModel
+  - Purpose / description: Manages AI model loading and prediction.
+  - Inputs (parameters): None
+  - Outputs (return values): PredictionResult? or null
+  - Short note on how it interacts with other parts of the app: Uses rootBundle for assets, interpreter for inference, image processing.
+
+lib/models/reminder_model.dart
+------------------------------
+Purpose / role: Data model for reminders.
+
+List of functions / classes:
+- ReminderModel
+  - Purpose / description: Represents a reminder.
+  - Inputs (parameters): id, title, reminderTime, etc.
+  - Outputs (return values): Map<String, dynamic>
+  - Short note on how it interacts with other parts of the app: Used by DBService, reminder providers.
+
+lib/models/scan_history_model.dart
+----------------------------------
+Purpose / role: Data model for scan history.
+
+List of functions / classes:
+- ScanHistoryModel
+  - Purpose / description: Represents a scan entry.
+  - Inputs (parameters): id, imagePath, diseaseName, confidence, timestamp, notes, isTreated
+  - Outputs (return values): Map<String, dynamic>
+  - Short note on how it interacts with other parts of the app: Used by DBService, home provider.
+
+lib/providers/home_provider.dart
+--------------------------------
+Purpose / role: State management for home screen.
+
+List of functions / classes:
+- predictionResultProvider
+  - Purpose / description: Holds current prediction result.
+  - Inputs (parameters): None
+  - Outputs (return values): PredictionResult?
+  - Short note on how it interacts with other parts of the app: Used by home screen, camera service.
+
+- originalImagePathProvider
+  - Purpose / description: Holds original image path.
+  - Inputs (parameters): None
+  - Outputs (return values): String?
+  - Short note on how it interacts with other parts of the app: Used by camera service.
+
+- statusMessageProvider
+  - Purpose / description: Holds status message.
+  - Inputs (parameters): None
+  - Outputs (return values): String
+  - Short note on how it interacts with other parts of the app: Used by home screen.
+
+- isPickingImageProvider
+  - Purpose / description: Tracks image picking state.
+  - Inputs (parameters): None
+  - Outputs (return values): bool
+  - Short note on how it interacts with other parts of the app: Used by home screen.
+
+- processedImagePathProvider
+  - Purpose / description: Holds processed image path.
+  - Inputs (parameters): None
+  - Outputs (return values): String?
+  - Short note on how it interacts with other parts of the app: Used by camera service.
+
+- currentLanguageCodeProvider
+  - Purpose / description: Provides current language code.
+  - Inputs (parameters): None
+  - Outputs (return values): String
+  - Short note on how it interacts with other parts of the app: Uses localeProvider.
+
+- interpreterProvider
+  - Purpose / description: Loads TFLite interpreter.
+  - Inputs (parameters): None
+  - Outputs (return values): Interpreter?
+  - Short note on how it interacts with other parts of the app: Used by AiModel.
+
+- recentScansProvider
+  - Purpose / description: Fetches recent scans.
+  - Inputs (parameters): None
+  - Outputs (return values): List<ScanHistoryModel>
+  - Short note on how it interacts with other parts of the app: Uses DBService.
+
+lib/providers/localization_provider.dart
+----------------------------------------
+Purpose / role: Provides localized text based on language.
+
+List of functions / classes:
+- localizationProvider
+  - Purpose / description: Loads localized text from JSON.
+  - Inputs (parameters): String locale
+  - Outputs (return values): Map<String, String>
+  - Short note on how it interacts with other parts of the app: Uses rootBundle, used by text_provider.
+
+lib/providers/reminder_provider.dart
+------------------------------------
+Purpose / role: State management for reminders.
+
+List of functions / classes:
+- ReminderNotifier
+  - Purpose / description: Manages reminder list state.
+  - Inputs (parameters): None
+  - Outputs (return values): AsyncValue<List<ReminderModel>>
+  - Short note on how it interacts with other parts of the app: Uses DBService, NotificationHandler.
+
+lib/providers/settings_provider.dart
+------------------------------------
+Purpose / role: State management for app settings.
+
+List of functions / classes:
+- ThemeModeNotifier
+  - Purpose / description: Manages theme mode.
+  - Inputs (parameters): None
+  - Outputs (return values): ThemeMode
+  - Short note on how it interacts with other parts of the app: Uses SharedPreferences.
+
+- LocaleNotifier
+  - Purpose / description: Manages locale.
+  - Inputs (parameters): None
+  - Outputs (return values): Locale
+  - Short note on how it interacts with other parts of the app: Uses SharedPreferences.
+
+- NotificationPermissionNotifier
+  - Purpose / description: Manages notification permission.
+  - Inputs (parameters): None
+  - Outputs (return values): bool
+  - Short note on how it interacts with other parts of the app: Uses Permission.
+
+- NotificationsNotifier
+  - Purpose / description: Manages notifications toggle.
+  - Inputs (parameters): Ref ref
+  - Outputs (return values): bool
+  - Short note on how it interacts with other parts of the app: Uses SharedPreferences, notificationPermissionProvider.
+
+- AppBarTitleNotifier
+  - Purpose / description: Manages app bar title.
+  - Inputs (parameters): Ref ref
+  - Outputs (return values): String
+  - Short note on how it interacts with other parts of the app: Uses currentTextProvider.
+
+- GoRouterNotifier
+  - Purpose / description: Manages GoRouter instance.
+  - Inputs (parameters): None
+  - Outputs (return values): GoRouter
+  - Short note on how it interacts with other parts of the app: Used by MyApp.
+
+- CurrentRouteNotifier
+  - Purpose / description: Tracks current route.
+  - Inputs (parameters): Ref ref
+  - Outputs (return values): String
+  - Short note on how it interacts with other parts of the app: Uses goRouterProvider.
+
+- currentRouteTitleProvider
+  - Purpose / description: Provides current route title.
+  - Inputs (parameters): None
+  - Outputs (return values): String
+  - Short note on how it interacts with other parts of the app: Uses currentRouteProvider, textProvider.
+
+lib/providers/navigation_history_provider.dart
+-----------------------------------------------
+Purpose / role: Tracks navigation history.
+
+List of functions / classes:
+- NavigationHistoryNotifier
+  - Purpose / description: Manages navigation history list.
+  - Inputs (parameters): Ref ref
+  - Outputs (return values): List<String>
+  - Short note on how it interacts with other parts of the app: Uses currentRouteProvider.
+
+lib/providers/text_provider.dart
+--------------------------------
+Purpose / role: Provides current text based on locale.
+
+List of functions / classes:
+- textProvider
+  - Purpose / description: Loads text for current locale.
+  - Inputs (parameters): None
+  - Outputs (return values): Map<String, String>
+  - Short note on how it interacts with other parts of the app: Uses localizationProvider, localeProvider.
+
+lib/screens/camera/cameraScreen.dart
+------------------------------------
+Purpose / role: Camera screen for capturing or selecting images.
+
+List of functions / classes:
+- CameraScreen
+  - Purpose / description: Displays camera preview, handles image capture and processing.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses CameraService, AiModel, home providers.
+
+lib/screens/history/history_screen.dart
+---------------------------------------
+Purpose / role: Displays scan history.
+
+List of functions / classes:
+- HistoryScreen
+  - Purpose / description: Lists scan history with delete options.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses DBService, recentScansProvider.
+
+lib/screens/history/scan_detail_screen.dart
+-------------------------------------------
+Purpose / role: Displays details of a scan.
+
+List of functions / classes:
+- ScanDetailScreen
+  - Purpose / description: Shows scan details, cure info, allows adding reminders.
+  - Inputs (parameters): String scanId
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses DBService, AiModel, reminder providers.
+
+lib/screens/home/home_screen.dart
+---------------------------------
+Purpose / role: Home screen with app intro and recent scans.
+
+List of functions / classes:
+- HomeScreen
+  - Purpose / description: Displays app intro, scan button, recent scans.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses localizationProvider, home providers.
+
+lib/screens/onboarding/onboarding_screen.dart
+----------------------------------------------
+Purpose / role: Onboarding screen for new users.
+
+List of functions / classes:
+- OnboardingScreen
+  - Purpose / description: Shows swipeable onboarding screens.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses SharedPreferences.
+
+lib/screens/reminder/reminder_edit_screen.dart
+-----------------------------------------------
+Purpose / role: Screen for adding/editing reminders.
+
+List of functions / classes:
+- AddEditReminderScreen
+  - Purpose / description: Form for reminder details, image, time, repeat.
+  - Inputs (parameters): ReminderModel? reminder, Map<String, dynamic>? extraData
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses reminder_provider, text_provider.
+
+lib/screens/reminder/reminder_main_screen.dart
+-----------------------------------------------
+Purpose / role: Main screen for managing reminders.
+
+List of functions / classes:
+- ReminderScreen
+  - Purpose / description: Lists reminders with toggle and add options.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses reminder_provider, text_provider.
+
+lib/screens/reminder/reminder_view_screen.dart
+-----------------------------------------------
+Purpose / role: View details of a reminder.
+
+List of functions / classes:
+- ReminderViewScreen
+  - Purpose / description: Displays reminder details.
+  - Inputs (parameters): ReminderModel reminder
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses reminder_provider, text_provider.
+
+lib/screens/settings/about_screen.dart
+--------------------------------------
+Purpose / role: About screen with app info and detectable classes.
+
+List of functions / classes:
+- AboutScreen
+  - Purpose / description: Shows app description and list of detectable diseases.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses rootBundle, text_provider.
+
+lib/screens/settings/help_support_screen.dart
+---------------------------------------------
+Purpose / role: Help and support screen.
+
+List of functions / classes:
+- HelpSupportScreen
+  - Purpose / description: Displays help content.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses text_provider.
+
+lib/screens/settings/settings_screen.dart
+-----------------------------------------
+Purpose / role: Settings screen for app preferences.
+
+List of functions / classes:
+- SettingsScreen
+  - Purpose / description: Allows changing theme, language, notifications.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses settings_provider, text_provider.
+
+lib/services/app_permissions.dart
+---------------------------------
+Purpose / role: Handles app permissions.
+
+List of functions / classes:
+- AppPermissions
+  - Purpose / description: Requests and checks permissions for camera, storage.
+  - Inputs (parameters): None
+  - Outputs (return values): bool
+  - Short note on how it interacts with other parts of the app: Uses Permission package.
+
+lib/services/camera_service.dart
+--------------------------------
+Purpose / role: Manages camera operations.
+
+List of functions / classes:
+- CameraService
+  - Purpose / description: Initializes camera, captures photos, picks images, crops, runs predictions.
+  - Inputs (parameters): WidgetRef ref
+  - Outputs (return values): Various (void, File, etc.)
+  - Short note on how it interacts with other parts of the app: Uses Camera, ImagePicker, AiModel, home providers.
+
+lib/services/db_service.dart
+----------------------------
+Purpose / role: Database operations.
+
+List of functions / classes:
+- DBService
+  - Purpose / description: CRUD operations for scans and reminders.
+  - Inputs (parameters): Various (id, model)
+  - Outputs (return values): List<Model>, int
+  - Short note on how it interacts with other parts of the app: Uses sqflite.
+
+lib/services/notification_handler.dart
+--------------------------------------
+Purpose / role: Handles notifications.
+
+List of functions / classes:
+- NotificationHandler
+  - Purpose / description: Schedules and cancels notifications.
+  - Inputs (parameters): Various (id, title, body, date)
+  - Outputs (return values): void
+  - Short note on how it interacts with other parts of the app: Uses flutter_local_notifications.
+
+lib/services/notification_service.dart
+--------------------------------------
+Purpose / role: Notification service wrapper.
+
+List of functions / classes:
+- NotificationService
+  - Purpose / description: Initializes and manages notifications.
+  - Inputs (parameters): Various (id, title, body, date)
+  - Outputs (return values): void
+  - Short note on how it interacts with other parts of the app: Uses FlutterLocalNotificationsPlugin.
+
+lib/widgets/app_drawer.dart
+---------------------------
+Purpose / role: App drawer for navigation.
+
+List of functions / classes:
+- AppDrawer
+  - Purpose / description: Displays navigation menu.
+  - Inputs (parameters): None
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses GoRouter, text_provider.
+
+lib/widgets/app_shell.dart
+--------------------------
+Purpose / role: App shell widget.
+
+List of functions / classes:
+- AppShell
+  - Purpose / description: Wraps screens with app bar and drawer.
+  - Inputs (parameters): Widget child
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Uses currentRouteTitleProvider, AppDrawer.
+
+lib/widgets/custom_buttons.dart
+-------------------------------
+Purpose / role: Custom button widgets.
+
+List of functions / classes:
+- CustomButton
+  - Purpose / description: Reusable button widget.
+  - Inputs (parameters): String text, VoidCallback onPressed
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Used in screens.
+
+lib/widgets/image_card.dart
+---------------------------
+Purpose / role: Image card widget.
+
+List of functions / classes:
+- ImageCard
+  - Purpose / description: Displays image with overlay.
+  - Inputs (parameters): String imagePath, String title
+  - Outputs (return values): Widget
+  - Short note on how it interacts with other parts of the app: Used in screens.

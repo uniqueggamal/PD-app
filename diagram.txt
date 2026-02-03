@@ -1,0 +1,142 @@
+Part 3: Diagrams and Workflow
+=============================
+
+App Flow / Workflow
+-------------------
+The app flow describes the step-by-step user journey from launching the app to closing it, including main user actions, screens, services, and providers involved.
+
+1. **App Launch**: User opens the app. main.dart initializes providers (e.g., settings_provider, localization_provider), checks first launch via SharedPreferences. If first launch, navigates to OnboardingScreen; otherwise, to HomeScreen. Involves: main.dart, settings_provider, localization_provider.
+
+2. **Onboarding (First Launch)**: OnboardingScreen displays swipeable intro screens. User completes onboarding, sets first launch flag in SharedPreferences. Navigates to HomeScreen. Involves: OnboardingScreen, SharedPreferences.
+
+3. **Home Screen**: HomeScreen shows app intro, scan button, and recent scans list. User can tap scan button or view recent scans. Involves: HomeScreen, home_provider (recentScansProvider), db_service, localization_provider.
+
+4. **Scanning Plant**: User taps scan button on HomeScreen. Navigates to CameraScreen. CameraScreen initializes camera via CameraService. User captures photo or selects from gallery. CameraService processes image, crops it, and calls AiModel.predict() for disease detection. PredictionResult is displayed on CameraScreen. Involves: CameraScreen, CameraService, AiModel, home_provider (predictionResultProvider, processedImagePathProvider), app_permissions.
+
+5. **Viewing Results**: On CameraScreen, user sees disease name, confidence, cure info (localized via text_provider). User can save scan or add reminder. Saving calls DBService.saveScan() to store ScanHistoryModel. Involves: CameraScreen, db_service, text_provider, localization_provider.
+
+6. **Adding Reminder**: From CameraScreen or ScanDetailScreen, user taps add reminder. Navigates to AddEditReminderScreen. User fills form (title, time, repeat). Saves via reminder_provider (ReminderNotifier.addReminder), schedules notification via NotificationHandler. Involves: AddEditReminderScreen, reminder_provider, db_service, notification_handler, text_provider.
+
+7. **Viewing History**: From HomeScreen or drawer, user navigates to HistoryScreen. Lists recent scans via recentScansProvider. User taps a scan to view details on ScanDetailScreen. Can delete scan via DBService.deleteScan() or add reminder. Involves: HistoryScreen, ScanDetailScreen, home_provider, db_service, reminder_provider.
+
+8. **Managing Reminders**: From drawer, user navigates to ReminderScreen. Lists reminders via reminder_provider. Can toggle active/inactive, add new (navigates to AddEditReminderScreen), or view details on ReminderViewScreen. Involves: ReminderScreen, AddEditReminderScreen, ReminderViewScreen, reminder_provider, db_service, notification_handler.
+
+9. **Settings**: From drawer, user navigates to SettingsScreen. Can change theme (themeModeProvider), language (localeProvider), notifications (notificationsProvider). Sub-screens: AboutScreen (app info, detectable diseases), HelpSupportScreen (help content). Involves: SettingsScreen, AboutScreen, HelpSupportScreen, settings_provider, text_provider, localization_provider.
+
+10. **App Close**: User exits app. Providers persist state via SharedPreferences. Notifications handled by NotificationHandler if scheduled.
+
+Class Diagram
+-------------
+Lists all classes with attributes, main methods, and relationships (association: uses; composition: contains; inheritance: extends).
+
+**Models:**
+- PredictionResult: Attributes - diseaseName (String), diseaseKey (String), confidence (double). Methods - None (data class). Relationships - Association with AiModel (used in predict).
+- AiModel: Attributes - interpreter (Interpreter). Methods - predict (returns PredictionResult?). Relationships - Composition with Interpreter; Association with CameraService.
+- ReminderModel: Attributes - id (String), title (String), reminderTime (DateTime), isActive (bool), repeat (String), imagePath (String?), notes (String?). Methods - toMap (returns Map<String, dynamic>). Relationships - Association with DBService, ReminderNotifier.
+- ScanHistoryModel: Attributes - id (String), imagePath (String), diseaseName (String), confidence (double), timestamp (DateTime), notes (String?), isTreated (bool). Methods - toMap (returns Map<String, dynamic>). Relationships - Association with DBService, HomeProvider.
+
+**Providers:**
+- HomeProvider: Attributes - Various state providers (e.g., predictionResultProvider: PredictionResult?). Methods - None (state holders). Relationships - Association with screens (HomeScreen, CameraScreen); Composition with DBService (via recentScansProvider).
+- LocalizationProvider: Attributes - localizationProvider (Map<String, String>). Methods - None. Relationships - Association with TextProvider.
+- ReminderProvider: Attributes - ReminderNotifier (AsyncValue<List<ReminderModel>>). Methods - addReminder, updateReminder, deleteReminder. Relationships - Composition with DBService, NotificationHandler; Association with reminder screens.
+- SettingsProvider: Attributes - Various notifiers (e.g., ThemeModeNotifier: ThemeMode). Methods - Various (e.g., toggleTheme). Relationships - Association with SettingsScreen; Composition with SharedPreferences.
+- NavigationHistoryProvider: Attributes - NavigationHistoryNotifier (List<String>). Methods - None. Relationships - Association with AppShell.
+- TextProvider: Attributes - textProvider (Map<String, String>). Methods - None. Relationships - Association with localization_provider, localeProvider.
+
+**Services:**
+- CameraService: Attributes - camera (CameraDescription?), imagePicker (ImagePicker). Methods - initializeCamera, capturePhoto, pickImage, processImage, runPrediction. Relationships - Composition with Camera, ImagePicker; Association with AiModel, HomeProvider.
+- DBService: Attributes - database (Database). Methods - initDB, saveScan, getScans, deleteScan, saveReminder, getReminders, deleteReminder. Relationships - Composition with Database; Association with models, providers.
+- NotificationHandler: Attributes - flutterLocalNotificationsPlugin (FlutterLocalNotificationsPlugin). Methods - scheduleNotification, cancelNotification. Relationships - Composition with FlutterLocalNotificationsPlugin; Association with ReminderProvider.
+- NotificationService: Attributes - plugin (FlutterLocalNotificationsPlugin). Methods - initialize, showNotification, scheduleNotification. Relationships - Association with NotificationHandler.
+- AppPermissions: Attributes - None. Methods - requestCameraPermission, requestStoragePermission. Relationships - Association with CameraService.
+
+**Screens:**
+- HomeScreen: Attributes - None. Methods - build (returns Widget). Relationships - Association with HomeProvider, LocalizationProvider.
+- CameraScreen: Attributes - None. Methods - build. Relationships - Association with CameraService, HomeProvider.
+- HistoryScreen: Attributes - None. Methods - build. Relationships - Association with HomeProvider, DBService.
+- ScanDetailScreen: Attributes - scanId (String). Methods - build. Relationships - Association with DBService, ReminderProvider.
+- OnboardingScreen: Attributes - None. Methods - build. Relationships - Association with SharedPreferences.
+- ReminderScreen: Attributes - None. Methods - build. Relationships - Association with ReminderProvider.
+- AddEditReminderScreen: Attributes - reminder (ReminderModel?), extraData (Map?). Methods - build. Relationships - Association with ReminderProvider.
+- ReminderViewScreen: Attributes - reminder (ReminderModel). Methods - build. Relationships - Association with ReminderProvider.
+- SettingsScreen: Attributes - None. Methods - build. Relationships - Association with SettingsProvider.
+- AboutScreen: Attributes - None. Methods - build. Relationships - Association with TextProvider.
+- HelpSupportScreen: Attributes - None. Methods - build. Relationships - Association with TextProvider.
+
+**Widgets:**
+- AppDrawer: Attributes - None. Methods - build. Relationships - Association with GoRouter, TextProvider.
+- AppShell: Attributes - child (Widget). Methods - build. Relationships - Association with CurrentRouteTitleProvider, AppDrawer.
+- CustomButton: Attributes - text (String), onPressed (VoidCallback). Methods - build. Relationships - Association with screens.
+- ImageCard: Attributes - imagePath (String), title (String). Methods - build. Relationships - Association with screens.
+
+**Main Entry:**
+- MyApp: Attributes - router (GoRouter). Methods - build (returns MaterialApp). Relationships - Association with providers (themeModeProvider, localeProvider).
+- AppShell: As above.
+
+Sequence Diagram
+----------------
+Textual format for key use cases, showing interactions between user, screens, providers, services, AI model.
+
+**Use Case: Scanning a Plant**
+1. User -> HomeScreen: Taps scan button.
+2. HomeScreen -> CameraScreen: Navigates.
+3. CameraScreen -> CameraService: Calls initializeCamera().
+4. CameraService -> Camera: Initializes camera.
+5. User -> CameraScreen: Captures photo.
+6. CameraScreen -> CameraService: Calls processImage().
+7. CameraService -> AiModel: Calls predict() with image.
+8. AiModel -> Interpreter: Runs inference.
+9. AiModel -> CameraService: Returns PredictionResult.
+10. CameraService -> HomeProvider: Updates predictionResultProvider.
+11. CameraScreen -> User: Displays result.
+
+**Use Case: Saving Scan**
+1. User -> CameraScreen: Taps save button.
+2. CameraScreen -> DBService: Calls saveScan() with ScanHistoryModel.
+3. DBService -> Database: Inserts scan.
+4. DBService -> CameraScreen: Confirms save.
+5. CameraScreen -> HomeProvider: Updates recentScansProvider.
+
+**Use Case: Viewing Reminder**
+1. User -> ReminderScreen: Taps a reminder.
+2. ReminderScreen -> ReminderViewScreen: Navigates with ReminderModel.
+3. ReminderViewScreen -> ReminderProvider: Loads reminder details.
+4. ReminderProvider -> DBService: Fetches reminder.
+5. DBService -> ReminderProvider: Returns ReminderModel.
+6. ReminderViewScreen -> User: Displays details.
+
+State Diagram
+-------------
+Describes state transitions and events for main objects/modules.
+
+**ScanHistory (ScanHistoryModel):**
+- Initial: Created (when saved via DBService).
+- Transitions: Created -> Viewed (user opens ScanDetailScreen) -> Deleted (user deletes via HistoryScreen/DBService).
+- Events: Save (from CameraScreen), View (from HistoryScreen), Delete (from ScanDetailScreen).
+
+**Reminder (ReminderModel):**
+- Initial: Created (when added via ReminderProvider).
+- Transitions: Created -> Active (enabled via ReminderScreen) -> Triggered (time reached, NotificationHandler fires) -> Inactive (disabled or after trigger).
+- Events: Add (from AddEditReminderScreen), Toggle (from ReminderScreen), Trigger (scheduled time), Disable (from ReminderScreen).
+
+**CameraService:**
+- Initial: Idle.
+- Transitions: Idle -> Initializing (initializeCamera called) -> Ready (camera ready) -> Capturing (capturePhoto called) -> Processing (processImage called) -> Idle (after prediction).
+- Events: Init, Capture, Process, Reset.
+
+Gantt Chart / Project Timeline
+------------------------------
+Textual table/list of tasks, durations, dependencies/order.
+
+| Task                  | Duration | Dependencies/Order |
+|-----------------------|----------|---------------------|
+| Project Planning      | 1 week  | None               |
+| UI Design             | 2 weeks | Project Planning   |
+| Database Setup        | 1 week  | UI Design          |
+| AI Model Integration  | 3 weeks | UI Design          |
+| Camera Service Impl.  | 2 weeks | AI Model Integration |
+| Notification System   | 2 weeks | Database Setup     |
+| Localization          | 1 week  | UI Design          |
+| Onboarding Screens    | 1 week  | UI Design          |
+| Testing & Debugging   | 3 weeks | All above          |
+| Deployment Prep       | 1 week  | Testing & Debugging |

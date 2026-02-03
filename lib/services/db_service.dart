@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/reminder_model.dart';
+import '../models/scan_history_model.dart';
 
 class DBService {
   static Database? _db;
@@ -15,8 +16,9 @@ class DBService {
     final path = join(await getDatabasesPath(), 'reminders.db');
     return await openDatabase(
       path,
-      version: 4, // increment version to ensure upgrade runs
+      version: 5, // bumped from 4 to 5 for scan_history table
       onCreate: (db, version) async {
+        // 1. Create Reminders Table
         await db.execute('''
           CREATE TABLE reminders(
             id TEXT PRIMARY KEY,
@@ -33,6 +35,27 @@ class DBService {
             enabled INTEGER NOT NULL DEFAULT 1
           )
         ''');
+
+        // 2. Create Scan History Table (REQUIRED for fresh installs)
+        // This was missing, which would cause a crash on first run.
+        await db.execute('''
+          CREATE TABLE scan_history (
+            id           TEXT PRIMARY KEY,
+            image_path   TEXT NOT NULL,
+            disease_key  TEXT,
+            disease_name TEXT NOT NULL,
+            confidence   REAL NOT NULL,
+            plant_type   TEXT,
+            notes        TEXT,
+            is_treated   INTEGER NOT NULL DEFAULT 0,
+            timestamp    INTEGER NOT NULL
+          )
+        ''');
+
+        // Index for fast sorting by most recent scans
+        await db.execute(
+          'CREATE INDEX idx_scan_timestamp ON scan_history(timestamp DESC)',
+        );
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         // Get current columns
@@ -65,9 +88,33 @@ class DBService {
         if (!columns.any((col) => col['name'] == 'treatment')) {
           await db.execute('ALTER TABLE reminders ADD COLUMN treatment TEXT');
         }
+
+        // ── Upgrade: scan_history table (added in version 5) ──
+        if (oldVersion < 5) {
+          await db.execute('''
+            CREATE TABLE scan_history (
+              id           TEXT PRIMARY KEY,
+              image_path   TEXT NOT NULL,
+              disease_key  TEXT,
+              disease_name TEXT NOT NULL,
+              confidence   REAL NOT NULL,
+              plant_type   TEXT,
+              notes        TEXT,
+              is_treated   INTEGER NOT NULL DEFAULT 0,
+              timestamp    INTEGER NOT NULL
+            )
+          ''');
+
+          // Index for fast sorting by most recent scans
+          await db.execute(
+            'CREATE INDEX idx_scan_timestamp ON scan_history(timestamp DESC)',
+          );
+        }
       },
     );
   }
+
+  // ──────────────── Reminder Methods (unchanged) ────────────────
 
   static Future<void> insertReminder(ReminderModel reminder) async {
     final db = await database;
@@ -97,5 +144,51 @@ class DBService {
     final db = await database;
     final data = await db.query('reminders');
     return data.map((e) => ReminderModel.fromMap(e)).toList();
+  }
+
+  // ──────────────── Scan History Methods ────────────────
+
+  static Future<void> insertScan(ScanHistoryModel scan) async {
+    final db = await database;
+    await db.insert(
+      'scan_history',
+      scan.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  static Future<List<ScanHistoryModel>> getRecentScans({int limit = 50}) async {
+    final db = await database;
+    final data = await db.query(
+      'scan_history',
+      orderBy: 'timestamp DESC',
+      limit: limit,
+    );
+    return data.map((e) => ScanHistoryModel.fromMap(e)).toList();
+  }
+
+  static Future<List<ScanHistoryModel>> getScansByDiseaseKey(
+    String diseaseKey,
+  ) async {
+    final db = await database;
+    final data = await db.query(
+      'scan_history',
+      where: 'disease_key = ?',
+      whereArgs: [diseaseKey],
+      orderBy: 'timestamp DESC',
+    );
+    return data.map((e) => ScanHistoryModel.fromMap(e)).toList();
+  }
+
+  static Future<void> deleteScan(String id) async {
+    final db = await database;
+    // NOTE: This deletes the record from DB.
+    // Consider adding File(imagePath).delete() here to clear storage if needed.
+    await db.delete('scan_history', where: 'id = ?', whereArgs: [id]);
+  }
+
+  static Future<void> deleteAllScans() async {
+    final db = await database;
+    await db.delete('scan_history');
   }
 }

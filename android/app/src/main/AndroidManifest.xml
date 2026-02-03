@@ -21,7 +21,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="plant_disease_detection_app"
+        android:label="LeafMate"
         android:icon="@mipmap/launcher_icon">
 
         <!-- ✅ Flutter main activity -->

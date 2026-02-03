@@ -140,3 +140,34 @@ Textual table/list of tasks, durations, dependencies/order.
 | Onboarding Screens    | 1 week  | UI Design          |
 | Testing & Debugging   | 3 weeks | All above          |
 | Deployment Prep       | 1 week  | Testing & Debugging |
+
+Component Diagram
+-----------------
+Shows components (modules) and their interfaces/dependencies in textual format.
+
+**Components:**
+- UI Components: Screens (HomeScreen, CameraScreen, HistoryScreen, etc.), Widgets (AppDrawer, CustomButton, etc.). Interfaces: build() method, user interactions.
+- Business Logic: Providers (HomeProvider, ReminderProvider, etc.), Services (CameraService, DBService, etc.). Interfaces: State management, service methods.
+- Data Access: Models (ScanHistoryModel, ReminderModel), DBService. Interfaces: CRUD operations, data serialization.
+- AI Module: AiModel, TFLite Interpreter. Interfaces: predict() method.
+- Notification Module: NotificationHandler, NotificationService. Interfaces: scheduleNotification(), showNotification().
+- Permissions Module: AppPermissions. Interfaces: requestPermission().
+
+**Dependencies:**
+- UI Components -> Business Logic (uses providers for state).
+- Business Logic -> Data Access (providers use DBService).
+- Business Logic -> AI Module (CameraService uses AiModel).
+- Business Logic -> Notification Module (ReminderProvider uses NotificationHandler).
+- Business Logic -> Permissions Module (CameraService uses AppPermissions).
+
+Deployment Diagram
+------------------
+Shows physical deployment of artifacts on nodes in textual format.
+
+**Nodes:**
+- User Device (Mobile): Android/iOS phone/tablet. Artifacts: Flutter App (lib/, assets/), SQLite DB (local storage), TFLite Model (assets/ai/), Notifications (local scheduling).
+- Development Environment: PC/Mac. Artifacts: Flutter SDK, Android Studio/XCode, Git Repo.
+
+**Connections:**
+- User Device: Runs the app locally, no external connections required (offline-capable, notifications local).
+- Optional: If notifications require push (not in analysis), connect to FCM/APNs servers, but currently local via flutter_local_notifications.

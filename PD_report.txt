@@ -1,0 +1,317 @@
+PLANT DISEASE DETECTION APP
+
+
+
+
+BY
+UNIQUE GAURAV GAMAL
+T.U. REGISTRATION NO: 7-2-551-175-2022
+SYMBOL NO: 14756/22
+National College of Computer Studies
+
+
+
+
+A Project Report Submitted To
+Faculty of Management, Tribhuvan University
+In partial fulfillment of the requirements for the degree of
+
+Bachelor of Information Management (BIM)
+
+
+
+
+Paknajol, Kathmandu
+August 2025
+ 
+ 
+STUDENT DECLARATION
+
+This is to certify that I have completed the Project entitled “Plant Disease Detection App” under the guidance of “TEKSAN GHARTI MAGAR” in partial fulfillment of the requirements for the degree of Bachelor of Information Management at Faculty of Management, Tribhuvan University. This is my original work, and I have not submitted it earlier elsewhere.
+
+Date: 2025-08-30					Signature:
+							Name: Unique Gaurav Gamal
+
+ 
+CERTIFICATE FROM THE SUPERVISOR
+
+This is to certify that the project entitled “Plant Disease Detection App” is an academic work done by Unique Gaurav Gamal submitted in the partial fulfillment of the requirements for the degree of Bachelor of Information Management at Faculty of Management, Tribhuvan University under my guidance and supervision. To the best of my knowledge, the information presented by him in the project report has not been submitted earlier.
+
+
+Signature of the Supervisor:
+Name:
+Designation Date:
+ 
+APPROVAL SHEET
+
+This is to certify that the project titled “Plant Disease Detection App” submitted by Unique Gaurav Gamal has been examined and approved. In our opinion, it meets the required scope and quality standards for a project submitted in partial fulfillment of the requirements for the degree of Bachelor of Information Management (BIM).
+
+Approval Panel:
+S. No.	Name	Designation	Signature
+1	Teksan Gharti Magar 	Project Supervisor	
+2	Rajan Poudel 	Program Coordinator	
+
+
+Date of Defense: 
+Department: BIM
+Faculty: 
+ 
+ACKNOWLEDGEMENTS
+
+I would like to express my sincere gratitude to all those who supported me throughout the project. First and foremost, I extend my heartfelt thanks to my supervisor for his invaluable guidance and support.
+I am grateful to the faculty members of the National College of Computer Studies for providing a nurturing academic environment. Special thanks to my family and friends whose encouragement and understanding were essential during this journey.
+
+Lastly, I appreciate the developers and community contributors of open-source technologies like Tensorflow, Python, Colab & Flutter which played a crucial role in making this project possible.
+
+--------------------------
+Unique Gaurav Gamal
+
+
+
+
+
+
+
+
+
+
+
+ 
+ABSTRACT
+
+The increasing prevalence of plant diseases poses significant challenges to agricultural productivity, particularly for small-scale farmers and home gardeners. This project presents the development of a mobile application capable of offline plant disease identification using a lightweight Convolutional Neural Network (CNN) model, MobileNetV2, optimized through TensorFlow Lite. The system allows users to capture or upload leaf images, which are preprocessed through cropping, resizing, and normalization before inference. Predictions include the disease name, causes, symptoms, prevention methods, and treatment recommendations. The application operates entirely offline, ensuring accessibility in regions with limited internet connectivity, and provides a user-friendly interface for quick and accurate diagnosis. Iterative development methodology was followed, encompassing dataset collection, model training and evaluation, TFLite conversion, and Flutter integration. Experimental results demonstrate reliable classification performance while maintaining resource efficiency suitable for mobile deployment. This project highlights the practical implementation of AI-driven solutions for agriculture, offering a tool that empowers farmers and gardeners to take timely action against crop diseases.
+ 
+TABLE OF CONTENTS
+STUDENT DECLARATION	ii
+CERTIFICATE FROM THE SUPERVISOR	iii
+APPROVAL SHEET	iv
+ACKNOWLEDGEMENTS	v
+ABSTRACT	vi
+TABLE OF CONTENTS	vii
+LIST OF FIGURES	ix
+LIST OF TABLES	x
+CHAPTER I: INTRODUCTION	1
+1.1 Background of the Project	1
+1.2 Problem Statement	2
+1.3 Objectives	2
+1.4 Review of Related Work and Literature	2
+1.5 Development Methodology	3
+1.6 Scope and Limitations	4
+1.7 Report Organization	5
+CHAPTER II: SYSTEM DEVELOPMENT PROCESS	7
+2.1 Analysis	7
+2.1.1 Requirement Analysis	7
+2.1.2 Feasibility Study	7
+2.1.3 System Modelling (Object-Oriented Approach)	9
+2.2 System Design	12
+2.2.1 Refinement of Classes and Objects	12
+2.2.2 Component Description	13
+2.2.3 Deployment Overview	13
+2.3 Implementation	13
+2.3.1 Tools Used	13
+2.3.2 Module Description	14
+2.3.3 Testing	14
+CHAPTER III: CONCLUSION AND RECOMMENDATION	16
+3.1 Summary	16
+3.2 Conclusion	16
+3.3 Recommendation	16
+REFERENCES	18
+APPENDICES	19
+
+LIST OF FIGURES
+Figure 2.0.1: Gantt Shart	9
+Figure 2.0.2: Class Diagram	10
+Figure 2.3: State Diagram	11
+Figure 2.4: Sequence Diagram	12
+
+ 
+LIST OF TABLES
+Table 2. 1: Functional reuirements	7
+Table 2. 2: Non-functional requirements	7
+Table 2.3 Tools Used	14
+Table 2. 4: Unit Testing	15
+Table 2.5: System Testing	15
+	
+ 
+ 
+CHAPTER I: INTRODUCTION
+1.1 Background of the Project
+Agriculture is the backbone of many developing economies, including Nepal, where a large portion of the population depends on farming for livelihood. Plant diseases remain one of the major threats to agricultural productivity, often causing significant yield loss and economic hardship for farmers. Traditional disease identification methods rely heavily on expert consultation, which may not always be accessible or affordable for smallholder farmers in rural areas.
+In this technologically advanced era, with the proliferation of artificial intelligence, many mobile apps are available for plant disease detection, diagnosis, and treatment, each with a variety of features. These apps need to be categorized and reviewed following a proper framework that ensures their quality. This study aims to present an approach to evaluating plant disease detection mobile apps, which includes providing ratings of distinct features of the apps and insights into the exploitation of artificial intelligence used in plant disease detection (Siddiqua, 2022).
+With the rapid development of artificial intelligence (AI) and machine learning (ML), particularly in the field of computer vision, there is now an opportunity to automate the process of plant disease detection. Mobile applications powered by AI can enable farmers and home gardeners to quickly identify plant health issues by simply capturing images of affected leaves. Such solutions can provide immediate feedback, along with recommendations for treatment, without requiring internet connectivity.
+This project aims to explore the use of lightweight deep learning models such as MobileNetV2 and EfficientNet Lite for building an offline mobile AI application. The model is trained on publicly available datasets such as PlantVillage (Kaggle), and integrated into a Flutter-based mobile application. The purpose is to create a practical, accessible, and resource-friendly tool that can help farmers and plant caretakers in identifying common crop diseases.
+1.2 Problem Statement
+Plant diseases are a major cause of crop loss and food insecurity, especially for farmers in developing regions who lack easy access to experts or labs. Traditional diagnosis methods are slow, expensive, and not always practical.
+Recent advances in AI and ML, particularly CNNs and other neural network models, have shown high accuracy in identifying plant diseases from leaf images. However, most of these models are too large or require internet/cloud resources, making them hard to use in rural settings.
+1.3 Objectives
+•	To provide a mobile platform where users can capture or upload leaf images and identify plant diseases using AI.
+•	To implement offline inference with lightweight deep learning models (CNNs, MobileNetV2) for practical use in rural areas.
+•	To display disease information, causes, and suggested treatments for common crops such as tomato, potato, maize, apple, etc.
+1.4 Review of Related Work and Literature
+In recent years, there has been a growing application of ML and DL in agriculture, particularly for plant disease detection. Traditional methods, such as expert consultation, field surveys, or laboratory analysis, are often time-consuming, costly, and inaccessible for farmers in remote regions. With the availability of large-scale agricultural datasets and advances in computer vision, researchers have developed AI-driven solutions that enable faster and more accessible disease diagnosis.
+A study published in Agronomy (Siddiqua, 2022) demonstrated that CNNs can achieve strong performance in identifying plant diseases from leaf images, sometimes exceeding human-level accuracy under controlled conditions. The study highlighted the importance of transfer learning architectures like MobileNet, EfficientNet, and ResNet, which provide lightweight yet effective models suitable for mobile devices and resource-constrained environments. However, challenges such as class imbalance in datasets and domain shift from controlled to real-world images remain.
+Similarly, research in the LBEF Journal of Science and Technology (Singh S., 2020) explored practical ML approaches for disease detection in common crops. The study discussed traditional ML classifiers such as Support Vector Machines (SVMs) and Random Forests, alongside CNN-based models, illustrating the evolution toward end-to-end deep learning pipelines. The work also emphasized the need for localized datasets that reflect region-specific crops and disease variations, a critical factor for real-world applicability in Nepalese agriculture and other developing countries.
+Overall, the literature indicates that while CNN-based models are highly effective in controlled experiments, practical deployment for farmers requires addressing dataset imbalance, limited device capacity, offline inference capability, and region-specific disease variations. Building on these insights, this project develops an offline mobile AI application using MobileNetV2 and other lightweight architectures, aiming to help farmers and home gardeners identify diseases in crops such as tomato, potato, maize, apple, and grapevine, with features like image preprocessing and offline predictions for accessibility and usability.
+1.5 Development Methodology
+The iterative approach allows you to balance complexity with business value. You’re not choosing an ML approach based on what’s trendy or what sounds most impressive. You’re choosing based on what works best for your specific needs (G., 2024).
+This project follows iterative development methodology, which allows incremental progress and continuous refinement of both the AI model and the mobile application.
+Progress so far includes:
+•	Iteration 1: Learning, Literature Review & Dataset Collection
+o	Learned the fundamentals of Machine Learning (ML), Deep Learning (DL), Neural Networks (NN), and CNNs.
+o	Reviewed existing literature on AI-based plant disease detection.
+Explored public datasets (PlantVillage, Kaggle) and organized images by crop and disease.
+•	Iteration 2: Model Experimentation
+o	Preprocessed images with resizing, normalization, and cropping.
+o	Trained multiple CNN models including MobileNetV2, EfficientNet Lite, and MobileNetV3.
+o	Evaluated model performance; selected MobileNetV2 as a compromise between accuracy and resource efficiency.
+•	Iteration 3: Model Conversion & Flutter Integration (In Progress)
+o	The MobileNetV2 model has been converted to TensorFlow Lite (TFLite) for mobile deployment.
+o	Integration into a Flutter application has been partially completed, with a basic UI that allows image selection and cropping.
+o	Model inference is functional, providing disease predictions with descriptions of causes and treatments.
+Next Steps (Planned Iterations)
+•	Iteration 4: Improve dataset balance and augmentation; retrain model for higher accuracy. Enhance app features and conduct further testing.
+•	Iteration 5: Complete documentation and finalize report for submission.
+1.6 Scope and Limitations
+1.6.1 Scope:
+•	The project focuses on developing an offline mobile AI application for identifying common plant diseases from leaf images.
+•	Target crops include tomato, potato, maize, apple, grapevine, bell pepper, and cherry.
+•	The app provides image capture, basic preprocessing (cropping, resizing), and disease prediction with descriptions of causes and treatments.
+•	AI models are lightweight CNN architectures (e.g., MobileNetV2) optimized for offline inference on mobile devices.
+•	The system is intended to assist farmers and home gardeners with quick and accessible disease identification.
+1.6.2 Limitations :
+•	Model Accuracy: Current model provides moderate accuracy due to limited dataset size and class imbalance.
+•	UI/UX: The mobile interface is minimal, with only basic functionality; advanced features are planned for later iterations.
+•	Dataset Constraints: The dataset may not fully reflect region-specific disease variations, limiting applicability in some local contexts.
+•	Hardware Constraints: The application is optimized for offline use, but performance may vary across devices with limited computational capacity.
+•	Time and Resources: Due to the short development period, only a compromised, functional prototype is available for mid-defense.
+1.7 Report Organization
+This report is structured to document the development and progress of the offline plant disease detection mobile application. The chapters are organized as follows:
+Chapter 1: Introduction
+This chapter provides the background of the project, the problem statement, objectives, literature review, development methodology, scope, and limitations. It outlines the motivation for creating an AI-based offline solution for plant disease identification and sets the context for the project.
+Chapter 2: System Development Process
+This chapter details the structured development process, beginning with requirement analysis and feasibility study. It describes the design of the AI model and mobile application, including data preprocessing, model selection, and UI layout. The chapter also documents implementation steps using TensorFlow, TensorFlow Lite (TFLite), Flutter, and Colab, along with testing approaches.
+Chapter 3: Conclusion and Recommendations
+This chapter summarizes the progress achieved so far, discusses challenges and limitations encountered, and outlines recommendations for improving model performance, application usability, and future iterations.
+ 
+CHAPTER II: SYSTEM DEVELOPMENT PROCESS
+2.1 Analysis
+2.1.1 Requirement Analysis
+i.	Functional Requirement:
+S.N.	Requirement	Description
+1.	Image Capture / Upload	Allow users to capture or upload leaf images via mobile device.
+2.	Image Preprocessing	Crop, resize, and normalize images for model input.
+3.	Disease Prediction	Predict disease class using a lightweight CNN model (MobileNetV2) optimized for offline use.
+4.	Result Display	Display disease name along with causes and treatment information.
+Table 2. 1: Functional reuirements
+ii.	Non-functional Requirement:
+S.N.	Requirement	Description
+1.	Offline Capability	App must function without internet connectivity to support remote areas.
+2.	Resource Efficiency	Lightweight and optimized for mobile deployment.
+3.	Usability	User-friendly interface with basic navigation and image selection features.
+Table 2. 2: Non-functional requirements
+2.1.2 Feasibility Study
+i.	Technical
+The project leverages TensorFlow, TensorFlow Lite, Flutter, and Google Colab, which are compatible with mobile development and offline inference. Google Colab was used for training and experimenting with CNN models (MobileNetV2, MobileNetV3, EfficientNet Lite) using GPU resources available in the cloud. The availability of public datasets such as PlantVillage and Kaggle provides sufficient data for initial model training. This ensures that the AI model can be implemented and deployed on mobile devices without requiring high-end local hardware.
+ii.	Operational
+The application targets farmers and home gardeners, providing a simple and accessible tool for plant disease detection. Offline functionality ensures usability in remote areas without stable internet access. The system is designed to be user-friendly, with basic image selection, cropping, and disease prediction features.
+iii.	Economic
+Development costs are minimal as the project is a solo academic prototype. It relies on open-source frameworks, Google Colab for cloud-based training, and free datasets, making it feasible within the limited time and resource constraints of the project.
+iv.	Schedule
+The project timeline is represented using a Gantt chart, showing the planned iterations, tasks, and durations over the course of 1.5 months. The schedule follows an iterative development methodology, allowing incremental progress and continuous refinement of both the AI model and the mobile application.
+ 
+Figure 2.0.1: Gantt Shart
+2.1.3 System Modelling (Object-Oriented Approach)
+•	Object Modelling (Class and Object Diagrams)
+•	User: Handles interaction with the application. Responsible for selecting images from the gallery or camera, cropping images, and initiating predictions.
+•	ImageProcessor: Responsible for preprocessing images before sending them to the AI model. Functions include cropping, resizing to 224x224, and normalizing pixel values for model input.
+•	AIModel: Encapsulates the MobileNetV2 TFLite model for offline inference. Handles loading the model, loading class labels and cure information, and running predictions on processed images.
+•	PredictionDisplay: Responsible for presenting the prediction results to the user. Displays disease name, confidence, cause, symptoms, prevention, and treatment.
+ 
+Figure 2.0.2: Class Diagram
+•	Dynamic Modelling (State and Sequence Diagrams):
+o	State Diagram: 
+•	Idle – No image selected.
+•	Image Selected – User picks an image from the gallery or camera.
+•	Preprocessing – ImageProcessor crops, resizes, and normalizes the image.
+•	Prediction Running – AIModel runs TFLite inference on the preprocessed image.
+•	Result Displayed – PredictionDisplay shows disease name, confidence, and cure information.
+•	End / Await Next Action – User may crop the image again or select a new image.
+ 
+Figure 2.3: State Diagram
+•	Sequence Diagram: 
+o	User selects or captures an image.
+o	ImageProcessor preprocesses the image (crop, resize, normalize).
+o	AIModel receives the preprocessed image and performs offline prediction.
+o	PredictionDisplay presents the disease name, confidence, and associated cure information to the user.
+o	User reviews the results and may select another image, repeating the cycle.
+ 
+Figure 2.4: Sequence Diagram
+2.2 System Design
+2.2.1 Refinement of Classes and Objects
+Class	Attributes	Methods
+User	userID, deviceID	selectImage(), captureImage(), viewPrediction()
+ImageProcessor	imageData	crop(), resize(), normalize()
+AIModel	tfliteModel	loadModel(), predict()
+PredictionDisplay	predictionText, diseaseInfo	displayResult(), showDescription()
+
+The system uses an object-oriented approach. The main classes and their attributes/methods are described below:
+The User class handles interactions, including selecting or capturing leaf images and viewing predictions. The ImageProcessor class prepares images by cropping, resizing, and normalizing them before inference. The AIModel encapsulates the MobileNetV2 TFLite model for offline predictions. Finally, the PredictionDisplay class presents the disease name, causes, symptoms, prevention, and treatment information to the user.
+2.2.2 Component Description
+The system consists of the following components:
+•	Frontend (Flutter UI): Handles user interactions, image selection/capture, and display of predictions.
+•	Image Processing Module: Prepares images for AI inference by cropping, resizing, and normalizing.
+•	AIModel (TFLite): Performs offline disease prediction using the MobileNetV2 model.
+2.2.3 Deployment Overview
+The system is deployed entirely on mobile devices (Android/iOS).
+•	Node: Mobile device.
+•	Components Deployed: Flutter UI, ImageProcessor, AIModel (TFLite), Local Storage.
+•	Interaction: All operations, including image preprocessing and AI inference, occur offline. No internet connection is required. This ensures accessibility for farmers in remote regions with limited connectivity.
+2.3 Implementation
+2.3.1 Tools Used
+
+
+Component	Tools/Platforms	Use-case
+Frontend	Flutter	Designing and implementing mobile UI
+Model Training	TensorFlow, Python, Colab	Training CNN models (MobileNetV2, EfficientNet Lite, MobileNetV3)
+Model Deployment	TensorFlow Lite	Offline inference on mobile devices
+
+Table 2.3 Tools Used
+2.3.2 Module Description
+•	User Module: Manages image selection, capture, and navigation.
+•	Image Processing Module: Performs cropping, resizing, and normalization.
+•	AI Model Module: Loads MobileNetV2 TFLite model and predicts disease class.
+•	Prediction Display Module: Shows disease name, causes, and treatment info.
+•	Optional Storage Module: Stores past predictions for future reference.
+2.3.3 Testing
+•	Unit Testing:
+Test Case ID	Module	Test Case Description	Input	Expected Output	Actual Output	Status
+UT-01	Image Processing Module	Crop image	Raw leaf image	Cropped image	Cropped image	Pass
+UT-02	Image Processing Module	Resize image	Cropped image	224x224 image	224x224 image	Pass
+Table 2. 4: Unit Testing
+•	System Testing:
+Test Case ID	Module	Test Case Description	Input	Expected Output	Actual Output	Status
+ST-01	End-to-End Workflow	Gallery workflow	Select image → preprocess → predict → display	Prediction returned, info displayed	Completed successfully	Pass
+ST-02	End-to-End Workflow	Camera workflow	Capture image → preprocess → predict → display	Prediction returned, info displayed	Completed successfully	Pass
+Table 2.5: System Testing 
+CHAPTER III: CONCLUSION AND RECOMMENDATION
+3.1 Summary
+This project focused on the development of an offline AI-powered mobile application for plant disease detection, leveraging lightweight CNN architectures such as MobileNetV2. The system allows users to capture or select leaf images, preprocess them, and obtain predictions along with detailed disease information, including causes, symptoms, prevention, and treatment. Iterative development methodology enabled incremental progress, testing, and refinement of both the AI model and the Flutter application. Unit and system testing confirmed the functionality of image preprocessing, model inference, prediction display, and offline operations on mobile devices.
+The results indicate that MobileNetV2 provides a good balance between accuracy and resource efficiency, making it suitable for deployment on resource-constrained mobile devices. The app’s offline functionality ensures accessibility for farmers and home gardeners in remote areas.
+3.2 Conclusion
+The project successfully demonstrates the feasibility of creating a mobile application capable of identifying plant diseases without requiring internet access. By applying iterative development and using publicly available datasets (PlantVillage, Kaggle), the application achieves reliable predictions while remaining lightweight and efficient. The integration of image preprocessing, TFLite-based inference, and a user-friendly interface ensures that users can interact with the system easily and obtain actionable insights for crop management.
+Overall, the study confirms that offline AI applications can significantly support agricultural practices, enabling timely disease detection and improving crop health management, especially in rural and under-resourced areas.
+3.3 Recommendation
+•	To enhance the system and broaden its usability, the following recommendations are suggested:
+•	Dataset Expansion: Include region-specific crops and diseases to improve prediction accuracy for local agriculture.
+•	Multi-language Support: Incorporate additional languages to make the app more accessible to diverse user groups.
+•	Notification Integration: Provide push notifications or alerts for urgent disease detection cases.
+ 
+REFERENCES
+G., T. (2024). Why Iterative Problem-Solving is important to improve ML models. Medium. https://medium.com/@gunjantitiya/why-iterative-problem-solving-is-important-to-improve-ml-models-1c837be05ce9
+Siddiqua, A. K. (2022). Evaluating Plant Disease Detection Mobile Applications: Quality and Limitations. MDPI. https://www.mdpi.com/2073-4395/12/8/1869
+Singh S., &. S. (2020). 2-1-119-137.pdf. LBEF. https://www.lbef.org/journal/2-1/download/2-1-119-137.pdf
+
+ 
+APPENDICES
+Screenshot of application:
+ 	 	  	 		

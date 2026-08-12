@@ -268,7 +268,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                               style: GoogleFonts.poppins(
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.w600,
-                                                color: textColor,
+                                                color: isDark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                               ),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
@@ -279,14 +281,18 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                                 Icon(
                                                   Icons.calendar_today,
                                                   size: 14,
-                                                  color: subtitleColor,
+                                                  color: isDark
+                                                      ? Colors.grey[300]
+                                                      : Colors.black87,
                                                 ),
                                                 const SizedBox(width: 6),
                                                 Text(
                                                   '$dateStr • $timeStr',
                                                   style: TextStyle(
                                                     fontSize: 13,
-                                                    color: subtitleColor,
+                                                    color: isDark
+                                                        ? Colors.grey[300]
+                                                        : Colors.black87,
                                                   ),
                                                 ),
                                               ],

@@ -27,8 +27,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeModeProvider);
-    final localizationAsync =
-        ref.watch(localizationProvider(locale.languageCode));
+    final localizationAsync = ref.watch(
+      localizationProvider(locale.languageCode),
+    );
     final recentScansAsync = ref.watch(recentScansProvider);
 
     final isDark = themeMode == ThemeMode.dark;
@@ -52,7 +53,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           backgroundColor: Colors.green[700],
           foregroundColor: Colors.white,
         ),
-        drawer:  AppDrawer(),
+        drawer: AppDrawer(),
         body: Container(
           decoration: BoxDecoration(gradient: backgroundGradient),
           child: SingleChildScrollView(
@@ -76,10 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Text(
                   localization['detectPlantDiseasesInstantly'] ??
                       'Detect Plant Diseases Instantly',
-                  style: GoogleFonts.poppins(
-                    fontSize: 28,
-                    color: textColor,
-                  ),
+                  style: GoogleFonts.poppins(fontSize: 28, color: textColor),
                   textAlign: TextAlign.center,
                 ),
 
@@ -95,9 +93,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 20),
-                    backgroundColor:
-                        isDark ? Colors.green[600] : Colors.green[400],
+                      horizontal: 40,
+                      vertical: 20,
+                    ),
+                    backgroundColor: isDark
+                        ? Colors.green[600]
+                        : Colors.green[400],
                   ),
                   icon: const Icon(Icons.camera_alt, size: 30),
                   label: Text(
@@ -143,19 +144,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             itemCount: scans.length,
                             itemBuilder: (context, index) {
                               final scan = scans[index];
-                              final date = DateTime
-                                  .fromMillisecondsSinceEpoch(scan.timestamp);
+                              final date = DateTime.fromMillisecondsSinceEpoch(
+                                scan.timestamp,
+                              );
 
-                              final dateStr =
-                                  DateFormat.yMMMd(locale.languageCode)
-                                      .format(date);
-                              final timeStr =
-                                  DateFormat.Hm(locale.languageCode)
-                                      .format(date);
+                              final dateStr = DateFormat.yMMMd(
+                                locale.languageCode,
+                              ).format(date);
+                              final timeStr = DateFormat.Hm(
+                                locale.languageCode,
+                              ).format(date);
 
                               return Card(
-                                margin:
-                                    const EdgeInsets.only(bottom: 12),
+                                margin: const EdgeInsets.only(bottom: 12),
                                 color: selectedScans.contains(scan.id)
                                     ? selectedCardColor
                                     : cardColor,
@@ -173,8 +174,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   onTap: () {
                                     if (isSelectionMode) {
                                       setState(() {
-                                        if (!selectedScans
-                                            .remove(scan.id)) {
+                                        if (!selectedScans.remove(scan.id)) {
                                           selectedScans.add(scan.id);
                                         }
                                         if (selectedScans.isEmpty) {
@@ -182,8 +182,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         }
                                       });
                                     } else {
-                                      context.go(
-                                          '/scan-detail/${scan.id}');
+                                      context.go('/scan-detail/${scan.id}');
                                     }
                                   },
                                   child: Padding(
@@ -191,8 +190,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     child: Row(
                                       children: [
                                         ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                           child: SizedBox(
                                             width: 80,
                                             height: 80,
@@ -212,23 +212,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             children: [
                                               Text(
                                                 scan.diseaseName,
-                                                style:
-                                                    GoogleFonts.poppins(
+                                                style: GoogleFonts.poppins(
                                                   fontSize: 17,
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                  color: textColor,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: isDark
+                                                      ? Colors.white
+                                                      : Colors.black,
                                                 ),
                                                 maxLines: 2,
-                                                overflow:
-                                                    TextOverflow.ellipsis,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
                                                 '$dateStr • $timeStr',
                                                 style: TextStyle(
                                                   fontSize: 13,
-                                                  color: subtitleColor,
+                                                  color: isDark
+                                                      ? Colors.grey[300]
+                                                      : Colors.black87,
                                                 ),
                                               ),
                                             ],
@@ -242,13 +243,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             },
                           );
                         },
-                        loading: () => const Center(
-                            child: CircularProgressIndicator()),
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
                         error: (_, __) => Center(
                           child: Text(
                             'Error loading scans',
-                            style: TextStyle(color: subtitleColor),
+                            // style: TextStyle(color: subtitleColor),
                           ),
+
+                      
                         ),
                       ),
 
@@ -258,8 +261,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         onPressed: () => context.go('/history'),
                         child: Text(
                           'See More',
-                          style:
-                              TextStyle(color: Colors.green[400]),
+                          style: TextStyle(color: Colors.green[400]),
                         ),
                       ),
                     ],
@@ -270,10 +272,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-      loading: () =>
-          const Center(child: CircularProgressIndicator()),
-      error: (_, __) =>
-          const Center(child: Text('Error loading localization')),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => const Center(child: Text('Error loading localization')),
     );
   }
 }

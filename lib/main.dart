@@ -21,11 +21,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
-  final isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+  // final isFirstLaunch = prefs.getBool('firstLaunch') ?? true; // Commented out onboarding
 
   // Create router
   final router = GoRouter(
-    initialLocation: isFirstLaunch ? '/onboarding' : '/',
+    initialLocation: '/', // Always start at home, onboarding commented out
     routes: [
       GoRoute(
         path: '/onboarding',

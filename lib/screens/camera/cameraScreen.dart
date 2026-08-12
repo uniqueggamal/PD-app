@@ -694,47 +694,128 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
                     predictionResult!.diseaseKey ??
                         predictionResult!.diseaseName,
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton.icon(
-                        icon: const Icon(Icons.refresh),
-                        label: Consumer(
-                          builder: (context, ref, child) {
-                            final textData = ref.watch(textProvider);
-                            return Text(
-                              textData.maybeWhen(
-                                data: (data) =>
-                                    data['scanAgain'] ?? 'Scan Another Leaf',
-                                orElse: () => 'Scan Another Leaf',
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.add_alarm),
+                            label: Consumer(
+                              builder: (context, ref, child) {
+                                final textData = ref.watch(textProvider);
+                                return Text(
+                                  textData.maybeWhen(
+                                    data: (data) =>
+                                        data['addReminder'] ?? 'Add Reminder',
+                                    orElse: () => 'Add Reminder',
+                                  ),
+                                );
+                              },
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.yellowAccent,
+                              foregroundColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                            );
-                          },
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorScheme.primary,
-                          foregroundColor: colorScheme.onPrimary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                              elevation: 3,
+                            ),
+                            onPressed: () {
+                              // Get cure information for the disease
+                              final cureKey =
+                                  predictionResult!.diseaseKey ??
+                                  predictionResult!.diseaseName;
+                              final cleanKey = cureKey
+                                  .replaceAll('_', ' ')
+                                  .replaceAll('-', ' ')
+                                  .replaceAll(RegExp(r'\s+'), ' ')
+                                  .trim();
+                              var cureInfo =
+                                  _cureData[cureKey] ?? _cureData[cleanKey];
+                              if (cureInfo == null) {
+                                for (var key in _cureData.keys) {
+                                  final clean = key
+                                      .replaceAll('_', ' ')
+                                      .replaceAll('-', ' ')
+                                      .replaceAll(RegExp(r'\s+'), ' ')
+                                      .trim()
+                                      .toLowerCase();
+                                  if (clean == cleanKey.toLowerCase() ||
+                                      clean.contains(cleanKey.toLowerCase()) ||
+                                      cleanKey.toLowerCase().contains(clean)) {
+                                    cureInfo = _cureData[key];
+                                    break;
+                                  }
+                                }
+                              }
+
+                              final extraData = {
+                                'title': predictionResult!.diseaseName,
+                                'description':
+                                    cureInfo?['Description']?.toString() ?? '',
+                                'cause': cureInfo?['Cause']?.toString() ?? '',
+                                'symptoms':
+                                    cureInfo?['Symptoms']?.toString() ?? '',
+                                'prevention':
+                                    cureInfo?['Prevention']?.toString() ?? '',
+                                'treatment':
+                                    cureInfo?['Treatment']?.toString() ?? '',
+                                'imagePath': selectedImagePath,
+                                'reminderTime': DateTime.now()
+                                    .add(const Duration(minutes: 1))
+                                    .millisecondsSinceEpoch,
+                              };
+                              context.push('/reminder/edit', extra: extraData);
+                            },
                           ),
-                          elevation: 3,
                         ),
-                        onPressed: () {
-                          ref.read(processedImagePathProvider.notifier).state =
-                              null;
-                          ref.read(originalImagePathProvider.notifier).state =
-                              null;
-                          ref.read(predictionResultProvider.notifier).state =
-                              null;
-                          _hasSavedScan = false; // allow saving next scan
-                        },
-                      ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.refresh),
+                            label: Consumer(
+                              builder: (context, ref, child) {
+                                final textData = ref.watch(textProvider);
+                                return Text(
+                                  textData.maybeWhen(
+                                    data: (data) =>
+                                        data['scanAgain'] ??
+                                        'Scan Another Leaf',
+                                    orElse: () => 'Scan Another Leaf',
+                                  ),
+                                );
+                              },
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: colorScheme.primary,
+                              foregroundColor: colorScheme.onPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              elevation: 3,
+                            ),
+                            onPressed: () {
+                              ref
+                                      .read(processedImagePathProvider.notifier)
+                                      .state =
+                                  null;
+                              ref
+                                      .read(originalImagePathProvider.notifier)
+                                      .state =
+                                  null;
+                              ref
+                                      .read(predictionResultProvider.notifier)
+                                      .state =
+                                  null;
+                              _hasSavedScan = false; // allow saving next scan
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-
                 ],
               ],
             ),

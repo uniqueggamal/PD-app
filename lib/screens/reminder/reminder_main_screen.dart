@@ -75,8 +75,8 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
           : [Colors.green[100]!, Colors.green[200]!, Colors.green[500]!],
     );
 
-    final textColor = isDark ? Colors.white : Colors.white70;
-    final subtitleColor = isDark ? Colors.grey[300] : Colors.white70;
+    final textColor = isDark ? Colors.white : Colors.black87;
+    final subtitleColor = isDark ? Colors.grey[300] : Colors.black54;
     final cardColor = isDark ? Colors.grey[700] : Colors.green[50];
 
     return Scaffold(

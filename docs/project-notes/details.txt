@@ -569,3 +569,17 @@ List of functions / classes:
   - Inputs (parameters): String imagePath, String title
   - Outputs (return values): Widget
   - Short note on how it interacts with other parts of the app: Used in screens.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
